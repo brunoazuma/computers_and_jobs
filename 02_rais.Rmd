@@ -1,0 +1,45 @@
+---
+title: "RAIS"
+output: html_notebook
+csl: associacao-brasileira-de-normas-tecnicas-ipea.csl
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook for the exploratory analysis and preparation of data from the Relação Anual de Informações Sociais (RAIS) of the brazilian federal Ministry of Labor and Employment, as made available by [Base dos Dados](https://basedosdados.org/).
+
+```{r}
+# install.packages(\"dotenv\")
+library("dotenv")
+# install.packages("basedosdados")
+library("basedosdados")
+```
+
+```{r}
+# Defina o seu projeto no Google Cloud
+project_id <- Sys.getenv("GCP_PROJECT_ID")
+basedosdados::set_billing_id(project_id)
+```
+
+```{r}
+# Para carregar o dado direto no R
+peek <- basedosdados::read_sql("SELECT *
+FROM `basedosdados.br_me_rais.microdados_vinculos`
+LIMIT 1")
+```
+
+
+```{r}
+peek %>% dplyr::glimpse()
+```
+
+```{r}
+data <- basedosdados::read_sql("SELECT ano, AVG(valor_remuneracao_media)
+FROM `basedosdados.br_me_rais.microdados_vinculos`
+WHERE ano=2016
+GROUP BY ano
+LIMIT 1000")
+```
+
+
+```{r}
+data
+```
