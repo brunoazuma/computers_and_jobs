@@ -7,17 +7,24 @@ csl: associacao-brasileira-de-normas-tecnicas-ipea.csl
 This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook for the exploratory analysis and preparation of data from the Relação Anual de Informações Sociais (RAIS) of the brazilian federal Ministry of Labor and Employment, as made available by [Base dos Dados](https://basedosdados.org/).
 
 ```{r}
+setwd("D:/OneDrive/R Workspace/computers_and_jobs")
 # install.packages(\"dotenv\")
 library("dotenv")
+# install.packages('arrow')
+library(arrow, warn.conflicts = FALSE)
 # install.packages("basedosdados")
 library("basedosdados")
+# install.packages("tidyverse")
+library("tidyverse")
 ```
+First, I need to setup the GCP project data for using the `basedosdados` package to get the data.
 
 ```{r}
 # Defina o seu projeto no Google Cloud
 project_id <- Sys.getenv("GCP_PROJECT_ID")
 basedosdados::set_billing_id(project_id)
 ```
+Second, just a peek at one line of tha RAIS table to make sure everythin is ok.
 
 ```{r}
 # Para carregar o dado direto no R
@@ -31,15 +38,144 @@ LIMIT 1")
 peek %>% dplyr::glimpse()
 ```
 
+Now, I setup a function with the query with all the data I need from the table. At this point, I'm not doing any aggregation yet. Just downloading the table and saving locally as a parquet file.
+
 ```{r}
-data <- basedosdados::read_sql("SELECT ano, AVG(valor_remuneracao_media)
-FROM `basedosdados.br_me_rais.microdados_vinculos`
-WHERE ano=2016
-GROUP BY ano
-LIMIT 1000")
+download_rais <- function(uf, year) {
+  sql <- "
+  SELECT
+    tb_rais.ano,
+    tb_rais.sigla_uf,
+    tb_rais.id_municipio,
+    tb_rais.cnae_2,
+    tb_rais.cnae_2_subclasse,
+    tb_rais.subatividade_ibge,
+    tb_rais.subsetor_ibge,
+    tb_rais.quantidade_horas_contratadas,
+    tb_rais.valor_remuneracao_media_sm,
+    tb_rais.valor_remuneracao_media,
+    tb_rais.cbo_2002,
+    tb_rais.idade,
+    tb_rais.grau_instrucao_1985_2005,
+    tb_rais.grau_instrucao_apos_2005,
+    tb_rais.sexo,
+    tb_rais.raca_cor,
+    tb_rais.indicador_portador_deficiencia,
+    tb_rais.tamanho_estabelecimento,
+  FROM
+    `basedosdados.br_me_rais.microdados_vinculos` AS tb_rais
+  WHERE
+    ano = ${year}
+    AND
+    sigla_uf = '${uf}';
+  "
+  interp_sql <- str_interp(sql)
+  # print(interp_sql)
+  
+  data <- basedosdados::read_sql(interp_sql)
+  
+  data_dir <- "./data/RAIS/"
+  file_path <- str_interp("${data_dir}RAIS_${year}_${uf}.parquet")
+  write_parquet(data, file_path)
+}
+```
+
+Now, I download the data for all of the Federative Units, except SP.
+
+```{r eval=FALSE, include=FALSE}
+years <- c(2008, 2009, 2010)
+ufs <- basedosdados::read_sql("SELECT sigla FROM `basedosdados.br_bd_diretorios_brasil.uf`")
+for (year in years) {
+  for (uf in ufs$sigla) {
+    if (uf != 'SP') {
+      download_rais(uf, year)
+    }
+  }
+}
+```
+Lastly, I download the SP data.
+
+```{r eval=FALSE, include=FALSE}
+years <- c(2008, 2009, 2010)
+for (year in years) {
+    download_rais('SP', year)
+}
+```
+
+Now I aggregate the data.
+
+```{r}
+print('Starting aggregation')
+print(Sys.time())
+year <- 2008
+
+rais_sum <- NULL
+for (uf in ufs$sigla) {
+
+  file_path <- str_interp("${data_dir}RAIS_${year}_${uf}.parquet")
+  rais <- read_parquet(file_path)
+  rais_sum_ <- rais %>%
+    select(
+      ano,
+      sigla_uf,
+      cnae_2,
+      cnae_2_subclasse,
+      subatividade_ibge,
+      subsetor_ibge,
+      cbo_2002,
+      idade,
+      grau_instrucao_apos_2005,
+      sexo,
+      raca_cor,
+      valor_remuneracao_media_sm,
+      valor_remuneracao_media
+    ) %>%
+    group_by(
+      ano,
+      sigla_uf,
+      cnae_2,
+      cnae_2_subclasse,
+      subatividade_ibge,
+      subsetor_ibge, cbo_2002,
+      idade,
+      grau_instrucao_apos_2005,
+      sexo,
+      raca_cor
+    ) %>%
+    summarise_all(mean)
+  
+  new_file <- str_interp("${data_dir}/RAIS_AGG_${year}_${uf}.parquet")
+  write_parquet(rais_sum_, new_file)
+  print('Ending saving')
+  print(Sys.time())
+
+}
+print('Ending aggregation')
+print(Sys.time())
+
+rais_sum
 ```
 
 
 ```{r}
-data
+print('Starting aggregation')
+print(Sys.time())
+year <- 2008
+
+rais_sum <- NULL
+for (uf in ufs$sigla) {
+  print(str_interp("Lendo dados de ${uf}"))
+  rais_sum_ <- read_parquet(str_interp("${data_dir}/RAIS_AGG_${year}_${uf}.parquet"))
+  if (is.null(rais_sum)) {
+    rais_sum <- rais_sum_
+  } else {
+    rais_sum <- bind_rows(rais_sum, rais_sum_)
+  }
+}
+rais_sum
 ```
+
+```{r}
+write_parquet(rais_sum, str_interp("${data_dir}/RAIS_AGG_${year}.parquet"))
+```
+
