@@ -46,35 +46,34 @@ download_rais <- function(uf, year) {
   SELECT
     tb_rais.ano,
     tb_rais.sigla_uf,
-    tb_rais.id_municipio,
     tb_rais.cnae_2,
-    tb_rais.cnae_2_subclasse,
-    tb_rais.subatividade_ibge,
-    tb_rais.subsetor_ibge,
-    tb_rais.quantidade_horas_contratadas,
-    tb_rais.valor_remuneracao_media_sm,
-    tb_rais.valor_remuneracao_media,
     tb_rais.cbo_2002,
-    tb_rais.idade,
-    tb_rais.grau_instrucao_1985_2005,
     tb_rais.grau_instrucao_apos_2005,
     tb_rais.sexo,
     tb_rais.raca_cor,
-    tb_rais.indicador_portador_deficiencia,
-    tb_rais.tamanho_estabelecimento,
+    AVG(tb_rais.valor_remuneracao_media_sm) AS valor_remuneracao_media_sm,
+    AVG(tb_rais.valor_remuneracao_media) AS valor_remuneracao_media
   FROM
     `basedosdados.br_me_rais.microdados_vinculos` AS tb_rais
   WHERE
     ano = ${year}
     AND
-    sigla_uf = '${uf}';
+    sigla_uf = '${uf}'
+  GROUP BY
+    tb_rais.ano,
+    tb_rais.sigla_uf,
+    tb_rais.cnae_2,
+    tb_rais.cbo_2002,
+    tb_rais.grau_instrucao_apos_2005,
+    tb_rais.sexo,
+    tb_rais.raca_cor;
   "
   interp_sql <- str_interp(sql)
   # print(interp_sql)
   
   data <- basedosdados::read_sql(interp_sql)
   
-  data_dir <- "./data/RAIS/"
+  data_dir <- "./data/RAIS/reduced/"
   file_path <- str_interp("${data_dir}RAIS_${year}_${uf}.parquet")
   write_parquet(data, file_path)
 }
