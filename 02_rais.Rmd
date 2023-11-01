@@ -79,11 +79,16 @@ download_rais <- function(uf, year) {
 }
 ```
 
-Now, I download the data for all of the Federative Units, except SP.
+Now, I prepare the years and Federative units lists for download.
 
 ```{r eval=FALSE, include=FALSE}
 years <- c(2008, 2009, 2010)
 ufs <- basedosdados::read_sql("SELECT sigla FROM `basedosdados.br_bd_diretorios_brasil.uf`")
+```
+
+And download the data for all of the Federative Units, except SP.
+
+```{r eval=FALSE, include=FALSE}
 for (year in years) {
   for (uf in ufs$sigla) {
     if (uf != 'SP') {
@@ -106,48 +111,29 @@ Now I aggregate the data.
 ```{r}
 print('Starting aggregation')
 print(Sys.time())
-year <- 2008
 
+data_dir <- "./data/RAIS/reduced/"
 rais_sum <- NULL
-for (uf in ufs$sigla) {
 
-  file_path <- str_interp("${data_dir}RAIS_${year}_${uf}.parquet")
-  rais <- read_parquet(file_path)
-  rais_sum_ <- rais %>%
-    select(
-      ano,
-      sigla_uf,
-      cnae_2,
-      cnae_2_subclasse,
-      subatividade_ibge,
-      subsetor_ibge,
-      cbo_2002,
-      idade,
-      grau_instrucao_apos_2005,
-      sexo,
-      raca_cor,
-      valor_remuneracao_media_sm,
-      valor_remuneracao_media
-    ) %>%
-    group_by(
-      ano,
-      sigla_uf,
-      cnae_2,
-      cnae_2_subclasse,
-      subatividade_ibge,
-      subsetor_ibge, cbo_2002,
-      idade,
-      grau_instrucao_apos_2005,
-      sexo,
-      raca_cor
-    ) %>%
-    summarise_all(mean)
+for (year in years) {
+  print(str_interp("Starting aggregation for year ${year}..."))
+  for (uf in ufs$sigla) {
   
-  new_file <- str_interp("${data_dir}/RAIS_AGG_${year}_${uf}.parquet")
-  write_parquet(rais_sum_, new_file)
-  print('Ending saving')
+    file_path <- str_interp("${data_dir}RAIS_${year}_${uf}.parquet")
+    print(str_interp("Reading ${file_path}..."))
+    rais <- read_parquet(file_path)
+    
+    if (is.null(rais_sum)) {
+      rais_sum <- rais
+    } else {
+      rais_sum <- bind_rows(rais_sum, rais)
+    }
+    print(str_interp("${file_path} has been read."))
+    print(Sys.time())
+  
+  }
+  print(str_interp("Year ${year} has been read."))
   print(Sys.time())
-
 }
 print('Ending aggregation')
 print(Sys.time())
@@ -155,26 +141,9 @@ print(Sys.time())
 rais_sum
 ```
 
+Finally, I save the final dataset with all years and Federative Units.
 
 ```{r}
-print('Starting aggregation')
-print(Sys.time())
-year <- 2008
-
-rais_sum <- NULL
-for (uf in ufs$sigla) {
-  print(str_interp("Lendo dados de ${uf}"))
-  rais_sum_ <- read_parquet(str_interp("${data_dir}/RAIS_AGG_${year}_${uf}.parquet"))
-  if (is.null(rais_sum)) {
-    rais_sum <- rais_sum_
-  } else {
-    rais_sum <- bind_rows(rais_sum, rais_sum_)
-  }
-}
-rais_sum
-```
-
-```{r}
-write_parquet(rais_sum, str_interp("${data_dir}/RAIS_AGG_${year}.parquet"))
+write_parquet(rais_sum, str_interp("${data_dir}/RAIS.parquet"))
 ```
 
