@@ -1,0 +1,93 @@
+---
+title: "R Notebook"
+output: html_notebook
+bibliography: ref-mono.bib
+csl: associacao-brasileira-de-normas-tecnicas-ipea.csl
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook for the exploratory analysis and preparation of data from the Cadastro Brasileiro de Ocupações (CBO) of the brazilian federal Ministry of Labor and Employment, as made available by [Base dos Dados](https://basedosdados.org/).
+
+```{r}
+setwd("D:/OneDrive/R Workspace/computers_and_jobs")
+# install.packages(\"dotenv\")
+library("dotenv")
+# install.packages('arrow')
+library(arrow, warn.conflicts = FALSE)
+# install.packages("basedosdados")
+library("basedosdados")
+# install.packages("tidyverse")
+library("tidyverse")
+```
+
+First, I need to setup the GCP project data for using the `basedosdados` package to get the data.
+
+```{r}
+# Defina o seu projeto no Google Cloud
+project_id <- Sys.getenv("GCP_PROJECT_ID")
+basedosdados::set_billing_id(project_id)
+```
+
+```{r include=FALSE}
+peek <- basedosdados::read_sql("SELECT * FROM `basedosdados.br_bd_diretorios_brasil.cbo_2002` LIMIT 1")
+peek %>% dplyr::glimpse()
+```
+
+Now, I download the CBO data from basedosdados.
+
+```{r}
+
+sql <- "
+SELECT
+  cbo.cbo_2002,
+  cbo.descricao
+FROM
+  basedosdados.br_bd_diretorios_brasil.cbo_2002 AS cbo
+"
+
+cbo <- basedosdados::read_sql(sql)
+cbo
+```
+
+Now, I attribute the discrete classification based on @adamczyk2022.
+
+```{r}
+cbo <- cbo %>%
+  mutate(group=case_when(
+    str_detect(cbo_2002, '^1') ~ 'NRC',
+    str_detect(cbo_2002, '^2') ~ 'NRC',
+    str_detect(cbo_2002, '^30') ~ 'NRC',
+    str_detect(cbo_2002, '^31') ~ 'NRC',
+    str_detect(cbo_2002, '^32') ~ 'NRC',
+    str_detect(cbo_2002, '^33') ~ 'RC',
+    str_detect(cbo_2002, '^35') ~ 'RC',
+    str_detect(cbo_2002, '^39') ~ 'RC',
+    str_detect(cbo_2002, '^4') ~ 'RC',
+    str_detect(cbo_2002, '^52') ~ 'RC',
+    str_detect(cbo_2002, '^34') ~ 'NRM',
+    str_detect(cbo_2002, '^37') ~ 'NRM',
+    str_detect(cbo_2002, '^51') ~ 'NRM',
+    str_detect(cbo_2002, '^61') ~ 'NRM',
+    str_detect(cbo_2002, '^62') ~ 'RM',
+    str_detect(cbo_2002, '^63') ~ 'RM',
+    str_detect(cbo_2002, '^64') ~ 'RM',
+    str_detect(cbo_2002, '^7') ~ 'RM',
+    str_detect(cbo_2002, '^8') ~ 'RM',
+    str_detect(cbo_2002, '^9') ~ 'RM',
+  ))
+
+cbo
+```
+
+Finally, I exclude the military occupations from the table, following @adamczyk2022, and save the table in a parquet file.
+
+```{r}
+cbo <- cbo %>% filter(!is.na(group))
+```
+
+```{r}
+data_dir <- "data/CBO/"
+file <- str_interp("${data_dir}CBO.parquet")
+
+write_parquet(cbo, file)
+```
+
