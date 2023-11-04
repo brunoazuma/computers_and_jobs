@@ -1,0 +1,62 @@
+---
+title: "Computers and jobs - CNAE"
+output: rmarkdown::github_document
+bibliography: ref-mono.bib
+csl: associacao-brasileira-de-normas-tecnicas-ipea.csl
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook for the exploratory analysis and preparation of data from the Classificação Nacional das Atividades Econômicas (CNAE), managed by Instituto Brasileiro de Geografia e Estatística (IBGE), as made available by [Base dos Dados](https://basedosdados.org/).
+
+```{r}
+setwd("D:/OneDrive/R Workspace/computers_and_jobs")
+# install.packages(\"dotenv\")
+library("dotenv")
+# install.packages('arrow')
+library(arrow, warn.conflicts = FALSE)
+# install.packages("tidyverse")
+library("tidyverse")
+```
+
+First, I need to setup the GCP project data for using the `basedosdados` package to get the data.
+
+```{r}
+# Defina o seu projeto no Google Cloud
+project_id <- Sys.getenv("GCP_PROJECT_ID")
+basedosdados::set_billing_id(project_id)
+bigrquery::bq_auth(email = Sys.getenv("GCP_EMAIL"))
+```
+
+```{r}
+peek <- basedosdados::read_sql("SELECT * FROM `basedosdados.br_bd_diretorios_brasil.cnae_2` LIMIT 1")
+peek %>% dplyr::glimpse()
+```
+
+Now, I download the CNAE data from basedosdados.
+
+```{r}
+
+sql <- "
+SELECT
+  cnae.cnae_2,
+  cnae.descricao,
+  cnae.grupo,
+  cnae.descricao_grupo,
+  cnae.divisao,
+  cnae.descricao_divisao,
+  cnae.secao,
+  cnae.descricao_secao
+FROM
+  basedosdados.br_bd_diretorios_brasil.cnae_2 AS cnae
+"
+
+cnae <- basedosdados::read_sql(sql)
+cnae
+```
+
+```{r}
+data_dir <- "data/CNAE/"
+file <- str_interp("${data_dir}CNAE.parquet")
+
+write_parquet(cnae, file)
+```
+
