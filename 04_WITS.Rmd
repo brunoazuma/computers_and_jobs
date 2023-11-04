@@ -1,0 +1,238 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook for the exploratory analysis and preparation of data from the World Integrated Trade Solution (WITS), developed by the World Bank, in collaboration with the United Nations Conference on Trade and Development (UNCTAD) and in consultation with organizations such as International Trade Center, United Nations Statistical Division (UNSD) and the World Trade Organization (WTO). The database is available for simple exploration at [https://wits.worldbank.org/Default.aspx?lang=en](https://wits.worldbank.org/Default.aspx?lang=en) and for advanced queries via API.
+
+```{r}
+# install.packages("httr2")
+library("httr2")
+# install.packages('arrow')
+library(arrow, warn.conflicts = FALSE)
+# install.packages("tidyverse")
+library("tidyverse")
+# install.packages("XML")
+# library(XML)
+# # install.packages("xml2")
+library(xml2)
+# install.packages("rvest")
+library(rvest)
+# install.packages("janitor")
+library(janitor)
+```
+
+# Countries
+
+The countries available as reporters or partners aren't actually contries, but also can represent groups of countries. To standartize my future queries, first I get the data of all the countries available and keep only the single countries records.
+
+```{r}
+url = "http://wits.worldbank.org/API/V1/wits/datasource/trn/country/ALL"
+
+countries_doc <- url %>% read_xml
+```
+
+```{r}
+country_nodes <- countries_doc %>% xml_find_all("//wits:country")
+```
+
+```{r}
+countries <- data.frame(
+  countrycode=country_nodes %>% xml_attr("countrycode"),
+  iso3Code = country_nodes %>% xml_find_first(".//ancestor::wits:iso3Code") %>% xml_text,
+  name = country_nodes %>% xml_find_first(".//ancestor::wits:name") %>% xml_text,
+  isReporter=country_nodes %>% xml_attr("isreporter"),
+  isPartner=country_nodes %>% xml_attr("ispartner"),
+  isGroup=country_nodes %>% xml_attr("isgroup"),
+  groupType=country_nodes %>% xml_attr("grouptype")
+) %>%
+  as_tibble %>%
+  mutate (
+    isReporter=if_else(isReporter=='1', TRUE, FALSE),
+    isPartner=if_else(isPartner=='1', TRUE, FALSE),
+    isGroup=if_else(isGroup=='Yes', TRUE, FALSE)
+  )
+
+countries %>% head
+```
+
+```{r}
+countries_no_groups <- countries %>% filter(isGroup==FALSE)
+countries_no_groups %>% head
+```
+
+For some reason, European Union isn't classified as a group, so I manually remove this record from the countries dataset.
+
+```{r}
+countries_no_groups <- countries_no_groups %>% filter(iso3Code != 'EUN')
+```
+
+
+# Exports data
+
+Now, the exports data by HS 6 digit product isn't available through the API, so I'll have to scrap it from html. The exports data is available for all countries - one year - one product code level. As the preferred code for personal computers (847130) isn't available, I'll get the data on all the 4 digit group.
+
+```{r}
+years <- c(2008, 2009, 2010)
+products <- c(847110, 847120, 847191, 847192, 847193, 847199)
+
+base_url <- "https://wits.worldbank.org/trade/comtrade/en/country/ALL/year/${year}/tradeflow/Exports/partner/WLD/product/${product}"
+trades <- NULL
+
+for (product in products) {
+  for (year in years) {
+    
+    print(str_interp("Downloading ${year} trades data for ${product} product..."))
+    trades_ <- read_html(str_interp(base_url))%>%
+      html_node("table#dataCatalogMetadata") %>%
+      html_table %>%
+      row_to_names(row_number = 1)
+    
+    
+    if (is.null(trades)) {
+      trades <- trades_
+    } else {
+      trades <- bind_rows(trades, trades_)
+    }
+  }
+}
+```
+Now, I filter the data to single countries only.
+
+```{r}
+trades_no_groups <- trades %>%
+  filter(Reporter %in% countries_no_groups$name)
+trades_no_groups %>% head
+```
+Now, I transform the year, trade value and quantity columns in numerical.
+
+```{r}
+trades_no_groups <- trades_no_groups %>%
+  mutate(
+    Year=as.integer(Year),
+    `Trade Value 1000USD`=as.double(gsub(",","",`Trade Value 1000USD`)),
+    Quantity=as.integer(gsub(",","",Quantity))
+  )
+trades_no_groups %>% head
+```
+And summarise the data by country and year.
+
+```{r}
+trades_no_groups <- trades_no_groups %>%
+  group_by(Reporter, Year) %>%
+  summarise(
+    `Trade Value 1000USD` = sum(`Trade Value 1000USD`),
+    Quantity=sum(Quantity)
+  ) %>%
+  arrange(
+    Reporter,
+    Year
+  )
+```
+Now, create a combination of all countries and years to hold the final dataset.
+
+
+```{r}
+final_trades <- crossing(countries_no_groups$name, years) %>%
+  rename(
+    "reporter" = "countries_no_groups$name",
+    "year" = "years"
+  )
+final_trades
+```
+
+Filter the final dataset so that it contains only the countries that appear at least one time on the trades dataset.
+
+```{r}
+final_trades <- final_trades %>%
+  filter(reporter %in% trades_no_groups$Reporter)
+final_trades
+```
+
+And bring the data from trades dataset into the final dataset.
+
+```{r}
+final_trades<- final_trades %>%
+  left_join(trades_no_groups, by=join_by(reporter==Reporter, year==Year))
+final_trades
+```
+
+```{r}
+na_qts <- final_trades %>% filter(is.na(Quantity)) %>% select(reporter)
+```
+
+
+
+```{r}
+final_trades <- final_trades %>%
+  filter(!reporter %in% na_qts$reporter)
+final_trades
+```
+
+# Final validations
+
+As the final dataset is just a part of all the available dataset (due to the exclusion of missings), it's worth doing some evaluations about the dataset to be sure it's still good enough.
+
+First, let's check how much of the trade value by year it contains.
+
+```{r}
+total_trade_value <- trades_no_groups %>%
+  group_by(Year) %>%
+  summarise(
+    `Total Trade Value 1000USD`=sum(`Trade Value 1000USD`)
+  )
+```
+
+```{r}
+final_trade_value <- final_trades %>%
+  group_by(year) %>%
+  summarise(
+    `Total Trade Value 1000USD`=sum(`Trade Value 1000USD`)
+  )
+```
+
+```{r}
+final_trade_value %>%
+  left_join(total_trade_value, by=join_by(year==Year)) %>%
+  mutate(
+    share=`Total Trade Value 1000USD.x`/`Total Trade Value 1000USD.y`
+  )
+```
+Although there was a considerable loss, the dataset still contains the majority of the world trade for each year, so I think we can go with that.
+
+Now, I'll check the top 5 countries for each year and check how many of them are still present on the final dataset.
+
+```{r}
+top_5 <- trades_no_groups %>%
+  group_by(Year) %>%
+  slice_max(order_by = `Trade Value 1000USD`, n=5) %>%
+  ungroup
+top_5
+```
+
+```{r}
+top_5 %>% select(Reporter) %>% unique
+```
+
+
+```{r}
+top_5 %>% filter(!Reporter %in% final_trades$reporter)
+```
+
+```{r}
+top_5 %>% filter(!Reporter %in% final_trades$reporter) %>% select(Reporter) %>% unique
+```
+
+That seems to be a bigger problem. The final dataset excludes 3 of 6 big players on the subject. Yet, the amount represented by all of them seem to be less than the top player, China, which is still present on the final dataset.
+
+For now, I'll carry on the analysis with the approach of dropping all countries with some non reported quantity. If it become necessary, I'll return to this dataset and search for a good missing values filling approach.
+
+Finally, I save the final table as parquet.
+```{r}
+setwd("D:/OneDrive/R Workspace/computers_and_jobs/")
+datadir <- "data/WITS/"
+filename <- "WITS_trades"
+
+write_parquet(final_trades, str_interp("${datadir}${filename}.parquet"))
+```
+
