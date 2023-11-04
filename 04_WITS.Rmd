@@ -1,6 +1,6 @@
 ---
-title: "R Notebook"
-output: html_notebook
+title: "Computers and jobs - WITS"
+output: rmarkdown::github_document
 ---
 
 This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook for the exploratory analysis and preparation of data from the World Integrated Trade Solution (WITS), developed by the World Bank, in collaboration with the United Nations Conference on Trade and Development (UNCTAD) and in consultation with organizations such as International Trade Center, United Nations Statistical Division (UNSD) and the World Trade Organization (WTO). The database is available for simple exploration at [https://wits.worldbank.org/Default.aspx?lang=en](https://wits.worldbank.org/Default.aspx?lang=en) and for advanced queries via API.
