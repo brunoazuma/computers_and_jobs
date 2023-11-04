@@ -1,6 +1,6 @@
 ---
 title: "Images"
-output: html_notebook
+output: rmarkdown::github_document
 bibliography: ref-mono.bib
 csl: associacao-brasileira-de-normas-tecnicas-ipea.csl
 ---

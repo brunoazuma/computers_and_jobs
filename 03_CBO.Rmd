@@ -1,6 +1,6 @@
 ---
-title: "R Notebook"
-output: html_notebook
+title: "Computers and jobs - CBO"
+output: rmarkdown::github_document
 bibliography: ref-mono.bib
 csl: associacao-brasileira-de-normas-tecnicas-ipea.csl
 ---
@@ -13,8 +13,6 @@ setwd("D:/OneDrive/R Workspace/computers_and_jobs")
 library("dotenv")
 # install.packages('arrow')
 library(arrow, warn.conflicts = FALSE)
-# install.packages("basedosdados")
-library("basedosdados")
 # install.packages("tidyverse")
 library("tidyverse")
 ```
@@ -25,6 +23,7 @@ First, I need to setup the GCP project data for using the `basedosdados` package
 # Defina o seu projeto no Google Cloud
 project_id <- Sys.getenv("GCP_PROJECT_ID")
 basedosdados::set_billing_id(project_id)
+bigrquery::bq_auth(email = Sys.getenv("GCP_EMAIL"))
 ```
 
 ```{r include=FALSE}
