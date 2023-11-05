@@ -148,7 +148,7 @@ code for personal computers (847130) isn’t available, I’ll get the data
 on all the 4 digit group.
 
 ``` r
-years <- c(2008, 2009, 2010)
+years <- seq(2006, 2021)
 products <- c(847110, 847120, 847191, 847192, 847193, 847199)
 
 base_url <- "https://wits.worldbank.org/trade/comtrade/en/country/ALL/year/${year}/tradeflow/Exports/partner/WLD/product/${product}"
@@ -173,24 +173,102 @@ for (product in products) {
 }
 ```
 
+    ## [1] "Downloading 2006 trades data for 847110 product..."
+    ## [1] "Downloading 2007 trades data for 847110 product..."
     ## [1] "Downloading 2008 trades data for 847110 product..."
     ## [1] "Downloading 2009 trades data for 847110 product..."
     ## [1] "Downloading 2010 trades data for 847110 product..."
+    ## [1] "Downloading 2011 trades data for 847110 product..."
+    ## [1] "Downloading 2012 trades data for 847110 product..."
+    ## [1] "Downloading 2013 trades data for 847110 product..."
+    ## [1] "Downloading 2014 trades data for 847110 product..."
+    ## [1] "Downloading 2015 trades data for 847110 product..."
+    ## [1] "Downloading 2016 trades data for 847110 product..."
+    ## [1] "Downloading 2017 trades data for 847110 product..."
+    ## [1] "Downloading 2018 trades data for 847110 product..."
+    ## [1] "Downloading 2019 trades data for 847110 product..."
+    ## [1] "Downloading 2020 trades data for 847110 product..."
+    ## [1] "Downloading 2021 trades data for 847110 product..."
+    ## [1] "Downloading 2006 trades data for 847120 product..."
+    ## [1] "Downloading 2007 trades data for 847120 product..."
     ## [1] "Downloading 2008 trades data for 847120 product..."
     ## [1] "Downloading 2009 trades data for 847120 product..."
     ## [1] "Downloading 2010 trades data for 847120 product..."
+    ## [1] "Downloading 2011 trades data for 847120 product..."
+    ## [1] "Downloading 2012 trades data for 847120 product..."
+    ## [1] "Downloading 2013 trades data for 847120 product..."
+    ## [1] "Downloading 2014 trades data for 847120 product..."
+    ## [1] "Downloading 2015 trades data for 847120 product..."
+    ## [1] "Downloading 2016 trades data for 847120 product..."
+    ## [1] "Downloading 2017 trades data for 847120 product..."
+    ## [1] "Downloading 2018 trades data for 847120 product..."
+    ## [1] "Downloading 2019 trades data for 847120 product..."
+    ## [1] "Downloading 2020 trades data for 847120 product..."
+    ## [1] "Downloading 2021 trades data for 847120 product..."
+    ## [1] "Downloading 2006 trades data for 847191 product..."
+    ## [1] "Downloading 2007 trades data for 847191 product..."
     ## [1] "Downloading 2008 trades data for 847191 product..."
     ## [1] "Downloading 2009 trades data for 847191 product..."
     ## [1] "Downloading 2010 trades data for 847191 product..."
+    ## [1] "Downloading 2011 trades data for 847191 product..."
+    ## [1] "Downloading 2012 trades data for 847191 product..."
+    ## [1] "Downloading 2013 trades data for 847191 product..."
+    ## [1] "Downloading 2014 trades data for 847191 product..."
+    ## [1] "Downloading 2015 trades data for 847191 product..."
+    ## [1] "Downloading 2016 trades data for 847191 product..."
+    ## [1] "Downloading 2017 trades data for 847191 product..."
+    ## [1] "Downloading 2018 trades data for 847191 product..."
+    ## [1] "Downloading 2019 trades data for 847191 product..."
+    ## [1] "Downloading 2020 trades data for 847191 product..."
+    ## [1] "Downloading 2021 trades data for 847191 product..."
+    ## [1] "Downloading 2006 trades data for 847192 product..."
+    ## [1] "Downloading 2007 trades data for 847192 product..."
     ## [1] "Downloading 2008 trades data for 847192 product..."
     ## [1] "Downloading 2009 trades data for 847192 product..."
     ## [1] "Downloading 2010 trades data for 847192 product..."
+    ## [1] "Downloading 2011 trades data for 847192 product..."
+    ## [1] "Downloading 2012 trades data for 847192 product..."
+    ## [1] "Downloading 2013 trades data for 847192 product..."
+    ## [1] "Downloading 2014 trades data for 847192 product..."
+    ## [1] "Downloading 2015 trades data for 847192 product..."
+    ## [1] "Downloading 2016 trades data for 847192 product..."
+    ## [1] "Downloading 2017 trades data for 847192 product..."
+    ## [1] "Downloading 2018 trades data for 847192 product..."
+    ## [1] "Downloading 2019 trades data for 847192 product..."
+    ## [1] "Downloading 2020 trades data for 847192 product..."
+    ## [1] "Downloading 2021 trades data for 847192 product..."
+    ## [1] "Downloading 2006 trades data for 847193 product..."
+    ## [1] "Downloading 2007 trades data for 847193 product..."
     ## [1] "Downloading 2008 trades data for 847193 product..."
     ## [1] "Downloading 2009 trades data for 847193 product..."
     ## [1] "Downloading 2010 trades data for 847193 product..."
+    ## [1] "Downloading 2011 trades data for 847193 product..."
+    ## [1] "Downloading 2012 trades data for 847193 product..."
+    ## [1] "Downloading 2013 trades data for 847193 product..."
+    ## [1] "Downloading 2014 trades data for 847193 product..."
+    ## [1] "Downloading 2015 trades data for 847193 product..."
+    ## [1] "Downloading 2016 trades data for 847193 product..."
+    ## [1] "Downloading 2017 trades data for 847193 product..."
+    ## [1] "Downloading 2018 trades data for 847193 product..."
+    ## [1] "Downloading 2019 trades data for 847193 product..."
+    ## [1] "Downloading 2020 trades data for 847193 product..."
+    ## [1] "Downloading 2021 trades data for 847193 product..."
+    ## [1] "Downloading 2006 trades data for 847199 product..."
+    ## [1] "Downloading 2007 trades data for 847199 product..."
     ## [1] "Downloading 2008 trades data for 847199 product..."
     ## [1] "Downloading 2009 trades data for 847199 product..."
     ## [1] "Downloading 2010 trades data for 847199 product..."
+    ## [1] "Downloading 2011 trades data for 847199 product..."
+    ## [1] "Downloading 2012 trades data for 847199 product..."
+    ## [1] "Downloading 2013 trades data for 847199 product..."
+    ## [1] "Downloading 2014 trades data for 847199 product..."
+    ## [1] "Downloading 2015 trades data for 847199 product..."
+    ## [1] "Downloading 2016 trades data for 847199 product..."
+    ## [1] "Downloading 2017 trades data for 847199 product..."
+    ## [1] "Downloading 2018 trades data for 847199 product..."
+    ## [1] "Downloading 2019 trades data for 847199 product..."
+    ## [1] "Downloading 2020 trades data for 847199 product..."
+    ## [1] "Downloading 2021 trades data for 847199 product..."
 
 Now, I filter the data to single countries only.
 
@@ -201,14 +279,14 @@ trades_no_groups %>% head
 ```
 
     ## # A tibble: 6 × 9
-    ##   Reporter  TradeFlow ProductCode `Product Description`            Year  Partner
-    ##   <chr>     <chr>     <chr>       <chr>                            <chr> <chr>  
-    ## 1 Indonesia Export    847110      Data processing machines; analo… 2008  World  
-    ## 2 Ukraine   Export    847110      Data processing machines; analo… 2008  World  
-    ## 3 Albania   Export    847110      Data processing machines; analo… 2008  World  
-    ## 4 Cameroon  Export    847110      Data processing machines; analo… 2008  World  
-    ## 5 Malaysia  Export    847110      Data processing machines; analo… 2008  World  
-    ## 6 Botswana  Export    847110      Data processing machines; analo… 2008  World  
+    ##   Reporter       TradeFlow ProductCode `Product Description`       Year  Partner
+    ##   <chr>          <chr>     <chr>       <chr>                       <chr> <chr>  
+    ## 1 Mexico         Export    847110      Data processing machines; … 2006  World  
+    ## 2 United States  Export    847110      Data processing machines; … 2006  World  
+    ## 3 United Kingdom Export    847110      Data processing machines; … 2006  World  
+    ## 4 Austria        Export    847110      Data processing machines; … 2006  World  
+    ## 5 Thailand       Export    847110      Data processing machines; … 2006  World  
+    ## 6 Canada         Export    847110      Data processing machines; … 2006  World  
     ## # ℹ 3 more variables: `Trade Value 1000USD` <chr>, Quantity <chr>,
     ## #   `Quantity Unit` <chr>
 
@@ -234,14 +312,14 @@ trades_no_groups %>% head
 ```
 
     ## # A tibble: 6 × 9
-    ##   Reporter  TradeFlow ProductCode `Product Description`             Year Partner
-    ##   <chr>     <chr>     <chr>       <chr>                            <int> <chr>  
-    ## 1 Indonesia Export    847110      Data processing machines; analo…  2008 World  
-    ## 2 Ukraine   Export    847110      Data processing machines; analo…  2008 World  
-    ## 3 Albania   Export    847110      Data processing machines; analo…  2008 World  
-    ## 4 Cameroon  Export    847110      Data processing machines; analo…  2008 World  
-    ## 5 Malaysia  Export    847110      Data processing machines; analo…  2008 World  
-    ## 6 Botswana  Export    847110      Data processing machines; analo…  2008 World  
+    ##   Reporter       TradeFlow ProductCode `Product Description`        Year Partner
+    ##   <chr>          <chr>     <chr>       <chr>                       <int> <chr>  
+    ## 1 Mexico         Export    847110      Data processing machines; …  2006 World  
+    ## 2 United States  Export    847110      Data processing machines; …  2006 World  
+    ## 3 United Kingdom Export    847110      Data processing machines; …  2006 World  
+    ## 4 Austria        Export    847110      Data processing machines; …  2006 World  
+    ## 5 Thailand       Export    847110      Data processing machines; …  2006 World  
+    ## 6 Canada         Export    847110      Data processing machines; …  2006 World  
     ## # ℹ 3 more variables: `Trade Value 1000USD` <dbl>, Quantity <int>,
     ## #   `Quantity Unit` <chr>
 
@@ -275,20 +353,20 @@ final_trades <- crossing(countries_no_groups$name, years) %>%
 final_trades
 ```
 
-    ## # A tibble: 591 × 2
+    ## # A tibble: 3,152 × 2
     ##    reporter     year
-    ##    <chr>       <dbl>
-    ##  1 Afghanistan  2008
-    ##  2 Afghanistan  2009
-    ##  3 Afghanistan  2010
-    ##  4 Albania      2008
-    ##  5 Albania      2009
-    ##  6 Albania      2010
-    ##  7 Algeria      2008
-    ##  8 Algeria      2009
-    ##  9 Algeria      2010
-    ## 10 Andorra      2008
-    ## # ℹ 581 more rows
+    ##    <chr>       <int>
+    ##  1 Afghanistan  2006
+    ##  2 Afghanistan  2007
+    ##  3 Afghanistan  2008
+    ##  4 Afghanistan  2009
+    ##  5 Afghanistan  2010
+    ##  6 Afghanistan  2011
+    ##  7 Afghanistan  2012
+    ##  8 Afghanistan  2013
+    ##  9 Afghanistan  2014
+    ## 10 Afghanistan  2015
+    ## # ℹ 3,142 more rows
 
 Filter the final dataset so that it contains only the countries that
 appear at least one time on the trades dataset.
@@ -299,20 +377,20 @@ final_trades <- final_trades %>%
 final_trades
 ```
 
-    ## # A tibble: 474 × 2
+    ## # A tibble: 2,784 × 2
     ##    reporter  year
-    ##    <chr>    <dbl>
-    ##  1 Albania   2008
-    ##  2 Albania   2009
-    ##  3 Albania   2010
-    ##  4 Algeria   2008
-    ##  5 Algeria   2009
-    ##  6 Algeria   2010
-    ##  7 Andorra   2008
-    ##  8 Andorra   2009
-    ##  9 Andorra   2010
-    ## 10 Anguila   2008
-    ## # ℹ 464 more rows
+    ##    <chr>    <int>
+    ##  1 Albania   2006
+    ##  2 Albania   2007
+    ##  3 Albania   2008
+    ##  4 Albania   2009
+    ##  5 Albania   2010
+    ##  6 Albania   2011
+    ##  7 Albania   2012
+    ##  8 Albania   2013
+    ##  9 Albania   2014
+    ## 10 Albania   2015
+    ## # ℹ 2,774 more rows
 
 And bring the data from trades dataset into the final dataset.
 
@@ -322,23 +400,25 @@ final_trades<- final_trades %>%
 final_trades
 ```
 
-    ## # A tibble: 474 × 4
+    ## # A tibble: 2,784 × 4
     ##    reporter  year `Trade Value 1000USD` Quantity
-    ##    <chr>    <dbl>                 <dbl>    <int>
-    ##  1 Albania   2008                1003.        NA
-    ##  2 Albania   2009                 616.     11974
-    ##  3 Albania   2010                1047.      4047
-    ##  4 Algeria   2008                 103.        22
-    ##  5 Algeria   2009                  74         44
-    ##  6 Algeria   2010                  23.0       18
-    ##  7 Andorra   2008                 539         NA
-    ##  8 Andorra   2009                 253.        NA
-    ##  9 Andorra   2010                 405.        NA
-    ## 10 Anguila   2008                  24.6       NA
-    ## # ℹ 464 more rows
+    ##    <chr>    <int>                 <dbl>    <int>
+    ##  1 Albania   2006                  274.      527
+    ##  2 Albania   2007                  317.       NA
+    ##  3 Albania   2008                 1003.       NA
+    ##  4 Albania   2009                  616.    11974
+    ##  5 Albania   2010                 1047.     4047
+    ##  6 Albania   2011                  697.     5896
+    ##  7 Albania   2012                  825.    12284
+    ##  8 Albania   2013                 1150.     5924
+    ##  9 Albania   2014                  153.     1273
+    ## 10 Albania   2015                  280.     4773
+    ## # ℹ 2,774 more rows
 
 ``` r
-na_qts <- final_trades %>% filter(is.na(Quantity)) %>% select(reporter)
+na_qts <- final_trades %>%
+  filter(is.na(Quantity)) %>%
+  select(reporter)
 ```
 
 ``` r
@@ -347,22 +427,22 @@ final_trades <- final_trades %>%
 final_trades
 ```
 
-    ## # A tibble: 147 × 4
+    ## # A tibble: 272 × 4
     ##    reporter   year `Trade Value 1000USD` Quantity
-    ##    <chr>     <dbl>                 <dbl>    <int>
-    ##  1 Algeria    2008                 103.        22
-    ##  2 Algeria    2009                  74         44
-    ##  3 Algeria    2010                  23.0       18
-    ##  4 Argentina  2008               14504.    100520
-    ##  5 Argentina  2009               18224.     44723
-    ##  6 Argentina  2010                9932.     56892
-    ##  7 Armenia    2008                 103.       466
-    ##  8 Armenia    2009                 218.       151
-    ##  9 Armenia    2010                 205.       532
-    ## 10 Australia  2008              403742.   3083715
-    ## # ℹ 137 more rows
+    ##    <chr>     <int>                 <dbl>    <int>
+    ##  1 Argentina  2006                13878.    85676
+    ##  2 Argentina  2007                20000     83043
+    ##  3 Argentina  2008                14504.   100520
+    ##  4 Argentina  2009                18224.    44723
+    ##  5 Argentina  2010                 9932.    56892
+    ##  6 Argentina  2011                13856.    76958
+    ##  7 Argentina  2012                 8990.    45540
+    ##  8 Argentina  2013                32700.    56247
+    ##  9 Argentina  2014                82803.   112749
+    ## 10 Argentina  2015                19010.    77484
+    ## # ℹ 262 more rows
 
-# Final validations
+# Missings validations
 
 As the final dataset is just a part of all the available dataset (due to
 the exclusion of missings), it’s worth doing some evaluations about the
@@ -394,16 +474,212 @@ final_trade_value %>%
   )
 ```
 
-    ## # A tibble: 3 × 4
-    ##    year `Total Trade Value 1000USD.x` `Total Trade Value 1000USD.y` share
-    ##   <dbl>                         <dbl>                         <dbl> <dbl>
-    ## 1  2008                    166661585.                    253311857. 0.658
-    ## 2  2009                    149598590.                    219395438. 0.682
-    ## 3  2010                    196680985.                    275205599. 0.715
+    ## # A tibble: 16 × 4
+    ##     year `Total Trade Value 1000USD.x` `Total Trade Value 1000USD.y`  share
+    ##    <int>                         <dbl>                         <dbl>  <dbl>
+    ##  1  2006                     21026355.                    231072139. 0.0910
+    ##  2  2007                     14661869.                    246227764. 0.0595
+    ##  3  2008                     13608238.                    253311857. 0.0537
+    ##  4  2009                      9623765.                    219395438. 0.0439
+    ##  5  2010                      9843504.                    275205599. 0.0358
+    ##  6  2011                     10199204.                    295505231. 0.0345
+    ##  7  2012                     12145049.                    351368004. 0.0346
+    ##  8  2013                     12352072.                    337485955. 0.0366
+    ##  9  2014                     12577569.                    345090941. 0.0364
+    ## 10  2015                     11159806.                    306936257. 0.0364
+    ## 11  2016                     10703943.                    288780109. 0.0371
+    ## 12  2017                      6723179.                    232504176. 0.0289
+    ## 13  2018                      7463330.                    253623908. 0.0294
+    ## 14  2019                      7913666.                    242400457. 0.0326
+    ## 15  2020                      7460319.                    266334322. 0.0280
+    ## 16  2021                      8604344.                    313112543. 0.0275
 
-Although there was a considerable loss, the dataset still contains the
-majority of the world trade for each year, so I think we can go with
-that.
+There was a considerable loss. The dataset contains less then 5% of the
+global trade value, so it is better to make use of another approach for
+the missing values.
+
+The second approach will be: a) exclude all countries with non reported
+quantity in the first year of the sample; b) exclude all countries with
+less than half of the periods with reported quantities;and c) fill the
+non reported values with the previous period value.
+
+# Filling missings with previous period
+
+First, I rebuild the dataset with non reported quantities.
+
+``` r
+final_trades <- crossing(countries_no_groups$name, years) %>%
+  rename(
+    "reporter" = "countries_no_groups$name",
+    "year" = "years"
+  )  %>%
+  filter(reporter %in% trades_no_groups$Reporter) %>%
+  left_join(trades_no_groups, by=join_by(reporter==Reporter, year==Year))
+final_trades
+```
+
+    ## # A tibble: 2,784 × 4
+    ##    reporter  year `Trade Value 1000USD` Quantity
+    ##    <chr>    <int>                 <dbl>    <int>
+    ##  1 Albania   2006                  274.      527
+    ##  2 Albania   2007                  317.       NA
+    ##  3 Albania   2008                 1003.       NA
+    ##  4 Albania   2009                  616.    11974
+    ##  5 Albania   2010                 1047.     4047
+    ##  6 Albania   2011                  697.     5896
+    ##  7 Albania   2012                  825.    12284
+    ##  8 Albania   2013                 1150.     5924
+    ##  9 Albania   2014                  153.     1273
+    ## 10 Albania   2015                  280.     4773
+    ## # ℹ 2,774 more rows
+
+Now, I exclude the countries with non reported quantity on the first
+year of the sample.
+
+``` r
+na_first_year <- final_trades %>%
+  filter(is.na(Quantity) & year==years[1]) %>%
+  select(reporter) %>%
+  unique
+
+final_trades <- final_trades %>%
+  filter(!reporter %in% na_first_year$reporter)
+final_trades
+```
+
+    ## # A tibble: 2,032 × 4
+    ##    reporter  year `Trade Value 1000USD` Quantity
+    ##    <chr>    <int>                 <dbl>    <int>
+    ##  1 Albania   2006                  274.      527
+    ##  2 Albania   2007                  317.       NA
+    ##  3 Albania   2008                 1003.       NA
+    ##  4 Albania   2009                  616.    11974
+    ##  5 Albania   2010                 1047.     4047
+    ##  6 Albania   2011                  697.     5896
+    ##  7 Albania   2012                  825.    12284
+    ##  8 Albania   2013                 1150.     5924
+    ##  9 Albania   2014                  153.     1273
+    ## 10 Albania   2015                  280.     4773
+    ## # ℹ 2,022 more rows
+
+Now, I remove the countries with less than half of the periods with
+reported quantities.
+
+``` r
+less_than_half <- final_trades %>%
+  mutate(
+    qt_reported = !is.na(Quantity)
+  ) %>%
+  summarise(
+    sum_qt_reported = sum(qt_reported),
+    .by = reporter
+  ) %>%
+  filter(
+    sum_qt_reported < length(years)/2
+  ) %>%
+  select(reporter) %>%
+  unique
+
+final_trades <- final_trades %>%
+  filter(!reporter %in% less_than_half$reporter)
+final_trades
+```
+
+    ## # A tibble: 1,136 × 4
+    ##    reporter  year `Trade Value 1000USD` Quantity
+    ##    <chr>    <int>                 <dbl>    <int>
+    ##  1 Albania   2006                  274.      527
+    ##  2 Albania   2007                  317.       NA
+    ##  3 Albania   2008                 1003.       NA
+    ##  4 Albania   2009                  616.    11974
+    ##  5 Albania   2010                 1047.     4047
+    ##  6 Albania   2011                  697.     5896
+    ##  7 Albania   2012                  825.    12284
+    ##  8 Albania   2013                 1150.     5924
+    ##  9 Albania   2014                  153.     1273
+    ## 10 Albania   2015                  280.     4773
+    ## # ℹ 1,126 more rows
+
+Now, I fill the non reported quantities with the previous values.
+
+``` r
+while (final_trades %>% filter(is.na(Quantity)) %>% nrow > 0) {
+  final_trades <- final_trades %>%
+    group_by(reporter) %>%
+    mutate(
+      Quantity=ifelse(!is.na(Quantity), Quantity, lag(Quantity))
+    )
+}
+
+final_trades
+```
+
+    ## # A tibble: 1,136 × 4
+    ## # Groups:   reporter [71]
+    ##    reporter  year `Trade Value 1000USD` Quantity
+    ##    <chr>    <int>                 <dbl>    <int>
+    ##  1 Albania   2006                  274.      527
+    ##  2 Albania   2007                  317.      527
+    ##  3 Albania   2008                 1003.      527
+    ##  4 Albania   2009                  616.    11974
+    ##  5 Albania   2010                 1047.     4047
+    ##  6 Albania   2011                  697.     5896
+    ##  7 Albania   2012                  825.    12284
+    ##  8 Albania   2013                 1150.     5924
+    ##  9 Albania   2014                  153.     1273
+    ## 10 Albania   2015                  280.     4773
+    ## # ℹ 1,126 more rows
+
+# Final validations
+
+First, let’s check how much of the trade value by year it contains.
+
+``` r
+total_trade_value <- trades_no_groups %>%
+  group_by(Year) %>%
+  summarise(
+    `Total Trade Value 1000USD`=sum(`Trade Value 1000USD`, na.rm = TRUE)
+  )
+```
+
+``` r
+final_trade_value <- final_trades %>%
+  group_by(year) %>%
+  summarise(
+    `Total Trade Value 1000USD`=sum(`Trade Value 1000USD`, na.rm = TRUE)
+  )
+```
+
+``` r
+final_trade_value %>%
+  left_join(total_trade_value, by=join_by(year==Year)) %>%
+  mutate(
+    share=`Total Trade Value 1000USD.x`/`Total Trade Value 1000USD.y`
+  )
+```
+
+    ## # A tibble: 16 × 4
+    ##     year `Total Trade Value 1000USD.x` `Total Trade Value 1000USD.y` share
+    ##    <int>                         <dbl>                         <dbl> <dbl>
+    ##  1  2006                    206243628.                    231072139. 0.893
+    ##  2  2007                    218502574.                    246227764. 0.887
+    ##  3  2008                    227704946.                    253311857. 0.899
+    ##  4  2009                    199452483.                    219395438. 0.909
+    ##  5  2010                    253020386.                    275205599. 0.919
+    ##  6  2011                    274349247.                    295505231. 0.928
+    ##  7  2012                    314301993.                    351368004. 0.895
+    ##  8  2013                    306169127.                    337485955. 0.907
+    ##  9  2014                    312239558.                    345090941. 0.905
+    ## 10  2015                    274528642.                    306936257. 0.894
+    ## 11  2016                    258561156.                    288780109. 0.895
+    ## 12  2017                    218145612.                    232504176. 0.938
+    ## 13  2018                    242444596.                    253623908. 0.956
+    ## 14  2019                    230540888.                    242400457. 0.951
+    ## 15  2020                    252038202.                    266334322. 0.946
+    ## 16  2021                    297255913.                    313112543. 0.949
+
+Now the final dataset contain a fair amount of the global trade value,
+with more than 88% of the global share, for each year.
 
 Now, I’ll check the top 5 countries for each year and check how many of
 them are still present on the final dataset.
@@ -416,27 +692,81 @@ top_5 <- trades_no_groups %>%
 top_5
 ```
 
-    ## # A tibble: 15 × 4
-    ##    Reporter          Year `Trade Value 1000USD`   Quantity
-    ##    <chr>            <int>                 <dbl>      <int>
-    ##  1 China             2008            122727667. 1359163400
-    ##  2 United States     2008             24722279.         NA
-    ##  3 Malaysia          2008             14183845.   84677851
-    ##  4 Thailand          2008             13397055.         NA
-    ##  5 Hong Kong, China  2008             10994109.  391873536
-    ##  6 China             2009            111890627. 1250304300
-    ##  7 United States     2009             21113125.   47708550
-    ##  8 Thailand          2009             11281266.  386165530
-    ##  9 Hong Kong, China  2009             10231178.  366034777
-    ## 10 Malaysia          2009             10161061.         NA
-    ## 11 China             2010            148802627. 1577944300
-    ## 12 United States     2010             25195434.   65013100
-    ## 13 Mexico            2010             13731085.   24580970
-    ## 14 Hong Kong, China  2010             13619564.  373483729
-    ## 15 Thailand          2010             13025752.         NA
+    ## # A tibble: 80 × 4
+    ##    Reporter        Year `Trade Value 1000USD`   Quantity
+    ##    <chr>          <int>                 <dbl>      <int>
+    ##  1 China           2006             93017370. 1426071823
+    ##  2 United States   2006             26584860.   58968739
+    ##  3 Malaysia        2006             16321713.  459586190
+    ##  4 Singapore       2006             11563986.  155813240
+    ##  5 United Kingdom  2006             11320869.  145767083
+    ##  6 China           2007            112243867. 1365466000
+    ##  7 United States   2007             25346767.   45175820
+    ##  8 Malaysia        2007             15639459.   83563074
+    ##  9 Thailand        2007             12574957.         NA
+    ## 10 Singapore       2007             10056333.  110625500
+    ## # ℹ 70 more rows
 
 ``` r
 top_5 %>% select(Reporter) %>% unique
+```
+
+    ## # A tibble: 9 × 1
+    ##   Reporter        
+    ##   <chr>           
+    ## 1 China           
+    ## 2 United States   
+    ## 3 Malaysia        
+    ## 4 Singapore       
+    ## 5 United Kingdom  
+    ## 6 Thailand        
+    ## 7 Hong Kong, China
+    ## 8 Mexico          
+    ## 9 Czech Republic
+
+``` r
+top_5 %>% filter(!Reporter %in% final_trades$reporter)
+```
+
+    ## # A tibble: 10 × 4
+    ##    Reporter  Year `Trade Value 1000USD`  Quantity
+    ##    <chr>    <int>                 <dbl>     <int>
+    ##  1 Thailand  2007             12574957.        NA
+    ##  2 Thailand  2008             13397055.        NA
+    ##  3 Thailand  2009             11281266. 386165530
+    ##  4 Thailand  2010             13025752.        NA
+    ##  5 Thailand  2011             11284266.        NA
+    ##  6 Thailand  2012             15214795.        NA
+    ##  7 Thailand  2013             13443937.        NA
+    ##  8 Thailand  2014             13928100.        NA
+    ##  9 Thailand  2015             13639466.        NA
+    ## 10 Thailand  2016             12576596.        NA
+
+``` r
+top_5 %>% filter(!Reporter %in% final_trades$reporter) %>% select(Reporter) %>% unique
+```
+
+    ## # A tibble: 1 × 1
+    ##   Reporter
+    ##   <chr>   
+    ## 1 Thailand
+
+The final dataset misses only Thailand, because it doesn’t report
+quantities for most of the years in sample. As so, the final dataset
+seems to be good enough for my purposes.
+
+To avoid the influence of domestic demand on exports, I’ll follow
+Boustan, Choi e Clingingsmith (2022) and keep only the countries that
+figured on the top 3.
+
+``` r
+top_3 <- trades_no_groups %>%
+  group_by(Year) %>%
+  slice_max(order_by = `Trade Value 1000USD`, n=3) %>%
+  ungroup %>%
+  select(Reporter) %>%
+  unique
+top_3
 ```
 
     ## # A tibble: 6 × 1
@@ -446,45 +776,31 @@ top_5 %>% select(Reporter) %>% unique
     ## 2 United States   
     ## 3 Malaysia        
     ## 4 Thailand        
-    ## 5 Hong Kong, China
-    ## 6 Mexico
+    ## 5 Mexico          
+    ## 6 Hong Kong, China
 
 ``` r
-top_5 %>% filter(!Reporter %in% final_trades$reporter)
+final_trades <- final_trades %>%
+  filter(reporter %in% top_3$Reporter)
+
+final_trades
 ```
 
-    ## # A tibble: 8 × 4
-    ##   Reporter       Year `Trade Value 1000USD`  Quantity
-    ##   <chr>         <int>                 <dbl>     <int>
-    ## 1 United States  2008             24722279.        NA
-    ## 2 Malaysia       2008             14183845.  84677851
-    ## 3 Thailand       2008             13397055.        NA
-    ## 4 United States  2009             21113125.  47708550
-    ## 5 Thailand       2009             11281266. 386165530
-    ## 6 Malaysia       2009             10161061.        NA
-    ## 7 United States  2010             25195434.  65013100
-    ## 8 Thailand       2010             13025752.        NA
-
-``` r
-top_5 %>% filter(!Reporter %in% final_trades$reporter) %>% select(Reporter) %>% unique
-```
-
-    ## # A tibble: 3 × 1
-    ##   Reporter     
-    ##   <chr>        
-    ## 1 United States
-    ## 2 Malaysia     
-    ## 3 Thailand
-
-That seems to be a bigger problem. The final dataset excludes 3 of 6 big
-players on the subject. Yet, the amount represented by all of them seem
-to be less than the top player, China, which is still present on the
-final dataset.
-
-For now, I’ll carry on the analysis with the approach of dropping all
-countries with some non reported quantity. If it become necessary, I’ll
-return to this dataset and search for a good missing values filling
-approach.
+    ## # A tibble: 80 × 4
+    ## # Groups:   reporter [5]
+    ##    reporter  year `Trade Value 1000USD`   Quantity
+    ##    <chr>    <int>                 <dbl>      <int>
+    ##  1 China     2006             93017370. 1426071823
+    ##  2 China     2007            112243867. 1365466000
+    ##  3 China     2008            122727667. 1359163400
+    ##  4 China     2009            111890627. 1250304300
+    ##  5 China     2010            148802627. 1577944300
+    ##  6 China     2011            160121815. 1748174800
+    ##  7 China     2012            186014976. 1834627000
+    ##  8 China     2013            183000233. 1871969800
+    ##  9 China     2014            182688761. 1920601100
+    ## 10 China     2015            153213658. 1717687200
+    ## # ℹ 70 more rows
 
 Finally, I save the final table as parquet.
 
@@ -495,3 +811,16 @@ filename <- "WITS_trades"
 
 write_parquet(final_trades, str_interp("${datadir}${filename}.parquet"))
 ```
+
+<div id="refs" class="references csl-bib-body">
+
+<div id="ref-nberw30400" class="csl-entry">
+
+BOUSTAN, L. P.; CHOI, J.; CLINGINGSMITH, D. **Automation After the
+Assembly Line: Computerized Machine Tools, Employment and Productivity
+in the United States**. ago. 2022. Disponível em:
+\<<https://www.nber.org/papers/w30400>\>.
+
+</div>
+
+</div>

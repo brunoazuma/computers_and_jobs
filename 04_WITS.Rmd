@@ -1,6 +1,8 @@
 ---
 title: "Computers and jobs - WITS"
 output: rmarkdown::github_document
+bibliography: ref-mono.bib
+csl: associacao-brasileira-de-normas-tecnicas-ipea.csl
 ---
 
 This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook for the exploratory analysis and preparation of data from the World Integrated Trade Solution (WITS), developed by the World Bank, in collaboration with the United Nations Conference on Trade and Development (UNCTAD) and in consultation with organizations such as International Trade Center, United Nations Statistical Division (UNSD) and the World Trade Organization (WTO). The database is available for simple exploration at [https://wits.worldbank.org/Default.aspx?lang=en](https://wits.worldbank.org/Default.aspx?lang=en) and for advanced queries via API.
@@ -73,7 +75,7 @@ countries_no_groups <- countries_no_groups %>% filter(iso3Code != 'EUN')
 Now, the exports data by HS 6 digit product isn't available through the API, so I'll have to scrap it from html. The exports data is available for all countries - one year - one product code level. As the preferred code for personal computers (847130) isn't available, I'll get the data on all the 4 digit group.
 
 ```{r}
-years <- c(2008, 2009, 2010)
+years <- seq(2006, 2021)
 products <- c(847110, 847120, 847191, 847192, 847193, 847199)
 
 base_url <- "https://wits.worldbank.org/trade/comtrade/en/country/ALL/year/${year}/tradeflow/Exports/partner/WLD/product/${product}"
@@ -158,10 +160,10 @@ final_trades
 ```
 
 ```{r}
-na_qts <- final_trades %>% filter(is.na(Quantity)) %>% select(reporter)
+na_qts <- final_trades %>%
+  filter(is.na(Quantity)) %>%
+  select(reporter)
 ```
-
-
 
 ```{r}
 final_trades <- final_trades %>%
@@ -169,7 +171,7 @@ final_trades <- final_trades %>%
 final_trades
 ```
 
-# Final validations
+# Missings validations
 
 As the final dataset is just a part of all the available dataset (due to the exclusion of missings), it's worth doing some evaluations about the dataset to be sure it's still good enough.
 
@@ -198,7 +200,102 @@ final_trade_value %>%
     share=`Total Trade Value 1000USD.x`/`Total Trade Value 1000USD.y`
   )
 ```
-Although there was a considerable loss, the dataset still contains the majority of the world trade for each year, so I think we can go with that.
+There was a considerable loss. The dataset contains less then 5% of the global trade value, so it is better to make use of another approach for the missing values.
+
+The second approach will be: a) exclude all countries with non reported quantity in the first year of the sample; b) exclude all countries with less than half of the periods with reported quantities;and c) fill the non reported values with the previous period value.
+
+# Filling missings with previous period
+
+First, I rebuild the dataset with non reported quantities.
+
+```{r}
+final_trades <- crossing(countries_no_groups$name, years) %>%
+  rename(
+    "reporter" = "countries_no_groups$name",
+    "year" = "years"
+  )  %>%
+  filter(reporter %in% trades_no_groups$Reporter) %>%
+  left_join(trades_no_groups, by=join_by(reporter==Reporter, year==Year))
+final_trades
+```
+
+Now, I exclude the countries with non reported quantity on the first year of the sample.
+
+```{r}
+na_first_year <- final_trades %>%
+  filter(is.na(Quantity) & year==years[1]) %>%
+  select(reporter) %>%
+  unique
+
+final_trades <- final_trades %>%
+  filter(!reporter %in% na_first_year$reporter)
+final_trades
+```
+
+Now, I remove the countries with less than half of the periods with reported quantities.
+
+```{r}
+less_than_half <- final_trades %>%
+  mutate(
+    qt_reported = !is.na(Quantity)
+  ) %>%
+  summarise(
+    sum_qt_reported = sum(qt_reported),
+    .by = reporter
+  ) %>%
+  filter(
+    sum_qt_reported < length(years)/2
+  ) %>%
+  select(reporter) %>%
+  unique
+
+final_trades <- final_trades %>%
+  filter(!reporter %in% less_than_half$reporter)
+final_trades
+```
+
+Now, I fill the non reported quantities with the previous values.
+
+```{r}
+while (final_trades %>% filter(is.na(Quantity)) %>% nrow > 0) {
+  final_trades <- final_trades %>%
+    group_by(reporter) %>%
+    mutate(
+      Quantity=ifelse(!is.na(Quantity), Quantity, lag(Quantity))
+    )
+}
+
+final_trades
+```
+
+# Final validations
+
+First, let's check how much of the trade value by year it contains.
+
+```{r}
+total_trade_value <- trades_no_groups %>%
+  group_by(Year) %>%
+  summarise(
+    `Total Trade Value 1000USD`=sum(`Trade Value 1000USD`, na.rm = TRUE)
+  )
+```
+
+```{r}
+final_trade_value <- final_trades %>%
+  group_by(year) %>%
+  summarise(
+    `Total Trade Value 1000USD`=sum(`Trade Value 1000USD`, na.rm = TRUE)
+  )
+```
+
+```{r}
+final_trade_value %>%
+  left_join(total_trade_value, by=join_by(year==Year)) %>%
+  mutate(
+    share=`Total Trade Value 1000USD.x`/`Total Trade Value 1000USD.y`
+  )
+```
+Now the final dataset contain a fair amount of the global trade value, with more than 88% of the global share, for each year.
 
 Now, I'll check the top 5 countries for each year and check how many of them are still present on the final dataset.
 
@@ -222,10 +319,26 @@ top_5 %>% filter(!Reporter %in% final_trades$reporter)
 ```{r}
 top_5 %>% filter(!Reporter %in% final_trades$reporter) %>% select(Reporter) %>% unique
 ```
+The final dataset misses only Thailand, because it doesn't report quantities for most of the years in sample. As so, the final dataset seems to be good enough for my purposes.
 
-That seems to be a bigger problem. The final dataset excludes 3 of 6 big players on the subject. Yet, the amount represented by all of them seem to be less than the top player, China, which is still present on the final dataset.
+To avoid the influence of domestic demand on exports, I'll follow @nberw30400 and keep only the countries that figured on the top 3.
 
-For now, I'll carry on the analysis with the approach of dropping all countries with some non reported quantity. If it become necessary, I'll return to this dataset and search for a good missing values filling approach.
+```{r}
+top_3 <- trades_no_groups %>%
+  group_by(Year) %>%
+  slice_max(order_by = `Trade Value 1000USD`, n=3) %>%
+  ungroup %>%
+  select(Reporter) %>%
+  unique
+top_3
+```
+
+```{r}
+final_trades <- final_trades %>%
+  filter(reporter %in% top_3$Reporter)
+
+final_trades
+```
 
 Finally, I save the final table as parquet.
 ```{r}
