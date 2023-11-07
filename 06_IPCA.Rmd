@@ -1,0 +1,78 @@
+---
+title: "Computers and jobs - IPCA"
+output: rmarkdown::github_document
+bibliography: ref-mono.bib
+csl: associacao-brasileira-de-normas-tecnicas-ipea.csl
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook for the exploratory analysis and preparation of data from the Índice Nacional de Preços ao Consumidor Amplo (IPCA), producted by Instituto Brasileiro de Geografia e Estatística (IBGE), as made available by [Base dos Dados](https://basedosdados.org/).
+
+```{r}
+setwd("D:/OneDrive/R Workspace/computers_and_jobs")
+# install.packages(\"dotenv\")
+library("dotenv")
+# install.packages('arrow')
+library(arrow, warn.conflicts = FALSE)
+# install.packages("tidyverse")
+library("tidyverse")
+```
+
+First, I need to setup the GCP project data for using the `basedosdados` package to get the data.
+
+```{r}
+# Defina o seu projeto no Google Cloud
+project_id <- Sys.getenv("GCP_PROJECT_ID")
+basedosdados::set_billing_id(project_id)
+bigrquery::bq_auth(email = Sys.getenv("GCP_EMAIL"))
+```
+
+```{r}
+peek <- basedosdados::read_sql("SELECT * FROM `basedosdados.br_ibge_ipca.mes_brasil` LIMIT 1")
+peek %>% dplyr::glimpse()
+```
+
+Now, I download the IPCA data from basedosdados.
+
+```{r}
+
+sql <- "
+SELECT
+  ipca.ano,
+  ipca.variacao_anual
+FROM
+  basedosdados.br_ibge_ipca.mes_brasil AS ipca
+WHERE
+  ipca.ano > 2006
+  AND
+  ipca.ano < 2022
+  AND
+  ipca.mes = 12
+ORDER BY
+  ipca.ano;
+"
+
+ipca <- basedosdados::read_sql(sql)
+ipca
+```
+
+After that, I create a multiplier column to get the prices into 2021 level.
+
+```{r}
+ipca <- ipca %>%
+  arrange(desc(ano)) %>%
+  mutate(
+    multiplier_2021=cumprod(1+variacao_anual/100),
+    ano=ano-1
+  ) %>%
+  select(ano, multiplier_2021)
+ipca
+```
+
+
+```{r}
+data_dir <- "data/"
+file <- str_interp("${data_dir}IPCA.parquet")
+
+write_parquet(ipca, file)
+```
+
