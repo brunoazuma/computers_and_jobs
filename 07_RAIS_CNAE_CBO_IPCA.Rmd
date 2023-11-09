@@ -34,8 +34,8 @@ dbExecute(conn = con, paste0("PRAGMA memory_limit='7GB'"))
 
 rais_filepath <- str_interp("'${rais_datadir}RAIS_*_*.parquet'")
 
-rais_sample <- tbl(con, rais_filepath) |>
-  head() |>
+rais_sample <- tbl(con, rais_filepath) %>%
+  head() %>%
   collect()
 
 rais_sample
@@ -45,23 +45,23 @@ Now, I'll setup the CBO, CNAE and IPCA datasets.
 
 ```{r}
 cbo <- tbl(con, str_interp("'${base_datadir}CBO.parquet'"))
-cbo |>
-  head() |>
+cbo %>%
+  head() %>%
   collect()
 ```
 
 
 ```{r}
 cnae <- tbl(con, str_interp("'${base_datadir}CNAE.parquet'"))
-cnae |>
-  head() |>
+cnae %>%
+  head() %>%
   collect()
 ```
 
 ```{r}
 ipca <- tbl(con, str_interp("'${base_datadir}IPCA.parquet'"))
-ipca |>
-  head() |>
+ipca %>%
+  head() %>%
   collect()
 ```
 
@@ -105,7 +105,6 @@ rais %>%
 Finally, I aggregate the data by the fixed effects and possible cofactors.
 
 ```{r}
-tictoc::tic()
 rais <- rais %>%
       group_by(
         ano,
@@ -125,18 +124,14 @@ rais <- rais %>%
         job_number=n()
       ) %>%
       ungroup()
-
-tictoc::toc()
 ```
 
 ```{r}
-rais %>%
-  compute(name='rais_agg')
-```
-
-```{r}
+tictoc::tic()
 rais_agg <- rais %>%
   collect()
+
+tictoc::toc()
 ```
 
 ```{r}
