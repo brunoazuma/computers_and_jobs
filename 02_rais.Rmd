@@ -1,6 +1,6 @@
 ---
 title: "RAIS"
-output: html_notebook
+output: rmarkdown::github_document
 csl: associacao-brasileira-de-normas-tecnicas-ipea.csl
 ---
 
@@ -14,6 +14,8 @@ library("dotenv")
 library(arrow, warn.conflicts = FALSE)
 # install.packages("basedosdados")
 library("basedosdados")
+# install.packages("bigrquery")
+library("bigrquery")
 # install.packages("tidyverse")
 library("tidyverse")
 ```
@@ -23,6 +25,7 @@ First, I need to setup the GCP project data for using the `basedosdados` package
 # Defina o seu projeto no Google Cloud
 project_id <- Sys.getenv("GCP_PROJECT_ID")
 basedosdados::set_billing_id(project_id)
+bq_auth(email = Sys.getenv("GCP_EMAIL"))
 ```
 Second, just a peek at one line of tha RAIS table to make sure everythin is ok.
 
@@ -41,7 +44,19 @@ peek %>% dplyr::glimpse()
 Now, I setup a function with the query with all the data I need from the table. At this point, I'm not doing any aggregation yet. Just downloading the table and saving locally as a parquet file.
 
 ```{r}
-download_rais <- function(uf, year) {
+download_rais <- function(uf, year, overwrite=FALSE) {
+  data_dir <- "./data/RAIS/"
+  file_path <- str_interp("${data_dir}RAIS_${year}_${uf}.parquet")
+  if (file.exists(file_path) & !overwrite) {
+    print(
+      str_interp(
+        "The file ${file_path} for the UF ${uf} and year ${year} already exists.
+        Skipping the download of this file"
+      )
+    )
+    return()
+  }
+  
   sql <- "
   SELECT
     tb_rais.ano,
@@ -51,58 +66,62 @@ download_rais <- function(uf, year) {
     tb_rais.grau_instrucao_apos_2005,
     tb_rais.sexo,
     tb_rais.raca_cor,
-    AVG(tb_rais.valor_remuneracao_media_sm) AS valor_remuneracao_media_sm,
-    AVG(tb_rais.valor_remuneracao_media) AS valor_remuneracao_media
+    tb_rais.idade,
+    tb_rais.valor_remuneracao_media_sm,
+    tb_rais.valor_remuneracao_media,
+    tb_rais.quantidade_horas_contratadas
   FROM
     `basedosdados.br_me_rais.microdados_vinculos` AS tb_rais
   WHERE
     ano = ${year}
     AND
-    sigla_uf = '${uf}'
-  GROUP BY
-    tb_rais.ano,
-    tb_rais.sigla_uf,
-    tb_rais.cnae_2,
-    tb_rais.cbo_2002,
-    tb_rais.grau_instrucao_apos_2005,
-    tb_rais.sexo,
-    tb_rais.raca_cor;
+    sigla_uf = '${uf}';
   "
   interp_sql <- str_interp(sql)
   # print(interp_sql)
   
   data <- basedosdados::read_sql(interp_sql)
   
-  data_dir <- "./data/RAIS/reduced/"
-  file_path <- str_interp("${data_dir}RAIS_${year}_${uf}.parquet")
   write_parquet(data, file_path)
 }
 ```
 
 Now, I prepare the years and Federative units lists for download.
 
-```{r eval=FALSE, include=FALSE}
-years <- c(2008, 2009, 2010)
+```{r}
+years <- seq(2006,2021)
 ufs <- basedosdados::read_sql("SELECT sigla FROM `basedosdados.br_bd_diretorios_brasil.uf`")
+write_parquet(ufs, "./data/UFs.parquet")
 ```
 
 And download the data for all of the Federative Units, except SP.
 
-```{r eval=FALSE, include=FALSE}
+```{r eval=FALSE}
+N <- length(ufs$sigla)-1
 for (year in years) {
+  n <- 1
   for (uf in ufs$sigla) {
     if (uf != 'SP') {
+      print(
+        str_interp('Downloading file for ${uf} in the year of ${year}.')
+      )
       download_rais(uf, year)
+      print(
+        str_interp('${n}/${N} federative units downloaded for year ${year}.')
+      )
+      n <- n+1
     }
   }
 }
 ```
 Lastly, I download the SP data.
 
-```{r eval=FALSE, include=FALSE}
-years <- c(2008, 2009, 2010)
+```{r eval=FALSE}
 for (year in years) {
-    download_rais('SP', year)
+  print(
+    str_interp('Downloading file for SP in the year of ${year}.')
+  )
+  download_rais('SP', year)
 }
 ```
 
