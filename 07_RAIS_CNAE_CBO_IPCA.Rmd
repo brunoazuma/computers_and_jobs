@@ -18,38 +18,49 @@ library("tidyverse")
 library("duckdb")
 ```
 
+# Setting up file paths and DuckDB
 
 ```{r}
-base_datadir <- "D:/OneDrive/R Workspace/computers_and_jobs/data/"
+project_id <- 
+base_datadir <- Sys.getenv("DATA_DIR")
 rais_datadir <- str_interp("${base_datadir}RAIS/")
 ```
 
 As the RAIS data is too big to fit in memory at one time and is partitioned by UF and year, I'll use `dbplyr` and `duckdb` to handle the loading of the files for me.
 
-First, I'll setup the connection and read only the first rows just to see columns.
+First, I'll setup the connection.
 
 ```{r}
-con <- dbConnect(duckdb(), dbdir = "F:/temp/comp-and-jobs.duckdb")
-dbExecute(conn = con, paste0("PRAGMA memory_limit='7GB'"))
+temp_db_dir <- Sys.getenv("DUCK_DB_DIR")
+temp_db_mem <- Sys.getenv("DUCK_DB_MEM")
 
-rais_filepath <- str_interp("'${rais_datadir}RAIS_*_*.parquet'")
-
-rais_sample <- tbl(con, rais_filepath) %>%
-  head() %>%
-  collect()
-
-rais_sample
+con <- dbConnect(duckdb(), dbdir = temp_db_dir)
+dbExecute(conn = con, str_interp("PRAGMA memory_limit='${temp_db_mem}'"))
 ```
 
-Now, I'll setup the CBO, CNAE and IPCA datasets.
+# Setting up tables
+
+Now, I'll setup the RAIS dataset and read only the first rows just to see columns.
+
+```{r}
+rais_filepath <- str_interp("'${rais_datadir}RAIS_*_*.parquet'")
+
+rais <- tbl(con, rais_filepath)
+
+rais %>%
+  head() %>%
+  collect()
+```
+
+And the same for CBO, CNAE and IPCA datasets.
 
 ```{r}
 cbo <- tbl(con, str_interp("'${base_datadir}CBO.parquet'"))
+
 cbo %>%
   head() %>%
   collect()
 ```
-
 
 ```{r}
 cnae <- tbl(con, str_interp("'${base_datadir}CNAE.parquet'"))
@@ -65,6 +76,7 @@ ipca %>%
   collect()
 ```
 
+# Merging the datasets
 
 And merge the CBO and CNAE datasets.
 
@@ -88,7 +100,9 @@ rais %>%
   collect()
 ```
 
-Now, I correct the wage value to 2021 prices and convert to hourly wages.
+# Correcting the wage values
+
+Now, I correct the wage values to 2021 prices using IPCA and convert to hourly wages (so that the different contract hours are take into account).
 
 ```{r}
 rais <- rais %>%
@@ -101,6 +115,8 @@ rais %>%
   head() %>%
   collect()
 ```
+
+# Aggregation the database
 
 Finally, I aggregate the data by the fixed effects and possible cofactors.
 
@@ -134,40 +150,8 @@ rais_agg <- rais %>%
 tictoc::toc()
 ```
 
+# Saving the results to disk
+
 ```{r}
 write_parquet(rais_agg, str_interp("${base_datadir}/RAIS_AGG.parquet"))
 ```
-
-
-```{r}
-rc_share <- rais_merged %>%
-  filter(ano==2006 & !is.na(group)) %>%
-  mutate(
-    rc_job_number=(group=="RC")*job_number
-  ) %>%
-  group_by(secao) %>%
-  summarise(
-    rc_job_number=sum(rc_job_number),
-    job_number=sum(job_number),
-    rc_share=rc_job_number/job_number
-  ) %>%
-  ungroup
-
-rc_share
-```
-
-```{r}
-rais_merged <- rais_merged %>%
-  left_join(
-    rc_share %>% select(secao, rc_share),
-    by=join_by(secao==secao)
-  )
-
-rais_merged
-```
-
-
-```{r}
-write_parquet(rais_merged, str_interp("${base_datadir}/RAIS.parquet"))
-```
-
