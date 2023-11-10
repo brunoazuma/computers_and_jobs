@@ -1,0 +1,299 @@
+---
+title: "Computers and jobs - Regressions"
+output: rmarkdown::github_document
+bibliography: ref-mono.bib
+csl: associacao-brasileira-de-normas-tecnicas-ipea.csl
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook for the first set of regressions developed for the Undergrad thesis. As always, the first part is for the setup of the libraries and paths.
+
+# Initial setup
+
+```{r}
+setwd("D:/OneDrive/R Workspace/computers_and_jobs")
+# install.packages(\"dotenv\")
+library("dotenv")
+# install.packages('arrow')
+library(arrow, warn.conflicts = FALSE)
+# install.packages("tidyverse")
+library("tidyverse")
+if(!require(gtsummary)){install.packages('gtsummary');require(gtsummary)}
+if(!require(plm)){install.packages("plm");require(plm)}
+```
+
+```{r}
+datadir <- Sys.getenv("DATA_DIR")
+file <- str_interp('${datadir}Final_db.parquet')
+```
+
+```{r}
+data <- read_parquet(file) %>%
+  mutate(
+    log_remuneracao_media = log(valor_remuneracao_media + 1),
+    sigla_uf = as.factor(sigla_uf),
+    cd_secao = secao,
+    secao = as.factor(descricao_secao),
+    group = as.factor(group) %>% relevel('NRM'),
+    grau_instrucao_apos_2005 = as.factor(grau_instrucao_apos_2005),
+    sexo = as.factor(sexo),
+    raca_cor = as.factor(raca_cor),
+    ano = as.factor(ano)
+  )
+
+data
+```
+
+```{r include=FALSE}
+
+tbl_padrao <- function(model, include, label, robust=NULL) {
+  tb <- tbl_regression(
+    model,
+    include = include,
+    label = label,
+    intercept=TRUE,
+    estimate_fun = function(x) style_number(x, digits = 4)
+    ) 
+  if(!is.null(robust)) {
+    tb <- tbl_regression(
+      model,
+      include = include,
+      label = label,
+      intercept=TRUE,
+      estimate_fun = function(x) style_number(x, digits = 4),
+      tidy_fun = partial(tidy_robust, vcov = robust)
+      )
+  }
+  
+    tb <- tb %>%
+    bold_labels() %>%
+    add_significance_stars(
+      hide_se = TRUE,
+      hide_p=FALSE,
+      pattern = '{estimate}{stars} ({std.error})'
+    ) %>%
+    modify_header(
+      estimate ~ '**Beta (SE)**',
+      p.value ~ 'p-value'
+      ) %>%
+    modify_footnote(estimate ~ "SE = Standard error", abbreviation = TRUE) %>%
+    add_glance_table(
+      include=c(
+        'r.squared',
+        'adj.r.squared',
+        'nobs'
+      )
+    )
+
+  return(tb)
+}
+```
+
+# First specification - reproduction of @nber30400
+
+First, I'll try to reproduce the same analysis of @nberw30400, without considering the predominant task set of the occupations. For that, the first thing I need to do is aggregate the data.
+
+```{r}
+nber30400 <- data %>%
+  group_by(secao, ano) %>%
+  summarise(
+    valor_remuneracao_media = mean(valor_remuneracao_media),
+    exposure = mean(exposure)
+  ) %>%
+  mutate(
+    log_remuneracao_media = log(valor_remuneracao_media)
+  ) %>%
+  ungroup() %>%
+  filter(!is.na(secao) & !is.na(ano))
+
+nber30400
+```
+Now, I regress exposure on log_remuneracao_media with plm. This package provides a series of estimators for panel data, including the Two-Way Fixed Effects described in @baltagi2021[p. 47-49], which is used here.
+
+```{r}
+twfe_reg <- plm(log_remuneracao_media ~ exposure,
+             data = nber30400,
+             model = 'within',
+             effect = 'twoways',
+             index = c('secao','ano'))
+```
+
+```{r}
+tb1 <- tbl_padrao(
+  twfe_reg,
+  c('exposure'),
+  list(exposure='Exposure to computers'),
+  robust=TRUE
+  )
+tb1
+```
+The results show that the `Exposure to computers` measure alone does not explain any variation in the log wage of the brazilian formal market, both by the non significant result for the variable itself and by the $R^2$ for the within estimator.
+
+# Second specification - adding occupation classification
+
+As a second step, I'll modify the model to incorporate the task compositions of the occupations through the discrete classification of the predominant skill group of each occupation.
+
+So, the data will now be aggregated by industry sector, year and task group. With that new aggregation, in order to be able to use the @baltagi2021 TWFE, I have to create a new composite factor of industry-group to serve as my "individual" observation identification.
+
+```{r}
+data2 <- data %>%
+  filter(
+    !is.na(secao) & !is.na(ano) & !is.na(group)
+  ) %>%
+  group_by(
+    secao,
+    ano,
+    group
+  ) %>%
+  summarise(
+    wage=mean(valor_remuneracao_media),
+    exposure=mean(exposure)
+  ) %>%
+  ungroup %>%
+  mutate(
+    log_wage = log(wage),
+    id = factor(paste(secao, group, sep="-"))
+  )
+
+data2
+```
+With the data in the new shape, I regress the log_wages on the exposure measure.
+
+```{r}
+twfe_reg_2 <- plm(log_wage ~ exposure,
+             data = data2,
+             model = 'within',
+             effect = 'twoways',
+             index = c('id','ano'))
+```
+
+```{r}
+tb2 <- tbl_padrao(
+  twfe_reg_2,
+  c('exposure'),
+  list(exposure='Exposure to computers'),
+  robust=TRUE
+  )
+tb2
+```
+Again, the results show that the `Exposure to computers` measure alone does not explain any variation in the log wage of the brazilian formal market, both by the non significant result for the variable itself and by the $R^2$ for the within estimator. As the result of both these specifications indicate a non significant value for the coefficient, at least it seems to be consistent.
+
+# Third specification - Interacting group with exposure
+
+Two last test using the @baltagi2021 TWFE will be made by interacting the predominant skill group of the occupations with the exposure to computers measure, so we can investigate if the exposure to computer has heterogeneous effects through the different skill groups.
+
+```{r}
+twfe_reg_3 <- plm(log_wage ~ exposure:group,
+             data = data2,
+             model = 'within',
+             effect = 'twoways',
+             index = c('id','ano'))
+```
+
+```{r}
+tb3 <- tbl_padrao(
+  twfe_reg_3,
+  c('exposure:group'),
+  list(`exposure:group`='Exposure to computers x Skill groups'),
+  robust=TRUE
+  )
+tb3
+```
+
+```{r}
+twfe_reg_4 <- plm(log_wage ~ exposure + exposure:group,
+             data = data2,
+             model = 'within',
+             effect = 'twoways',
+             index = c('id','ano'))
+```
+
+```{r}
+tb4 <- tbl_padrao(
+  twfe_reg_4,
+  c('exposure', 'exposure:group'),
+  list(
+    exposure='Exposure to computers',
+    `exposure:group`='Exposure to computers x Skill groups'),
+  robust=TRUE
+  )
+tb4
+```
+
+
+# Using group as an explainable variable
+
+Lastly, although initially as fixed effects to evaluate the influence of exposure to computers on the wage inequality, it could be useful to evaluate the influence of the skill composition of the occupations with the wage inequality. It is useful as allows an evaluation of the capability of task model itself to explain (at least, part of) the wage inequality on the formal jobs in Brazil.
+
+To do that, I'll use a One-Way Fixed Effect model [@baltagi2021, p. 15-19] on the time variable and include the skill groups of the occupations as explainable variables. I'll evaluate one specification with the skill groups as the only explainable variable, and another specification with industry sector as explainable variables, to check for omitted variable bias.
+
+## Only skill groups as explainable variables
+
+```{r}
+fe_reg1 <- plm(log_wage ~ group,
+             data = data2,
+             model = 'within',
+             effect = 'time',
+             index = c('id', 'ano'))
+```
+
+```{r}
+tb5 <- tbl_padrao(
+  fe_reg1,
+  c('group'),
+  list(
+    group='Discrete classification of occupation'
+  ),
+  robust=TRUE
+  )
+```
+
+## Skill groups and industry sectors as explainable variables
+
+```{r}
+fe_reg2 <- plm(log_wage ~ group + secao,
+             data = data2,
+             model = 'within',
+             effect = 'time',
+             index = c('id', 'ano'))
+```
+
+```{r}
+tb6 <- tbl_padrao(
+  fe_reg2,
+  c('group', 'secao'),
+  list(
+    group='Discrete classification of occupation',
+    secao='Industry sector'
+  ),
+  robust=TRUE
+  )
+```
+
+## Industry sectors as the only explainable variables
+
+```{r}
+fe_reg3 <- plm(log_wage ~ secao,
+             data = data2,
+             model = 'within',
+             effect = 'time',
+             index = c('id', 'ano'))
+```
+
+```{r}
+tb7 <- tbl_padrao(
+  fe_reg3,
+  c('secao'),
+  list(secao='Industry sector'),
+  robust=TRUE
+  )
+```
+
+## Results
+
+```{r}
+tbl_merge(
+  tbls = list(tb6, tb5, tb7), 
+  tab_spanner = c('**Skill groups + industry sector**', '**Skill groups only**', '**Industry sector only**')
+)
+```
+
