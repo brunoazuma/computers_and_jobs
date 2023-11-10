@@ -1,0 +1,133 @@
+---
+title: "Computers and jobs - RC share, export share and expose to computers"
+output: github_document
+bibliography: ref-mono.bib
+csl: associacao-brasileira-de-normas-tecnicas-ipea.csl
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook for the preparation and merge of data from the Relação Anual de Informações Sociais (RAIS) and World Integrated Trade Solution (WITS) and the generation of the Exposure to computers measure, inspired by the @nberw30400 exposure to CNC measure.
+
+```{r}
+setwd("D:/OneDrive/R Workspace/computers_and_jobs")
+# install.packages(\"dotenv\")
+library("dotenv")
+# install.packages('arrow')
+library(arrow, warn.conflicts = FALSE)
+# install.packages("tidyverse")
+library("tidyverse")
+library("duckdb")
+```
+
+# Setting up file paths and DuckDB
+
+```{r}
+project_id <- 
+base_datadir <- Sys.getenv("DATA_DIR")
+```
+
+As the RAIS data is still big, it's still useful to use `dbplyr` and `duckdb` to handle the loading of the files for me.
+
+First, I'll setup the connection.
+
+```{r}
+temp_db_dir <- Sys.getenv("DUCK_DB_DIR")
+temp_db_mem <- Sys.getenv("DUCK_DB_MEM")
+
+con <- dbConnect(duckdb(), dbdir = temp_db_dir)
+dbExecute(conn = con, str_interp("PRAGMA memory_limit='${temp_db_mem}'"))
+```
+
+# Setting up tables
+
+Now, I'll setup the RAIS dataset and read only the first rows just to see columns.
+
+```{r}
+rais_filepath <- str_interp("${base_datadir}RAIS_AGG.parquet")
+
+rais <- tbl(con, rais_filepath)
+
+rais %>%
+  head() %>%
+  collect()
+```
+
+And the same for the WITS dataset.
+
+```{r}
+file <- str_interp('${base_datadir}/WITS/WITS_trades.parquet')
+wits <- tbl(con, file)
+```
+
+# RC share
+
+Now, I'll prepare the instructions for the $RC_{share}$ component of the measure. I'll not collect the results, because I'll collect as the final step, in addition to the $Export_{share}$.
+
+```{r}
+rc_share <- rais %>%
+  filter(ano==2006 & !is.na(group)) %>%
+  mutate(
+    rc_job_number=as.integer(group=="RC")*job_number
+  ) %>%
+  group_by(secao) %>%
+  summarise(
+    rc_job_number=sum(rc_job_number),
+    job_number=sum(job_number)
+  ) %>%
+  mutate(
+    rc_share=rc_job_number/job_number
+  ) %>%
+  ungroup()
+```
+
+# Export share
+
+Following @nberw30400, I kept only the countries that figured as top 3 world exporters of HS 8471 Products (Automatic data processing machines and units thereof, magnetic or optical readers, machines for transcribing data onto data media in coded form and machines for processing such data, not elsewhere specified or included). That was made to minimize the chances of brazilian domestic demand for computer be endogenous with the export component of the exposure to computers measure.
+
+```{r}
+export_share <- wits %>%
+  group_by(year) %>%
+  summarise(
+    quantity=sum(Quantity)
+  ) %>%
+  ungroup() %>%
+  mutate(
+    x_share = quantity/first(quantity)
+  )
+```
+
+# Merging the components and creating the exposure measure
+
+Now, I merge both of the components to the RAIS dataset and create the exposure to computers measure.
+
+```{r}
+rais <- rais %>%
+  left_join(
+    rc_share %>% select(secao, rc_share),
+    by=join_by(secao==secao)
+  ) %>%
+  left_join(
+    export_share %>% select(year, x_share),
+    by=join_by(ano==year)) %>%
+  mutate(
+    exposure=rc_share*x_share
+  )
+```
+
+# Collecting and saving to disk
+
+Finally, I process the data and save to disk
+
+```{r}
+tictoc::tic()
+final_db <- rais %>%
+  collect()
+
+tictoc::toc()
+```
+
+```{r}
+dbDisconnect(con, shutdown=TRUE)
+write_parquet(final_db, str_interp("${base_datadir}/Final_db.parquet"))
+```
+
+# References
