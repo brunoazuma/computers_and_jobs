@@ -11,11 +11,6 @@ Boustan, Choi e Clingingsmith (2022) exposure to CNC measure.
 setwd("D:/OneDrive/R Workspace/computers_and_jobs")
 # install.packages(\"dotenv\")
 library("dotenv")
-```
-
-    ## Warning in readLines(file): linha final incompleta encontrada em '.env'
-
-``` r
 # install.packages('arrow')
 library(arrow, warn.conflicts = FALSE)
 # install.packages("tidyverse")
@@ -42,17 +37,13 @@ library("duckdb")
 
 # Setting up file paths and DuckDB
 
-``` r
-project_id <- 
-base_datadir <- Sys.getenv("DATA_DIR")
-```
-
 As the RAIS data is still big, it’s still useful to use `dbplyr` and
 `duckdb` to handle the loading of the files for me.
 
 First, I’ll setup the connection.
 
 ``` r
+base_datadir <- Sys.getenv("DATA_DIR")
 temp_db_dir <- Sys.getenv("DUCK_DB_DIR")
 temp_db_mem <- Sys.getenv("DUCK_DB_MEM")
 
@@ -96,7 +87,21 @@ And the same for the WITS dataset.
 ``` r
 file <- str_interp('${base_datadir}/WITS/WITS_trades.parquet')
 wits <- tbl(con, file)
+
+wits %>%
+  head() %>%
+  collect()
 ```
+
+    ## # A tibble: 6 × 4
+    ##   reporter  year `Trade Value 1000USD`   Quantity
+    ##   <chr>    <int>                 <dbl>      <int>
+    ## 1 China     2006             93017370. 1426071823
+    ## 2 China     2007            112243867. 1365466000
+    ## 3 China     2008            122727667. 1359163400
+    ## 4 China     2009            111890627. 1250304300
+    ## 5 China     2010            148802627. 1577944300
+    ## 6 China     2011            160121815. 1748174800
 
 # RC share
 
@@ -181,7 +186,7 @@ final_db <- rais %>%
 tictoc::toc()
 ```
 
-    ## 148.22 sec elapsed
+    ## 143.49 sec elapsed
 
 ``` r
 dbDisconnect(con, shutdown=TRUE)

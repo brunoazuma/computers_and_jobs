@@ -20,16 +20,12 @@ library("duckdb")
 
 # Setting up file paths and DuckDB
 
-```{r}
-project_id <- 
-base_datadir <- Sys.getenv("DATA_DIR")
-```
-
 As the RAIS data is still big, it's still useful to use `dbplyr` and `duckdb` to handle the loading of the files for me.
 
 First, I'll setup the connection.
 
 ```{r}
+base_datadir <- Sys.getenv("DATA_DIR")
 temp_db_dir <- Sys.getenv("DUCK_DB_DIR")
 temp_db_mem <- Sys.getenv("DUCK_DB_MEM")
 
@@ -56,6 +52,10 @@ And the same for the WITS dataset.
 ```{r}
 file <- str_interp('${base_datadir}/WITS/WITS_trades.parquet')
 wits <- tbl(con, file)
+
+wits %>%
+  head() %>%
+  collect()
 ```
 
 # RC share
