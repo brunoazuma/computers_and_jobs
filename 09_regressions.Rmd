@@ -1,6 +1,10 @@
 ---
 title: "Computers and jobs - Regressions"
-output: rmarkdown::github_document
+output:
+  rmarkdown::github_document:
+    toc: true
+    toc_depth: 2
+    number_sections: true
 bibliography: ref-mono.bib
 csl: associacao-brasileira-de-normas-tecnicas-ipea.csl
 ---
@@ -17,7 +21,8 @@ library("dotenv")
 library(arrow, warn.conflicts = FALSE)
 # install.packages("tidyverse")
 library("tidyverse")
-if(!require(gtsummary)){install.packages('gtsummary');require(gtsummary)}
+library("duckdb")
+if(!require(modelsummary)){install.packages('modelsummary');require(modelsummary)}
 if(!require(plm)){install.packages("plm");require(plm)}
 ```
 
@@ -26,91 +31,100 @@ datadir <- Sys.getenv("DATA_DIR")
 file <- str_interp('${datadir}Final_db.parquet')
 ```
 
+At first, I'm not using the additional covariates present in the database (gender, race, age and school level) as they don't exactly fit with the TWFE approach documented previously. So, I'll use DuckDB to load only a subset of the columns and execute an initial grouping.
+
 ```{r}
-data <- read_parquet(file) %>%
+temp_db_dir <- Sys.getenv("DUCK_DB_DIR")
+temp_db_mem <- Sys.getenv("DUCK_DB_MEM")
+
+con <- dbConnect(duckdb(), dbdir = temp_db_dir)
+dbExecute(conn = con, str_interp("PRAGMA memory_limit='${temp_db_mem}'"))
+```
+
+```{r}
+tictoc::tic()
+
+data <- tbl(con, file) %>%
+  filter(
+    !is.na(secao) & !is.na(ano) & !is.na(group)
+  ) %>%
+  group_by(
+    descricao_secao,
+    ano,
+    group
+  ) %>%
+  summarise(
+    exposure=mean(exposure),
+    valor_remuneracao_media=mean(valor_remuneracao_media),
+    valor_remuneracao_media_sm=mean(valor_remuneracao_media_sm),
+    mean_wage=mean(mean_wage),
+    job_number=sum(job_number)
+  ) %>%
+  ungroup %>%
   mutate(
-    log_remuneracao_media = log(valor_remuneracao_media + 1),
-    sigla_uf = as.factor(sigla_uf),
-    cd_secao = secao,
-    secao = as.factor(descricao_secao),
+    log_wage = log(mean_wage + 1)
+  ) %>%
+  collect()
+
+dbDisconnect(con, shutdown=TRUE)
+
+data <- data %>%
+  rename(
+    secao = descricao_secao
+  ) %>%
+  mutate(
+    secao = as.factor(secao),
     group = as.factor(group) %>% relevel('NRM'),
-    grau_instrucao_apos_2005 = as.factor(grau_instrucao_apos_2005),
-    sexo = as.factor(sexo),
-    raca_cor = as.factor(raca_cor),
-    ano = as.factor(ano)
+    ano = as.factor(ano),
+    id = factor(paste(secao, group, sep="-"))
   )
 
-data
+tictoc::toc()
+knitr::kable(data %>% head())
 ```
 
 ```{r include=FALSE}
 
-tbl_padrao <- function(model, include, label, robust=NULL) {
-  tb <- tbl_regression(
-    model,
-    include = include,
-    label = label,
-    intercept=TRUE,
-    estimate_fun = function(x) style_number(x, digits = 4)
-    ) 
-  if(!is.null(robust)) {
-    tb <- tbl_regression(
-      model,
-      include = include,
-      label = label,
-      intercept=TRUE,
-      estimate_fun = function(x) style_number(x, digits = 4),
-      tidy_fun = partial(tidy_robust, vcov = robust)
-      )
-  }
-  
-    tb <- tb %>%
-    bold_labels() %>%
-    add_significance_stars(
-      hide_se = TRUE,
-      hide_p=FALSE,
-      pattern = '{estimate}{stars} ({std.error})'
-    ) %>%
-    modify_header(
-      estimate ~ '**Beta (SE)**',
-      p.value ~ 'p-value'
-      ) %>%
-    modify_footnote(estimate ~ "SE = Standard error", abbreviation = TRUE) %>%
-    add_glance_table(
-      include=c(
-        'r.squared',
-        'adj.r.squared',
-        'nobs'
-      )
-    )
+default_table <- function(models, coefs, robust='stata', ...) {
+  tb <- modelsummary(
+    models,
+    coef_rename = coefs,
+    gof_omit = 'AIC|BIC|RMSE',
+    estimate = '{estimate}{stars} ({std.error})',
+    stars=TRUE,
+    statistic = "(p $\\approx$ {p.value})",
+    vcov=robust,
+    ...
+  )
 
   return(tb)
 }
 ```
 
-# First specification - reproduction of @nber30400
+# First specification - reproduction of @nberw30400
 
 First, I'll try to reproduce the same analysis of @nberw30400, without considering the predominant task set of the occupations. For that, the first thing I need to do is aggregate the data.
 
 ```{r}
-nber30400 <- data %>%
+nber30400 <- data%>%
+  filter(!is.na(secao) & !is.na(ano)) %>%
   group_by(secao, ano) %>%
   summarise(
-    valor_remuneracao_media = mean(valor_remuneracao_media),
+    mean_wage = mean(mean_wage),
     exposure = mean(exposure)
   ) %>%
   mutate(
-    log_remuneracao_media = log(valor_remuneracao_media)
+    log_wage = log(mean_wage + 1)
   ) %>%
-  ungroup() %>%
-  filter(!is.na(secao) & !is.na(ano))
+  ungroup()
 
-nber30400
+knitr::kable(nber30400 %>% head())
 ```
-Now, I regress exposure on log_remuneracao_media with plm. This package provides a series of estimators for panel data, including the Two-Way Fixed Effects described in @baltagi2021[p. 47-49], which is used here.
+
+Now, I regress exposure on log_remuneracao_media with plm. This package provides a series of estimators for panel data, including the Two-Way Fixed Effects described in @baltagi2021 [p. 47-49], which is used here.
 
 ```{r}
-twfe_reg <- plm(log_remuneracao_media ~ exposure,
+twfe_reg <- plm(log_wage ~ exposure,
              data = nber30400,
              model = 'within',
              effect = 'twoways',
@@ -118,15 +132,14 @@ twfe_reg <- plm(log_remuneracao_media ~ exposure,
 ```
 
 ```{r}
-tb1 <- tbl_padrao(
+default_table(
   twfe_reg,
-  c('exposure'),
-  list(exposure='Exposure to computers'),
-  robust=TRUE
-  )
-tb1
+  c('exposure'='Exposure to computers'),
+  robust='stata'
+)
 ```
-The results show that the `Exposure to computers` measure alone does not explain any variation in the log wage of the brazilian formal market, both by the non significant result for the variable itself and by the $R^2$ for the within estimator.
+
+The results show that the `Exposure to computers` measure alone does not explain any variation in the log mean_wage of the brazilian formal market, both by the non significant result for the variable itself and by the $R^2$ for the within estimator.
 
 # Second specification - adding occupation classification
 
@@ -135,27 +148,11 @@ As a second step, I'll modify the model to incorporate the task compositions of 
 So, the data will now be aggregated by industry sector, year and task group. With that new aggregation, in order to be able to use the @baltagi2021 TWFE, I have to create a new composite factor of industry-group to serve as my "individual" observation identification.
 
 ```{r}
-data2 <- data %>%
-  filter(
-    !is.na(secao) & !is.na(ano) & !is.na(group)
-  ) %>%
-  group_by(
-    secao,
-    ano,
-    group
-  ) %>%
-  summarise(
-    wage=mean(valor_remuneracao_media),
-    exposure=mean(exposure)
-  ) %>%
-  ungroup %>%
-  mutate(
-    log_wage = log(wage),
-    id = factor(paste(secao, group, sep="-"))
-  )
+data2 <- data
 
-data2
+knitr::kable(data2 %>% head())
 ```
+
 With the data in the new shape, I regress the log_wages on the exposure measure.
 
 ```{r}
@@ -167,62 +164,82 @@ twfe_reg_2 <- plm(log_wage ~ exposure,
 ```
 
 ```{r}
-tb2 <- tbl_padrao(
+default_table(
   twfe_reg_2,
-  c('exposure'),
-  list(exposure='Exposure to computers'),
-  robust=TRUE
-  )
-tb2
+  c('exposure'='Exposure to computers'),
+  robust='stata'
+)
 ```
-Again, the results show that the `Exposure to computers` measure alone does not explain any variation in the log wage of the brazilian formal market, both by the non significant result for the variable itself and by the $R^2$ for the within estimator. As the result of both these specifications indicate a non significant value for the coefficient, at least it seems to be consistent.
+
+Again, the results show that the `Exposure to computers` measure alone does not explain any variation in the log mean_wage of the brazilian formal market, both by the non significant result for the variable itself and by the $R^2$ for the within estimator. As the result of both these specifications indicate a non significant value for the coefficient, at least it seems to be consistent.
 
 # Third specification - Interacting group with exposure
 
-Two last test using the @baltagi2021 TWFE will be made by interacting the predominant skill group of the occupations with the exposure to computers measure, so we can investigate if the exposure to computer has heterogeneous effects through the different skill groups.
+Two last test using the @baltagi2021 TWFE will be made by interacting the predominant skill group of the occupations with the exposure to computers measure, so we can investigate if the exposure to computer has heterogeneous effects through the different skill groups. To prevent the correlation between the exposure to computers measure and the RC occupations of the first period, used to construct the measure, we exclude the first period data in this evaluation.
 
 ```{r}
 twfe_reg_3 <- plm(log_wage ~ exposure:group,
-             data = data2,
+             data = data2 %>% filter(ano != '2006'),
              model = 'within',
              effect = 'twoways',
              index = c('id','ano'))
-```
-
-```{r}
-tb3 <- tbl_padrao(
-  twfe_reg_3,
-  c('exposure:group'),
-  list(`exposure:group`='Exposure to computers x Skill groups'),
-  robust=TRUE
-  )
-tb3
 ```
 
 ```{r}
 twfe_reg_4 <- plm(log_wage ~ exposure + exposure:group,
-             data = data2,
+             data = data2 %>% filter(ano != '2006'),
              model = 'within',
              effect = 'twoways',
              index = c('id','ano'))
 ```
 
 ```{r}
-tb4 <- tbl_padrao(
-  twfe_reg_4,
-  c('exposure', 'exposure:group'),
-  list(
-    exposure='Exposure to computers',
-    `exposure:group`='Exposure to computers x Skill groups'),
-  robust=TRUE
-  )
-tb4
+third_coefs <- c(
+  'exposure'='Exposure to computers',
+  'exposure:groupNRM'='Exposure to computers $\\times$ NRM',
+  'exposure:groupNRC'='Exposure to computers $\\times$ NRC',
+  'exposure:groupRC'='Exposure to computers $\\times$ RC',
+  'exposure:groupRM'='Exposure to computers $\\times$ RM'
+)
+
+default_table(
+  list(twfe_reg_3, twfe_reg_4),
+  third_coefs,
+  robust='stata'
+)
 ```
 
+Now, some interesting results. On **(1)**, with just the interactions as explainable variables, none of the coefficients are significant at 5% level, but the *p-value* of the interaction between the measure and the RC occupations is $\approx0.054$, which seems good enough to deserve some consideration. But, contrary to my hypothesis, in this case the exposure to computers would be responsible to an increase in the mean wage of this group of occupations. As the measure itself is not so clear to explain, the better approach of interpretation I can think is to describe what would happen in the wage based on the means and standard errors of both of the variables (explained and explainable). I'll not evolve on this now, as I didn't do any descriptive statistics work, but I'll return on this later.
+
+On **(2)**, the things change a little. As the NRM interaction is dropped, all of the other coefficients get bigger absolute values. But the variance of the estimators don't change too much, which causes the *p-value* of all of the coefficients to decrease. So, in this specification, we get the NRC and RC to be significant at 5% level, but it seems more like a mechanical (and accidental) p-hack. Before finish this evaluation, I'll try a third variation here, setting the NRC interaction (the closest to 0) to be dropped.
+
+```{r}
+data3 <- data2 %>%
+  mutate(
+    group = as.factor(group) %>% relevel('NRC'),
+  ) %>%
+  filter(ano != '2006')
+
+twfe_reg_5 <- plm(log_wage ~ exposure + exposure:group,
+             data = data3,
+             model = 'within',
+             effect = 'twoways',
+             index = c('id','ano'))
+```
+
+```{r}
+default_table(
+  list(twfe_reg_3, twfe_reg_4, twfe_reg_5),
+  third_coefs,
+  robust='stata'
+)
+```
+
+As expected, in **(3)** the significance of the RC interaction doesn't keep significant (by far, with a $0.342$ *p-value*) with the change of group to be the ground level. Now, the RM and NRM interactions (which have signs opposed to NRC interaction) show a 5% level significance. But the results from **(2)** and **(3)** doesn't appear to be robust enough to be reported, so I intend to keep just the **(1)** specification on the final version of the thesis.
 
 # Using group as an explainable variable
 
-Lastly, although initially as fixed effects to evaluate the influence of exposure to computers on the wage inequality, it could be useful to evaluate the influence of the skill composition of the occupations with the wage inequality. It is useful as allows an evaluation of the capability of task model itself to explain (at least, part of) the wage inequality on the formal jobs in Brazil.
+Lastly, although initially as fixed effects to evaluate the influence of exposure to computers on the mean_wage inequality, it could be useful to evaluate the influence of the skill composition of the occupations with the mean_wage inequality. It is useful as allows an evaluation of the capability of task model itself to explain (at least, part of) the mean_wage inequality on the formal jobs in Brazil.
 
 To do that, I'll use a One-Way Fixed Effect model [@baltagi2021, p. 15-19] on the time variable and include the skill groups of the occupations as explainable variables. I'll evaluate one specification with the skill groups as the only explainable variable, and another specification with industry sector as explainable variables, to check for omitted variable bias.
 
@@ -236,17 +253,6 @@ fe_reg1 <- plm(log_wage ~ group,
              index = c('id', 'ano'))
 ```
 
-```{r}
-tb5 <- tbl_padrao(
-  fe_reg1,
-  c('group'),
-  list(
-    group='Discrete classification of occupation'
-  ),
-  robust=TRUE
-  )
-```
-
 ## Skill groups and industry sectors as explainable variables
 
 ```{r}
@@ -257,19 +263,40 @@ fe_reg2 <- plm(log_wage ~ group + secao,
              index = c('id', 'ano'))
 ```
 
+## Results of the skill groups specifications
+
 ```{r}
-tb6 <- tbl_padrao(
-  fe_reg2,
-  c('group', 'secao'),
-  list(
-    group='Discrete classification of occupation',
-    secao='Industry sector'
+library(tibble)
+rows <- tribble(~term,          ~`(1)`,  ~`(2)`,
+                'Industry FE',  '', 'X',
+                'Year FE',  'X', 'X')
+attr(rows, 'position') <- c(7, 8)
+
+default_table(
+  list(fe_reg1, fe_reg2),
+  c(
+    'groupNRC'='NRC',
+    'groupRC'='RC',
+    'groupRM'='RM',
+    'groupNRM'='NRM'
   ),
-  robust=TRUE
-  )
+  robust='stata',
+  coef_omit='.*secao*.',
+  add_rows=rows
+)
 ```
 
+Now, more interesting results. Although the main focus of the thesis was to investigate the relation of computers and wage polarization, the approach would only be valid if the task model itself could be considered able to explain the wage inequality in the Brazilian formal market.
+
+And that's what we can conclude from the models above. Even without the industry sector fixed effects, the model get a $R^2\approx0.525$ and a $\bar{R^2}\approx0.519$, which means that the main composition of the tasks of the occupations alone can explain more than half of the variability of the wages in the formal market. Of course, this results can be biased by omitted variables, like school level or signalization of diplomas, but the results are way better than the expected. With the inclusion of industry sector fixed effects, the $R^2$ and $\bar{R^2}$ change to $0.916$ and $0.913$, respectively, but the increase is mixed with the explanation capability of the industry sectors themselves, which is not the focus of this thesis.
+
+Now, the most important results: all of the variables are extremely significant and the inclusion of the industry sector effects didn't change the coefficients, which is a good indicative of non existence of omitted variable bias. Again, further specifications could be thought to investigate this bias, but that would need additional theoretical investigation to compose the model.
+
+The interpretation of the coefficients in this case, thankfully, is very simple: a worker with an occupation composed mostly of tasks belonging to the RM group is expected to receive, on average, $14,7\%$ more for his hourly wage than a worker with an occupation composed mostly of tasks belonging to the NRM group. For the NRC and RC groups, the premium is $103,1\%$ and $39,2\%$, respectively. However, if we consider the order of the groups to be, from lowest to highest, { NRM, RM, RC, NRC }, there is no wage ***polarization*** effect. Although the task model exhibits an excellent power of explanation of the Brazilian formal labor market, the values encountered for the coefficients indicates a monotone change of the wages.
+
 ## Industry sectors as the only explainable variables
+
+Just to dig a little bit more about omitted variable bias in the industry sector fixed effects, I'll regress wages on industry sector only and compare with the fixed effects in the previous model with industry sector and skill groups.
 
 ```{r}
 fe_reg3 <- plm(log_wage ~ secao,
@@ -279,21 +306,21 @@ fe_reg3 <- plm(log_wage ~ secao,
              index = c('id', 'ano'))
 ```
 
-```{r}
-tb7 <- tbl_padrao(
-  fe_reg3,
-  c('secao'),
-  list(secao='Industry sector'),
-  robust=TRUE
-  )
-```
-
-## Results
+## Results of the industry sector specifications
 
 ```{r}
-tbl_merge(
-  tbls = list(tb6, tb5, tb7), 
-  tab_spanner = c('**Skill groups + industry sector**', '**Skill groups only**', '**Industry sector only**')
+default_table(
+  list(fe_reg2, fe_reg3),
+  c(
+    'groupNRC'='NRC',
+    'groupRC'='RC',
+    'groupRM'='RM',
+    'groupNRM'='NRM'
+  ),
+  robust='stata'
 )
 ```
 
+The main interest in this results is the possibility of bias in the industry sector coefficients, which didn't appear, as all the coefficients kept the same with and without the skill group variable.
+
+# References
