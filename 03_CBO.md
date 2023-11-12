@@ -34,6 +34,7 @@ package to get the data.
 
 ``` r
 # Defina o seu projeto no Google Cloud
+load_dot_env()
 project_id <- Sys.getenv("GCP_PROJECT_ID")
 basedosdados::set_billing_id(project_id)
 ```
@@ -56,23 +57,21 @@ FROM
 "
 
 cbo <- basedosdados::read_sql(sql)
-cbo
+cbo %>% head()
 ```
 
-    ## # A tibble: 2,684 × 2
-    ##    cbo_2002 descricao                     
-    ##    <chr>    <chr>                         
-    ##  1 010105   Oficial general da aeronáutica
-    ##  2 010110   Oficial general do exército   
-    ##  3 010115   Oficial general da marinha    
-    ##  4 010205   Oficial da aeronáutica        
-    ##  5 010210   Oficial do exército           
-    ##  6 010215   Oficial da marinha            
-    ##  7 010305   Praça da aeronáutica          
-    ##  8 010310   Praça do exército             
-    ##  9 010315   Praça da marinha              
-    ## 10 020105   Coronel da polícia militar    
-    ## # ℹ 2,674 more rows
+<div class="kable-table">
+
+| cbo_2002 | descricao                      |
+|:---------|:-------------------------------|
+| 010105   | Oficial general da aeronáutica |
+| 010110   | Oficial general do exército    |
+| 010115   | Oficial general da marinha     |
+| 010205   | Oficial da aeronáutica         |
+| 010210   | Oficial do exército            |
+| 010215   | Oficial da marinha             |
+
+</div>
 
 Now, I attribute the discrete classification based on Adamczyk, Ehrl e
 Monasterio (2022).
@@ -102,23 +101,21 @@ cbo <- cbo %>%
     str_detect(cbo_2002, '^9') ~ 'RM',
   ))
 
-cbo
+cbo %>% head()
 ```
 
-    ## # A tibble: 2,684 × 3
-    ##    cbo_2002 descricao                      group
-    ##    <chr>    <chr>                          <chr>
-    ##  1 010105   Oficial general da aeronáutica <NA> 
-    ##  2 010110   Oficial general do exército    <NA> 
-    ##  3 010115   Oficial general da marinha     <NA> 
-    ##  4 010205   Oficial da aeronáutica         <NA> 
-    ##  5 010210   Oficial do exército            <NA> 
-    ##  6 010215   Oficial da marinha             <NA> 
-    ##  7 010305   Praça da aeronáutica           <NA> 
-    ##  8 010310   Praça do exército              <NA> 
-    ##  9 010315   Praça da marinha               <NA> 
-    ## 10 020105   Coronel da polícia militar     <NA> 
-    ## # ℹ 2,674 more rows
+<div class="kable-table">
+
+| cbo_2002 | descricao                      | group |
+|:---------|:-------------------------------|:------|
+| 010105   | Oficial general da aeronáutica | NA    |
+| 010110   | Oficial general do exército    | NA    |
+| 010115   | Oficial general da marinha     | NA    |
+| 010205   | Oficial da aeronáutica         | NA    |
+| 010210   | Oficial do exército            | NA    |
+| 010215   | Oficial da marinha             | NA    |
+
+</div>
 
 Finally, I exclude the military occupations from the table, following
 Adamczyk, Ehrl e Monasterio (2022), and save the table in a parquet
@@ -126,7 +123,21 @@ file.
 
 ``` r
 cbo <- cbo %>% filter(!is.na(group))
+cbo %>% head()
 ```
+
+<div class="kable-table">
+
+| cbo_2002 | descricao                     | group |
+|:---------|:------------------------------|:------|
+| 111105   | Senador                       | NRC   |
+| 111110   | Deputado federal              | NRC   |
+| 111115   | Deputado estadual e distrital | NRC   |
+| 111120   | Vereador                      | NRC   |
+| 111205   | Presidente da república       | NRC   |
+| 111210   | Vice-presidente da república  | NRC   |
+
+</div>
 
 ``` r
 data_dir <- "data/CBO/"
@@ -134,6 +145,8 @@ file <- str_interp("${data_dir}CBO.parquet")
 
 write_parquet(cbo, file)
 ```
+
+# References
 
 <div id="refs" class="references csl-bib-body">
 

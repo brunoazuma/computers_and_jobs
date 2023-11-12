@@ -1,6 +1,8 @@
 ---
 title: "Computers and jobs - CBO"
-output: rmarkdown::github_document
+output:
+  rmarkdown::github_document:
+    df_print: kable
 bibliography: ref-mono.bib
 csl: associacao-brasileira-de-normas-tecnicas-ipea.csl
 ---
@@ -21,6 +23,7 @@ First, I need to setup the GCP project data for using the `basedosdados` package
 
 ```{r}
 # Defina o seu projeto no Google Cloud
+load_dot_env()
 project_id <- Sys.getenv("GCP_PROJECT_ID")
 basedosdados::set_billing_id(project_id)
 bigrquery::bq_auth(email = Sys.getenv("GCP_EMAIL"))
@@ -44,7 +47,7 @@ FROM
 "
 
 cbo <- basedosdados::read_sql(sql)
-cbo
+cbo %>% head()
 ```
 
 Now, I attribute the discrete classification based on @adamczyk2022.
@@ -74,13 +77,14 @@ cbo <- cbo %>%
     str_detect(cbo_2002, '^9') ~ 'RM',
   ))
 
-cbo
+cbo %>% head()
 ```
 
 Finally, I exclude the military occupations from the table, following @adamczyk2022, and save the table in a parquet file.
 
 ```{r}
 cbo <- cbo %>% filter(!is.na(group))
+cbo %>% head()
 ```
 
 ```{r}
@@ -90,3 +94,4 @@ file <- str_interp("${data_dir}CBO.parquet")
 write_parquet(cbo, file)
 ```
 
+# References
