@@ -34,6 +34,7 @@ package to get the data.
 
 ``` r
 # Defina o seu projeto no Google Cloud
+load_dot_env()
 project_id <- Sys.getenv("GCP_PROJECT_ID")
 basedosdados::set_billing_id(project_id)
 ```
@@ -78,24 +79,21 @@ FROM
 "
 
 cnae <- basedosdados::read_sql(sql)
-cnae
+cnae %>% head()
 ```
 
-    ## # A tibble: 673 × 8
-    ##    cnae_2 descricao        grupo descricao_grupo divisao descricao_divisao secao
-    ##    <chr>  <chr>            <chr> <chr>           <chr>   <chr>             <chr>
-    ##  1 01156  Cultivo de soja  01.1  Produção de la… 01      Agricultura, pec… A    
-    ##  2 01113  Cultivo de cere… 01.1  Produção de la… 01      Agricultura, pec… A    
-    ##  3 01121  Cultivo de algo… 01.1  Produção de la… 01      Agricultura, pec… A    
-    ##  4 01148  Cultivo de fumo  01.1  Produção de la… 01      Agricultura, pec… A    
-    ##  5 01130  Cultivo de cana… 01.1  Produção de la… 01      Agricultura, pec… A    
-    ##  6 01199  Cultivo de plan… 01.1  Produção de la… 01      Agricultura, pec… A    
-    ##  7 01164  Cultivo de olea… 01.1  Produção de la… 01      Agricultura, pec… A    
-    ##  8 01229  Cultivo de flor… 01.2  Horticultura e… 01      Agricultura, pec… A    
-    ##  9 01211  Horticultura     01.2  Horticultura e… 01      Agricultura, pec… A    
-    ## 10 01393  Cultivo de plan… 01.3  Produção de la… 01      Agricultura, pec… A    
-    ## # ℹ 663 more rows
-    ## # ℹ 1 more variable: descricao_secao <chr>
+<div class="kable-table">
+
+| cnae_2 | descricao                                                                | grupo | descricao_grupo                  | divisao | descricao_divisao                             | secao | descricao_secao                                                |
+|:-------|:-------------------------------------------------------------------------|:------|:---------------------------------|:--------|:----------------------------------------------|:------|:---------------------------------------------------------------|
+| 01156  | Cultivo de soja                                                          | 01.1  | Produção de lavouras temporárias | 01      | Agricultura, pecuária e serviços relacionados | A     | Agricultura, pecuária, produção florestal, pesca e aqüicultura |
+| 01113  | Cultivo de cereais                                                       | 01.1  | Produção de lavouras temporárias | 01      | Agricultura, pecuária e serviços relacionados | A     | Agricultura, pecuária, produção florestal, pesca e aqüicultura |
+| 01121  | Cultivo de algodão herbáceo e de outras fibras de lavoura temporária     | 01.1  | Produção de lavouras temporárias | 01      | Agricultura, pecuária e serviços relacionados | A     | Agricultura, pecuária, produção florestal, pesca e aqüicultura |
+| 01148  | Cultivo de fumo                                                          | 01.1  | Produção de lavouras temporárias | 01      | Agricultura, pecuária e serviços relacionados | A     | Agricultura, pecuária, produção florestal, pesca e aqüicultura |
+| 01130  | Cultivo de cana-de-açúcar                                                | 01.1  | Produção de lavouras temporárias | 01      | Agricultura, pecuária e serviços relacionados | A     | Agricultura, pecuária, produção florestal, pesca e aqüicultura |
+| 01199  | Cultivo de plantas de lavoura temporária não especificadas anteriormente | 01.1  | Produção de lavouras temporárias | 01      | Agricultura, pecuária e serviços relacionados | A     | Agricultura, pecuária, produção florestal, pesca e aqüicultura |
+
+</div>
 
 ``` r
 data_dir <- "data/CNAE/"
