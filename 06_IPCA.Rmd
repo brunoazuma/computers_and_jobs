@@ -67,7 +67,8 @@ ipca <- ipca %>%
     multiplier_2021=cumprod(1+variacao_anual/100),
     ano=ano-1
   ) %>%
-  select(ano, multiplier_2021)
+  select(ano, multiplier_2021) %>%
+  add_row(ano=as.integer(2021), multiplier_2021=1, .before=1)
 ipca
 ```
 
