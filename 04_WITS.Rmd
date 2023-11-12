@@ -1,6 +1,8 @@
 ---
 title: "Computers and jobs - WITS"
-output: rmarkdown::github_document
+output: 
+  rmarkdown::github_document:
+    df_print: kable
 bibliography: ref-mono.bib
 csl: associacao-brasileira-de-normas-tecnicas-ipea.csl
 ---
@@ -55,12 +57,12 @@ countries <- data.frame(
     isGroup=if_else(isGroup=='Yes', TRUE, FALSE)
   )
 
-countries %>% head
+countries %>% head()
 ```
 
 ```{r}
 countries_no_groups <- countries %>% filter(isGroup==FALSE)
-countries_no_groups %>% head
+countries_no_groups %>% head()
 ```
 
 For some reason, European Union isn't classified as a group, so I manually remove this record from the countries dataset.
@@ -104,7 +106,7 @@ Now, I filter the data to single countries only.
 ```{r}
 trades_no_groups <- trades %>%
   filter(Reporter %in% countries_no_groups$name)
-trades_no_groups %>% head
+trades_no_groups %>% head()
 ```
 Now, I transform the year, trade value and quantity columns in numerical.
 
@@ -115,7 +117,7 @@ trades_no_groups <- trades_no_groups %>%
     `Trade Value 1000USD`=as.double(gsub(",","",`Trade Value 1000USD`)),
     Quantity=as.integer(gsub(",","",Quantity))
   )
-trades_no_groups %>% head
+trades_no_groups %>% head()
 ```
 And summarise the data by country and year.
 
@@ -140,7 +142,7 @@ final_trades <- crossing(countries_no_groups$name, years) %>%
     "reporter" = "countries_no_groups$name",
     "year" = "years"
   )
-final_trades
+final_trades %>% head()
 ```
 
 Filter the final dataset so that it contains only the countries that appear at least one time on the trades dataset.
@@ -148,7 +150,7 @@ Filter the final dataset so that it contains only the countries that appear at l
 ```{r}
 final_trades <- final_trades %>%
   filter(reporter %in% trades_no_groups$Reporter)
-final_trades
+final_trades %>% head()
 ```
 
 And bring the data from trades dataset into the final dataset.
@@ -156,7 +158,7 @@ And bring the data from trades dataset into the final dataset.
 ```{r}
 final_trades<- final_trades %>%
   left_join(trades_no_groups, by=join_by(reporter==Reporter, year==Year))
-final_trades
+final_trades %>% head()
 ```
 
 ```{r}
@@ -168,7 +170,7 @@ na_qts <- final_trades %>%
 ```{r}
 final_trades <- final_trades %>%
   filter(!reporter %in% na_qts$reporter)
-final_trades
+final_trades %>% head()
 ```
 
 # Missings validations
@@ -216,7 +218,7 @@ final_trades <- crossing(countries_no_groups$name, years) %>%
   )  %>%
   filter(reporter %in% trades_no_groups$Reporter) %>%
   left_join(trades_no_groups, by=join_by(reporter==Reporter, year==Year))
-final_trades
+final_trades %>% head()
 ```
 
 Now, I exclude the countries with non reported quantity on the first year of the sample.
@@ -225,11 +227,11 @@ Now, I exclude the countries with non reported quantity on the first year of the
 na_first_year <- final_trades %>%
   filter(is.na(Quantity) & year==years[1]) %>%
   select(reporter) %>%
-  unique
+  unique()
 
 final_trades <- final_trades %>%
   filter(!reporter %in% na_first_year$reporter)
-final_trades
+final_trades %>% head()
 ```
 
 Now, I remove the countries with less than half of the periods with reported quantities.
@@ -247,11 +249,11 @@ less_than_half <- final_trades %>%
     sum_qt_reported < length(years)/2
   ) %>%
   select(reporter) %>%
-  unique
+  unique()
 
 final_trades <- final_trades %>%
   filter(!reporter %in% less_than_half$reporter)
-final_trades
+final_trades %>% head()
 ```
 
 Now, I fill the non reported quantities with the previous values.
@@ -265,7 +267,7 @@ while (final_trades %>% filter(is.na(Quantity)) %>% nrow > 0) {
     )
 }
 
-final_trades
+final_trades %>% head()
 ```
 
 # Final validations
@@ -303,12 +305,12 @@ Now, I'll check the top 5 countries for each year and check how many of them are
 top_5 <- trades_no_groups %>%
   group_by(Year) %>%
   slice_max(order_by = `Trade Value 1000USD`, n=5) %>%
-  ungroup
-top_5
+  ungroup ()
+top_5 %>% head(20)
 ```
 
 ```{r}
-top_5 %>% select(Reporter) %>% unique
+top_5 %>% select(Reporter) %>% unique()
 ```
 
 
@@ -317,7 +319,7 @@ top_5 %>% filter(!Reporter %in% final_trades$reporter)
 ```
 
 ```{r}
-top_5 %>% filter(!Reporter %in% final_trades$reporter) %>% select(Reporter) %>% unique
+top_5 %>% filter(!Reporter %in% final_trades$reporter) %>% select(Reporter) %>% unique()
 ```
 The final dataset misses only Thailand, because it doesn't report quantities for most of the years in sample. As so, the final dataset seems to be good enough for my purposes.
 
@@ -337,7 +339,7 @@ top_3
 final_trades <- final_trades %>%
   filter(reporter %in% top_3$Reporter)
 
-final_trades
+final_trades %>% head()
 ```
 
 Finally, I save the final table as parquet.
