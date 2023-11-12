@@ -1,6 +1,8 @@
 ---
 title: "Computers and jobs - IPCA"
-output: rmarkdown::github_document
+output: 
+  rmarkdown::github_document:
+    df_print: kable
 bibliography: ref-mono.bib
 csl: associacao-brasileira-de-normas-tecnicas-ipea.csl
 ---
@@ -21,6 +23,7 @@ First, I need to setup the GCP project data for using the `basedosdados` package
 
 ```{r}
 # Defina o seu projeto no Google Cloud
+load_dot_env()
 project_id <- Sys.getenv("GCP_PROJECT_ID")
 basedosdados::set_billing_id(project_id)
 bigrquery::bq_auth(email = Sys.getenv("GCP_EMAIL"))
