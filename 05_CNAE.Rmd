@@ -56,6 +56,41 @@ cnae <- basedosdados::read_sql(sql)
 cnae %>% head()
 ```
 
+For some unknown reason, there was some problem with the value of `descricao_secao` just for one section. I'll update the description of that section before saving.
+
+```{r}
+cnae %>%
+  filter(secao=='E') %>%
+  select(descricao_secao) %>%
+  head()
+```
+
+```{r}
+cnae <- cnae %>%
+  mutate(
+    descricao_secao = case_when(
+      secao=='E' ~ 'Água, esgoto, atividades de gestão de resíduos e descontaminação',
+      .default=descricao_secao
+    )
+  )
+
+cnae %>%
+  filter(secao=='E') %>%
+  select(descricao_secao) %>%
+  head()
+```
+
+And, just to be sure, check some other section
+
+```{r}
+cnae %>%
+  filter(secao=='F') %>%
+  select(descricao_secao) %>%
+  head()
+```
+
+Finally, I save the data to file.
+
 ```{r}
 data_dir <- "data/CNAE/"
 file <- str_interp("${data_dir}CNAE.parquet")

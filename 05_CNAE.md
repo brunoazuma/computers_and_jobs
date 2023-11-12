@@ -47,6 +47,11 @@ bigrquery::bq_auth(email = Sys.getenv("GCP_EMAIL"))
 
 ``` r
 peek <- basedosdados::read_sql("SELECT * FROM `basedosdados.br_bd_diretorios_brasil.cnae_2` LIMIT 1")
+```
+
+    ## Auto-refreshing stale OAuth token.
+
+``` r
 peek %>% dplyr::glimpse()
 ```
 
@@ -94,6 +99,82 @@ cnae %>% head()
 | 01199  | Cultivo de plantas de lavoura temporária não especificadas anteriormente | 01.1  | Produção de lavouras temporárias | 01      | Agricultura, pecuária e serviços relacionados | A     | Agricultura, pecuária, produção florestal, pesca e aqüicultura |
 
 </div>
+
+For some unknown reason, there was some problem with the value of
+`descricao_secao` just for one section. I’ll update the description of
+that section before saving.
+
+``` r
+cnae %>%
+  filter(secao=='E') %>%
+  select(descricao_secao) %>%
+  head()
+```
+
+<div class="kable-table">
+
+| descricao_secao                                                   |
+|:------------------------------------------------------------------|
+| ��gua, esgoto, atividades de gestão de resíduos e descontaminação |
+| ��gua, esgoto, atividades de gestão de resíduos e descontaminação |
+| ��gua, esgoto, atividades de gestão de resíduos e descontaminação |
+| ��gua, esgoto, atividades de gestão de resíduos e descontaminação |
+| ��gua, esgoto, atividades de gestão de resíduos e descontaminação |
+| ��gua, esgoto, atividades de gestão de resíduos e descontaminação |
+
+</div>
+
+``` r
+cnae <- cnae %>%
+  mutate(
+    descricao_secao = case_when(
+      secao=='E' ~ 'Água, esgoto, atividades de gestão de resíduos e descontaminação',
+      .default=descricao_secao
+    )
+  )
+
+cnae %>%
+  filter(secao=='E') %>%
+  select(descricao_secao) %>%
+  head()
+```
+
+<div class="kable-table">
+
+| descricao_secao                                                  |
+|:-----------------------------------------------------------------|
+| Água, esgoto, atividades de gestão de resíduos e descontaminação |
+| Água, esgoto, atividades de gestão de resíduos e descontaminação |
+| Água, esgoto, atividades de gestão de resíduos e descontaminação |
+| Água, esgoto, atividades de gestão de resíduos e descontaminação |
+| Água, esgoto, atividades de gestão de resíduos e descontaminação |
+| Água, esgoto, atividades de gestão de resíduos e descontaminação |
+
+</div>
+
+And, just to be sure, check some other section
+
+``` r
+cnae %>%
+  filter(secao=='F') %>%
+  select(descricao_secao) %>%
+  head()
+```
+
+<div class="kable-table">
+
+| descricao_secao |
+|:----------------|
+| Construção      |
+| Construção      |
+| Construção      |
+| Construção      |
+| Construção      |
+| Construção      |
+
+</div>
+
+Finally, I save the data to file.
 
 ``` r
 data_dir <- "data/CNAE/"
