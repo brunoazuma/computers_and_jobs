@@ -1,6 +1,8 @@
 ---
 title: "Computers and jobs - Merging of RAIS, CNAE and CBO"
-output: rmarkdown::github_document
+output:
+  rmarkdown::github_document:
+    df_print: kable
 bibliography: ref-mono.bib
 csl: associacao-brasileira-de-normas-tecnicas-ipea.csl
 ---
@@ -21,7 +23,7 @@ library("duckdb")
 # Setting up file paths and DuckDB
 
 ```{r}
-project_id <- 
+load_dot_env()
 base_datadir <- Sys.getenv("DATA_DIR")
 rais_datadir <- str_interp("${base_datadir}RAIS/")
 ```
@@ -149,6 +151,11 @@ rais_agg <- rais %>%
 
 tictoc::toc()
 ```
+
+```{r}
+rais_agg %>% head()
+```
+
 
 # Saving the results to disk
 
