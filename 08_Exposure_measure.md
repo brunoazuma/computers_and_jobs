@@ -68,19 +68,18 @@ rais %>%
   collect()
 ```
 
-    ## # A tibble: 6 × 13
-    ##     ano sigla_uf secao descricao_secao        group grau_instrucao_apos_…¹ sexo 
-    ##   <dbl> <chr>    <chr> <chr>                  <chr> <chr>                  <chr>
-    ## 1  2006 AC       F     Construção             RC    7                      1    
-    ## 2  2006 AC       G     Comércio; reparação d… RC    4                      2    
-    ## 3  2006 AC       G     Comércio; reparação d… RM    5                      1    
-    ## 4  2006 AC       G     Comércio; reparação d… RC    7                      1    
-    ## 5  2006 AC       G     Comércio; reparação d… RC    6                      1    
-    ## 6  2006 AC       H     Transporte, armazenag… NRC   7                      1    
-    ## # ℹ abbreviated name: ¹​grau_instrucao_apos_2005
-    ## # ℹ 6 more variables: raca_cor <chr>, idade <dbl>,
-    ## #   valor_remuneracao_media <dbl>, valor_remuneracao_media_sm <dbl>,
-    ## #   mean_wage <dbl>, job_number <dbl>
+<div class="kable-table">
+
+|  ano | sigla_uf | secao | descricao_secao                                            | group | grau_instrucao_apos_2005 | sexo | raca_cor | idade | valor_remuneracao_media | valor_remuneracao_media_sm | mean_wage | job_number |
+|-----:|:---------|:------|:-----------------------------------------------------------|:------|:-------------------------|:-----|:---------|------:|------------------------:|---------------------------:|----------:|-----------:|
+| 2006 | AL       | C     | Indústrias de transformação                                | RC    | 4                        | 2    | 2        |    47 |                399.5825 |                   1.177500 |  5.313897 |          4 |
+| 2006 | AL       | C     | Indústrias de transformação                                | RM    | 2                        | 1    | 2        |    34 |                565.4407 |                   1.698872 |  7.519583 |        195 |
+| 2006 | AL       | C     | Indústrias de transformação                                | RC    | 7                        | 2    | 6        |    34 |                619.7200 |                   1.830000 |  8.241423 |          1 |
+| 2006 | AL       | C     | Indústrias de transformação                                | NRC   | 5                        | 1    | 8        |    36 |                624.2250 |                   1.846667 |  9.345891 |          6 |
+| 2006 | AL       | G     | Comércio; reparação de veículos automotores e motocicletas | RC    | 5                        | 1    | 8        |    19 |                471.6527 |                   1.371569 |  6.295499 |         51 |
+| 2006 | AL       | I     | Alojamento e alimentação                                   | NRM   | 5                        | 1    | 8        |    26 |                424.0461 |                   1.255714 |  5.756866 |         49 |
+
+</div>
 
 And the same for the WITS dataset.
 
@@ -93,15 +92,18 @@ wits %>%
   collect()
 ```
 
-    ## # A tibble: 6 × 4
-    ##   reporter  year `Trade Value 1000USD`   Quantity
-    ##   <chr>    <int>                 <dbl>      <int>
-    ## 1 China     2006             93017370. 1426071823
-    ## 2 China     2007            112243867. 1365466000
-    ## 3 China     2008            122727667. 1359163400
-    ## 4 China     2009            111890627. 1250304300
-    ## 5 China     2010            148802627. 1577944300
-    ## 6 China     2011            160121815. 1748174800
+<div class="kable-table">
+
+| reporter | year | Trade Value 1000USD |   Quantity |
+|:---------|-----:|--------------------:|-----------:|
+| China    | 2006 |            93017370 | 1426071823 |
+| China    | 2007 |           112243867 | 1365466000 |
+| China    | 2008 |           122727667 | 1359163400 |
+| China    | 2009 |           111890627 | 1250304300 |
+| China    | 2010 |           148802627 | 1577944300 |
+| China    | 2011 |           160121815 | 1748174800 |
+
+</div>
 
 # RC share
 
@@ -186,7 +188,24 @@ final_db <- rais %>%
 tictoc::toc()
 ```
 
-    ## 143.49 sec elapsed
+    ## 151.82 sec elapsed
+
+``` r
+final_db %>% head()
+```
+
+<div class="kable-table">
+
+|  ano | sigla_uf | secao | descricao_secao                                            | group | grau_instrucao_apos_2005 | sexo | raca_cor | idade | valor_remuneracao_media | valor_remuneracao_media_sm | mean_wage | job_number |  rc_share | x_share |  exposure |
+|-----:|:---------|:------|:-----------------------------------------------------------|:------|:-------------------------|:-----|:---------|------:|------------------------:|---------------------------:|----------:|-----------:|----------:|--------:|----------:|
+| 2006 | AL       | C     | Indústrias de transformação                                | RC    | 4                        | 2    | 2        |    47 |                399.5825 |                   1.177500 |  5.313897 |          4 | 0.1461642 |       1 | 0.1461642 |
+| 2006 | AL       | C     | Indústrias de transformação                                | RM    | 2                        | 1    | 2        |    34 |                565.4407 |                   1.698872 |  7.519583 |        195 | 0.1461642 |       1 | 0.1461642 |
+| 2006 | AL       | C     | Indústrias de transformação                                | RC    | 7                        | 2    | 6        |    34 |                619.7200 |                   1.830000 |  8.241423 |          1 | 0.1461642 |       1 | 0.1461642 |
+| 2006 | AL       | C     | Indústrias de transformação                                | NRC   | 5                        | 1    | 8        |    36 |                624.2250 |                   1.846667 |  9.345891 |          6 | 0.1461642 |       1 | 0.1461642 |
+| 2006 | AL       | G     | Comércio; reparação de veículos automotores e motocicletas | RC    | 5                        | 1    | 8        |    19 |                471.6527 |                   1.371569 |  6.295499 |         51 | 0.5886394 |       1 | 0.5886394 |
+| 2006 | AL       | I     | Alojamento e alimentação                                   | NRM   | 5                        | 1    | 8        |    26 |                424.0461 |                   1.255714 |  5.756866 |         49 | 0.1671943 |       1 | 0.1671943 |
+
+</div>
 
 ``` r
 dbDisconnect(con, shutdown=TRUE)

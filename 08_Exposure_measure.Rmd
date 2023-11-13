@@ -1,6 +1,8 @@
 ---
 title: "Computers and jobs - RC share, export share and expose to computers"
-output: github_document
+output:
+  rmarkdown::github_document:
+    df_print: kable
 bibliography: ref-mono.bib
 csl: associacao-brasileira-de-normas-tecnicas-ipea.csl
 ---
@@ -124,6 +126,10 @@ final_db <- rais %>%
 
 tictoc::toc()
 ```
+```{r}
+final_db %>% head()
+```
+
 
 ```{r}
 dbDisconnect(con, shutdown=TRUE)
