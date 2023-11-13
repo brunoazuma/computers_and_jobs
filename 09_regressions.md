@@ -144,7 +144,7 @@ data <- data %>%
 tictoc::toc()
 ```
 
-    ## 3.91 sec elapsed
+    ## 4.5 sec elapsed
 
 ``` r
 knitr::kable(data %>% head())
@@ -209,156 +209,104 @@ id
 <tr>
 <td style="text-align:left;">
 
-Atividades administrativas e serviços complementares
-
-</td>
-<td style="text-align:left;">
-
-2021
-
-</td>
-<td style="text-align:left;">
-
-NRM
-
-</td>
-<td style="text-align:right;">
-
-0.1081246
-
-</td>
-<td style="text-align:right;">
-
-1387.846
-
-</td>
-<td style="text-align:right;">
-
-1.254437
-
-</td>
-<td style="text-align:right;">
-
-NA
-
-</td>
-<td style="text-align:right;">
-
-3416762
-
-</td>
-<td style="text-align:right;">
-
-NA
-
-</td>
-<td style="text-align:left;">
-
-Atividades administrativas e serviços complementares-NRM
-
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-
-Educação
-
-</td>
-<td style="text-align:left;">
-
-2021
-
-</td>
-<td style="text-align:left;">
-
-NRM
-
-</td>
-<td style="text-align:right;">
-
-0.1009501
-
-</td>
-<td style="text-align:right;">
-
-1583.108
-
-</td>
-<td style="text-align:right;">
-
-1.431735
-
-</td>
-<td style="text-align:right;">
-
-NA
-
-</td>
-<td style="text-align:right;">
-
-297674
-
-</td>
-<td style="text-align:right;">
-
-NA
-
-</td>
-<td style="text-align:left;">
-
-Educação-NRM
-
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-
 Atividades profissionais, científicas e técnicas
 
 </td>
 <td style="text-align:left;">
 
-2021
+2006
 
 </td>
 <td style="text-align:left;">
 
-RC
+NRM
 
 </td>
 <td style="text-align:right;">
 
-0.1659635
+0.5115781
 
 </td>
 <td style="text-align:right;">
 
-2310.278
+683.7699
 
 </td>
 <td style="text-align:right;">
 
-2.092872
+2.033380
 
 </td>
 <td style="text-align:right;">
 
-NA
+9.787783
 
 </td>
 <td style="text-align:right;">
 
-914336
+64766
 
 </td>
 <td style="text-align:right;">
 
-NA
+2.378414
 
 </td>
 <td style="text-align:left;">
 
-Atividades profissionais, científicas e técnicas-RC
+Atividades profissionais, científicas e técnicas-NRM
+
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+
+Transporte, armazenagem e correio
+
+</td>
+<td style="text-align:left;">
+
+2006
+
+</td>
+<td style="text-align:left;">
+
+RM
+
+</td>
+<td style="text-align:right;">
+
+0.2258729
+
+</td>
+<td style="text-align:right;">
+
+869.2727
+
+</td>
+<td style="text-align:right;">
+
+2.585307
+
+</td>
+<td style="text-align:right;">
+
+12.052210
+
+</td>
+<td style="text-align:right;">
+
+1149009
+
+</td>
+<td style="text-align:right;">
+
+2.568957
+
+</td>
+<td style="text-align:left;">
+
+Transporte, armazenagem e correio-RM
 
 </td>
 </tr>
@@ -370,151 +318,203 @@ Comércio; reparação de veículos automotores e motocicletas
 </td>
 <td style="text-align:left;">
 
-2021
+2006
 
 </td>
 <td style="text-align:left;">
 
-NRM
+NRC
 
 </td>
 <td style="text-align:right;">
 
-0.1909634
+0.5886394
 
 </td>
 <td style="text-align:right;">
 
-1377.084
+1262.0876
 
 </td>
 <td style="text-align:right;">
 
-1.244584
+3.761147
 
 </td>
 <td style="text-align:right;">
 
-NA
+17.489360
 
 </td>
 <td style="text-align:right;">
 
-1243422
+869410
 
 </td>
 <td style="text-align:right;">
 
-NA
+2.917195
 
 </td>
 <td style="text-align:left;">
 
-Comércio; reparação de veículos automotores e motocicletas-NRM
+Comércio; reparação de veículos automotores e motocicletas-NRC
 
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
 
-Informação e comunicação
+Saúde humana e serviços sociais
 
 </td>
 <td style="text-align:left;">
 
-2021
+2006
 
 </td>
 <td style="text-align:left;">
 
-NRM
+NRC
 
 </td>
 <td style="text-align:right;">
 
-0.1351196
+0.3332401
 
 </td>
 <td style="text-align:right;">
 
-1987.541
+1267.3959
 
 </td>
 <td style="text-align:right;">
 
-1.799336
+3.769753
 
 </td>
 <td style="text-align:right;">
 
-NA
+22.447841
 
 </td>
 <td style="text-align:right;">
 
-102422
+685974
 
 </td>
 <td style="text-align:right;">
 
-NA
+3.154778
 
 </td>
 <td style="text-align:left;">
 
-Informação e comunicação-NRM
+Saúde humana e serviços sociais-NRC
 
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
 
-Atividades profissionais, científicas e técnicas
+Transporte, armazenagem e correio
 
 </td>
 <td style="text-align:left;">
 
-2021
+2006
 
 </td>
 <td style="text-align:left;">
 
-RM
+RC
 
 </td>
 <td style="text-align:right;">
 
-0.1659635
+0.2258729
 
 </td>
 <td style="text-align:right;">
 
-1952.168
+1145.2084
 
 </td>
 <td style="text-align:right;">
 
-1.767445
+3.411737
 
 </td>
 <td style="text-align:right;">
 
-NA
+15.770226
 
 </td>
 <td style="text-align:right;">
 
-300809
+501628
 
 </td>
 <td style="text-align:right;">
 
-NA
+2.819605
 
 </td>
 <td style="text-align:left;">
 
-Atividades profissionais, científicas e técnicas-RM
+Transporte, armazenagem e correio-RC
+
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+
+Agricultura, pecuária, produção florestal, pesca e aqüicultura
+
+</td>
+<td style="text-align:left;">
+
+2006
+
+</td>
+<td style="text-align:left;">
+
+NRC
+
+</td>
+<td style="text-align:right;">
+
+0.0354269
+
+</td>
+<td style="text-align:right;">
+
+1530.9414
+
+</td>
+<td style="text-align:right;">
+
+4.565710
+
+</td>
+<td style="text-align:right;">
+
+22.199597
+
+</td>
+<td style="text-align:right;">
+
+66098
+
+</td>
+<td style="text-align:right;">
+
+3.144135
+
+</td>
+<td style="text-align:left;">
+
+Agricultura, pecuária, produção florestal, pesca e aqüicultura-NRC
 
 </td>
 </tr>
@@ -767,11 +767,11 @@ default_table(
 
 |                       |                 $1$ |
 |-----------------------|--------------------:|
-| Exposure to computers |       0.024 (0.079) |
-|                       | (p $\approx$ 0.764) |
-| Num.Obs.              |                 315 |
-| R2                    |               0.000 |
-| R2 Adj.               |              -0.125 |
+| Exposure to computers |       0.040 (0.123) |
+|                       | (p $\approx$ 0.747) |
+| Num.Obs.              |                 336 |
+| R2                    |               0.001 |
+| R2 Adj.               |              -0.119 |
 | Std.Errors            |                 HC1 |
 
 The results show that the `Exposure to computers` measure alone does not
@@ -855,156 +855,104 @@ id
 <tr>
 <td style="text-align:left;">
 
-Atividades administrativas e serviços complementares
-
-</td>
-<td style="text-align:left;">
-
-2021
-
-</td>
-<td style="text-align:left;">
-
-NRM
-
-</td>
-<td style="text-align:right;">
-
-0.1081246
-
-</td>
-<td style="text-align:right;">
-
-1387.846
-
-</td>
-<td style="text-align:right;">
-
-1.254437
-
-</td>
-<td style="text-align:right;">
-
-NA
-
-</td>
-<td style="text-align:right;">
-
-3416762
-
-</td>
-<td style="text-align:right;">
-
-NA
-
-</td>
-<td style="text-align:left;">
-
-Atividades administrativas e serviços complementares-NRM
-
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-
-Educação
-
-</td>
-<td style="text-align:left;">
-
-2021
-
-</td>
-<td style="text-align:left;">
-
-NRM
-
-</td>
-<td style="text-align:right;">
-
-0.1009501
-
-</td>
-<td style="text-align:right;">
-
-1583.108
-
-</td>
-<td style="text-align:right;">
-
-1.431735
-
-</td>
-<td style="text-align:right;">
-
-NA
-
-</td>
-<td style="text-align:right;">
-
-297674
-
-</td>
-<td style="text-align:right;">
-
-NA
-
-</td>
-<td style="text-align:left;">
-
-Educação-NRM
-
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-
 Atividades profissionais, científicas e técnicas
 
 </td>
 <td style="text-align:left;">
 
-2021
+2006
 
 </td>
 <td style="text-align:left;">
 
-RC
+NRM
 
 </td>
 <td style="text-align:right;">
 
-0.1659635
+0.5115781
 
 </td>
 <td style="text-align:right;">
 
-2310.278
+683.7699
 
 </td>
 <td style="text-align:right;">
 
-2.092872
+2.033380
 
 </td>
 <td style="text-align:right;">
 
-NA
+9.787783
 
 </td>
 <td style="text-align:right;">
 
-914336
+64766
 
 </td>
 <td style="text-align:right;">
 
-NA
+2.378414
 
 </td>
 <td style="text-align:left;">
 
-Atividades profissionais, científicas e técnicas-RC
+Atividades profissionais, científicas e técnicas-NRM
+
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+
+Transporte, armazenagem e correio
+
+</td>
+<td style="text-align:left;">
+
+2006
+
+</td>
+<td style="text-align:left;">
+
+RM
+
+</td>
+<td style="text-align:right;">
+
+0.2258729
+
+</td>
+<td style="text-align:right;">
+
+869.2727
+
+</td>
+<td style="text-align:right;">
+
+2.585307
+
+</td>
+<td style="text-align:right;">
+
+12.052210
+
+</td>
+<td style="text-align:right;">
+
+1149009
+
+</td>
+<td style="text-align:right;">
+
+2.568957
+
+</td>
+<td style="text-align:left;">
+
+Transporte, armazenagem e correio-RM
 
 </td>
 </tr>
@@ -1016,151 +964,203 @@ Comércio; reparação de veículos automotores e motocicletas
 </td>
 <td style="text-align:left;">
 
-2021
+2006
 
 </td>
 <td style="text-align:left;">
 
-NRM
+NRC
 
 </td>
 <td style="text-align:right;">
 
-0.1909634
+0.5886394
 
 </td>
 <td style="text-align:right;">
 
-1377.084
+1262.0876
 
 </td>
 <td style="text-align:right;">
 
-1.244584
+3.761147
 
 </td>
 <td style="text-align:right;">
 
-NA
+17.489360
 
 </td>
 <td style="text-align:right;">
 
-1243422
+869410
 
 </td>
 <td style="text-align:right;">
 
-NA
+2.917195
 
 </td>
 <td style="text-align:left;">
 
-Comércio; reparação de veículos automotores e motocicletas-NRM
+Comércio; reparação de veículos automotores e motocicletas-NRC
 
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
 
-Informação e comunicação
+Saúde humana e serviços sociais
 
 </td>
 <td style="text-align:left;">
 
-2021
+2006
 
 </td>
 <td style="text-align:left;">
 
-NRM
+NRC
 
 </td>
 <td style="text-align:right;">
 
-0.1351196
+0.3332401
 
 </td>
 <td style="text-align:right;">
 
-1987.541
+1267.3959
 
 </td>
 <td style="text-align:right;">
 
-1.799336
+3.769753
 
 </td>
 <td style="text-align:right;">
 
-NA
+22.447841
 
 </td>
 <td style="text-align:right;">
 
-102422
+685974
 
 </td>
 <td style="text-align:right;">
 
-NA
+3.154778
 
 </td>
 <td style="text-align:left;">
 
-Informação e comunicação-NRM
+Saúde humana e serviços sociais-NRC
 
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
 
-Atividades profissionais, científicas e técnicas
+Transporte, armazenagem e correio
 
 </td>
 <td style="text-align:left;">
 
-2021
+2006
 
 </td>
 <td style="text-align:left;">
 
-RM
+RC
 
 </td>
 <td style="text-align:right;">
 
-0.1659635
+0.2258729
 
 </td>
 <td style="text-align:right;">
 
-1952.168
+1145.2084
 
 </td>
 <td style="text-align:right;">
 
-1.767445
+3.411737
 
 </td>
 <td style="text-align:right;">
 
-NA
+15.770226
 
 </td>
 <td style="text-align:right;">
 
-300809
+501628
 
 </td>
 <td style="text-align:right;">
 
-NA
+2.819605
 
 </td>
 <td style="text-align:left;">
 
-Atividades profissionais, científicas e técnicas-RM
+Transporte, armazenagem e correio-RC
+
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+
+Agricultura, pecuária, produção florestal, pesca e aqüicultura
+
+</td>
+<td style="text-align:left;">
+
+2006
+
+</td>
+<td style="text-align:left;">
+
+NRC
+
+</td>
+<td style="text-align:right;">
+
+0.0354269
+
+</td>
+<td style="text-align:right;">
+
+1530.9414
+
+</td>
+<td style="text-align:right;">
+
+4.565710
+
+</td>
+<td style="text-align:right;">
+
+22.199597
+
+</td>
+<td style="text-align:right;">
+
+66098
+
+</td>
+<td style="text-align:right;">
+
+3.144135
+
+</td>
+<td style="text-align:left;">
+
+Agricultura, pecuária, produção florestal, pesca e aqüicultura-NRC
 
 </td>
 </tr>
@@ -1188,11 +1188,11 @@ default_table(
 
 |                       |                 $1$ |
 |-----------------------|--------------------:|
-| Exposure to computers |       0.022 (0.049) |
-|                       | (p $\approx$ 0.649) |
-| Num.Obs.              |                1260 |
+| Exposure to computers |       0.032 (0.076) |
+|                       | (p $\approx$ 0.676) |
+| Num.Obs.              |                1344 |
 | R2                    |               0.000 |
-| R2 Adj.               |              -0.084 |
+| R2 Adj.               |              -0.079 |
 | Std.Errors            |                 HC1 |
 
 Again, the results show that the `Exposure to computers` measure alone
@@ -1246,19 +1246,19 @@ default_table(
 
 |                                    |                 $1$ |                 $2$ |
 |------------------------------------|--------------------:|--------------------:|
-| Exposure to computers $\times$ NRM |      -0.080 (0.065) |                     |
-|                                    | (p $\approx$ 0.216) |                     |
-| Exposure to computers $\times$ NRC |       0.059 (0.065) |     0.139\* (0.069) |
-|                                    | (p $\approx$ 0.359) | (p $\approx$ 0.043) |
-| Exposure to computers $\times$ RC  |      0.124+ (0.065) |   0.204\*\* (0.069) |
-|                                    | (p $\approx$ 0.054) | (p $\approx$ 0.003) |
-| Exposure to computers $\times$ RM  |      -0.104 (0.065) |      -0.025 (0.069) |
-|                                    | (p $\approx$ 0.106) | (p $\approx$ 0.721) |
-| Exposure to computers              |                     |      -0.080 (0.065) |
-|                                    |                     | (p $\approx$ 0.216) |
-| Num.Obs.                           |                1176 |                1176 |
-| R2                                 |               0.014 |               0.014 |
-| R2 Adj.                            |              -0.078 |              -0.078 |
+| Exposure to computers $\times$ NRM |      -0.087 (0.088) |                     |
+|                                    | (p $\approx$ 0.328) |                     |
+| Exposure to computers $\times$ NRC |       0.089 (0.094) |      0.176+ (0.101) |
+|                                    | (p $\approx$ 0.340) | (p $\approx$ 0.082) |
+| Exposure to computers $\times$ RC  |       0.143 (0.093) |     0.230\* (0.102) |
+|                                    | (p $\approx$ 0.123) | (p $\approx$ 0.025) |
+| Exposure to computers $\times$ RM  |      -0.109 (0.100) |      -0.022 (0.097) |
+|                                    | (p $\approx$ 0.276) | (p $\approx$ 0.820) |
+| Exposure to computers              |                     |      -0.087 (0.088) |
+|                                    |                     | (p $\approx$ 0.328) |
+| Num.Obs.                           |                1260 |                1260 |
+| R2                                 |               0.020 |               0.020 |
+| R2 Adj.                            |              -0.066 |              -0.066 |
 | Std.Errors                         |                 HC1 |                 HC1 |
 
 Now, some interesting results. On **(1)**, with just the interactions as
@@ -1307,19 +1307,19 @@ default_table(
 
 |                                    |                 $1$ |                 $2$ |                 $3$ |
 |------------------------------------|--------------------:|--------------------:|--------------------:|
-| Exposure to computers $\times$ NRM |      -0.080 (0.065) |                     |    -0.139\* (0.069) |
-|                                    | (p $\approx$ 0.216) |                     | (p $\approx$ 0.043) |
-| Exposure to computers $\times$ NRC |       0.059 (0.065) |     0.139\* (0.069) |                     |
-|                                    | (p $\approx$ 0.359) | (p $\approx$ 0.043) |                     |
-| Exposure to computers $\times$ RC  |      0.124+ (0.065) |   0.204\*\* (0.069) |       0.065 (0.069) |
-|                                    | (p $\approx$ 0.054) | (p $\approx$ 0.003) | (p $\approx$ 0.342) |
-| Exposure to computers $\times$ RM  |      -0.104 (0.065) |      -0.025 (0.069) |    -0.164\* (0.069) |
-|                                    | (p $\approx$ 0.106) | (p $\approx$ 0.721) | (p $\approx$ 0.017) |
-| Exposure to computers              |                     |      -0.080 (0.065) |       0.059 (0.065) |
-|                                    |                     | (p $\approx$ 0.216) | (p $\approx$ 0.359) |
-| Num.Obs.                           |                1176 |                1176 |                1176 |
-| R2                                 |               0.014 |               0.014 |               0.014 |
-| R2 Adj.                            |              -0.078 |              -0.078 |              -0.078 |
+| Exposure to computers $\times$ NRM |      -0.087 (0.088) |                     |     -0.176+ (0.101) |
+|                                    | (p $\approx$ 0.328) |                     | (p $\approx$ 0.082) |
+| Exposure to computers $\times$ NRC |       0.089 (0.094) |      0.176+ (0.101) |                     |
+|                                    | (p $\approx$ 0.340) | (p $\approx$ 0.082) |                     |
+| Exposure to computers $\times$ RC  |       0.143 (0.093) |     0.230\* (0.102) |       0.054 (0.101) |
+|                                    | (p $\approx$ 0.123) | (p $\approx$ 0.025) | (p $\approx$ 0.592) |
+| Exposure to computers $\times$ RM  |      -0.109 (0.100) |      -0.022 (0.097) |    -0.198\* (0.095) |
+|                                    | (p $\approx$ 0.276) | (p $\approx$ 0.820) | (p $\approx$ 0.038) |
+| Exposure to computers              |                     |      -0.087 (0.088) |       0.089 (0.094) |
+|                                    |                     | (p $\approx$ 0.328) | (p $\approx$ 0.340) |
+| Num.Obs.                           |                1260 |                1260 |                1260 |
+| R2                                 |               0.020 |               0.020 |               0.020 |
+| R2 Adj.                            |              -0.066 |              -0.066 |              -0.066 |
 | Std.Errors                         |                 HC1 |                 HC1 |                 HC1 |
 
 As expected, in **(3)** the significance of the RC interaction doesn’t
@@ -1391,17 +1391,17 @@ default_table(
 
 |             |                   $1$ |                   $2$ |
 |-------------|----------------------:|----------------------:|
-| NRC         |   1.031\*\*\* (0.030) |   1.031\*\*\* (0.013) |
+| NRC         |   1.027\*\*\* (0.112) |   1.027\*\*\* (0.048) |
 |             | (p $\approx$ \<0.001) | (p $\approx$ \<0.001) |
-| RC          |   0.392\*\*\* (0.030) |   0.392\*\*\* (0.013) |
+| RC          |   0.387\*\*\* (0.101) |   0.387\*\*\* (0.042) |
 |             | (p $\approx$ \<0.001) | (p $\approx$ \<0.001) |
-| RM          |   0.147\*\*\* (0.030) |   0.147\*\*\* (0.013) |
-|             | (p $\approx$ \<0.001) | (p $\approx$ \<0.001) |
+| RM          |         0.147 (0.093) |   0.147\*\*\* (0.042) |
+|             |   (p $\approx$ 0.113) | (p $\approx$ \<0.001) |
 | Industry FE |                       |                     X |
 | Year FE     |                     X |                     X |
-| Num.Obs.    |                  1260 |                  1260 |
-| R2          |                 0.525 |                 0.916 |
-| R2 Adj.     |                 0.519 |                 0.913 |
+| Num.Obs.    |                  1344 |                  1344 |
+| R2          |                 0.525 |                 0.914 |
+| R2 Adj.     |                 0.519 |                 0.912 |
 | Std.Errors  |                   HC1 |                   HC1 |
 
 Now, more interesting results. Although the main focus of the thesis was
@@ -1473,55 +1473,55 @@ default_table(
 
 |                                                                        |                   $1$ |                   $2$ |
 |------------------------------------------------------------------------|----------------------:|----------------------:|
-| NRC                                                                    |   1.031\*\*\* (0.013) |                       |
+| NRC                                                                    |   1.027\*\*\* (0.048) |                       |
 |                                                                        | (p $\approx$ \<0.001) |                       |
-| RC                                                                     |   0.392\*\*\* (0.013) |                       |
+| RC                                                                     |   0.387\*\*\* (0.042) |                       |
 |                                                                        | (p $\approx$ \<0.001) |                       |
-| RM                                                                     |   0.147\*\*\* (0.013) |                       |
+| RM                                                                     |   0.147\*\*\* (0.042) |                       |
 |                                                                        | (p $\approx$ \<0.001) |                       |
-| secaoAgricultura, pecuária, produção florestal, pesca e aqüicultura    |  -0.366\*\*\* (0.029) |  -0.366\*\*\* (0.079) |
-|                                                                        | (p $\approx$ \<0.001) | (p $\approx$ \<0.001) |
-| secaoAlojamento e alimentação                                          |  -0.580\*\*\* (0.029) |  -0.580\*\*\* (0.079) |
-|                                                                        | (p $\approx$ \<0.001) | (p $\approx$ \<0.001) |
-| secaoArtes, cultura, esporte e recreação                               |  -0.257\*\*\* (0.029) |    -0.257\*\* (0.079) |
-|                                                                        | (p $\approx$ \<0.001) |   (p $\approx$ 0.001) |
-| secaoAtividades administrativas e serviços complementares              |  -0.383\*\*\* (0.029) |  -0.383\*\*\* (0.079) |
-|                                                                        | (p $\approx$ \<0.001) | (p $\approx$ \<0.001) |
-| secaoAtividades financeiras, de seguros e serviços relacionados        |   0.253\*\*\* (0.029) |     0.253\*\* (0.079) |
-|                                                                        | (p $\approx$ \<0.001) |   (p $\approx$ 0.001) |
-| secaoAtividades imobiliárias                                           |  -0.337\*\*\* (0.029) |  -0.337\*\*\* (0.079) |
-|                                                                        | (p $\approx$ \<0.001) | (p $\approx$ \<0.001) |
-| secaoAtividades profissionais, científicas e técnicas                  |    -0.080\*\* (0.029) |        -0.080 (0.079) |
-|                                                                        |   (p $\approx$ 0.007) |   (p $\approx$ 0.312) |
-| secaoComércio; reparação de veículos automotores e motocicletas        |  -0.472\*\*\* (0.029) |  -0.472\*\*\* (0.079) |
-|                                                                        | (p $\approx$ \<0.001) | (p $\approx$ \<0.001) |
-| secaoConstrução                                                        |  -0.215\*\*\* (0.029) |    -0.215\*\* (0.079) |
-|                                                                        | (p $\approx$ \<0.001) |   (p $\approx$ 0.007) |
-| secaoEducação                                                          |   0.180\*\*\* (0.029) |       0.180\* (0.079) |
-|                                                                        | (p $\approx$ \<0.001) |   (p $\approx$ 0.022) |
-| secaoEletricidade e gás                                                |   0.711\*\*\* (0.029) |   0.711\*\*\* (0.079) |
-|                                                                        | (p $\approx$ \<0.001) | (p $\approx$ \<0.001) |
-| secao��gua, esgoto, atividades de gestão de resíduos e descontaminação |       0.075\* (0.029) |         0.075 (0.079) |
-|                                                                        |   (p $\approx$ 0.010) |   (p $\approx$ 0.339) |
-| secaoIndústrias de transformação                                       |  -0.174\*\*\* (0.029) |      -0.174\* (0.079) |
-|                                                                        | (p $\approx$ \<0.001) |   (p $\approx$ 0.028) |
-| secaoIndústrias extrativas                                             |   0.492\*\*\* (0.029) |   0.492\*\*\* (0.079) |
-|                                                                        | (p $\approx$ \<0.001) | (p $\approx$ \<0.001) |
-| secaoInformação e comunicação                                          |         0.022 (0.029) |         0.022 (0.079) |
-|                                                                        |   (p $\approx$ 0.449) |   (p $\approx$ 0.778) |
-| secaoOrganismos internacionais e outras instituições extraterritoriais |   0.354\*\*\* (0.029) |   0.354\*\*\* (0.079) |
-|                                                                        | (p $\approx$ \<0.001) | (p $\approx$ \<0.001) |
-| secaoOutras atividades de serviços                                     |  -0.222\*\*\* (0.029) |    -0.222\*\* (0.079) |
+| secaoAgricultura, pecuária, produção florestal, pesca e aqüicultura    |  -0.364\*\*\* (0.064) |        -0.364 (0.254) |
+|                                                                        | (p $\approx$ \<0.001) |   (p $\approx$ 0.152) |
+| secaoAlojamento e alimentação                                          |  -0.577\*\*\* (0.102) |    -0.577\*\* (0.204) |
 |                                                                        | (p $\approx$ \<0.001) |   (p $\approx$ 0.005) |
-| secaoSaúde humana e serviços sociais                                   |  -0.217\*\*\* (0.029) |    -0.217\*\* (0.079) |
-|                                                                        | (p $\approx$ \<0.001) |   (p $\approx$ 0.006) |
-| secaoServiços domésticos                                               |  -0.656\*\*\* (0.029) |  -0.656\*\*\* (0.079) |
+| secaoArtes, cultura, esporte e recreação                               |    -0.254\*\* (0.087) |        -0.254 (0.224) |
+|                                                                        |   (p $\approx$ 0.004) |   (p $\approx$ 0.257) |
+| secaoAtividades administrativas e serviços complementares              |  -0.381\*\*\* (0.065) |        -0.381 (0.240) |
+|                                                                        | (p $\approx$ \<0.001) |   (p $\approx$ 0.113) |
+| secaoAtividades financeiras, de seguros e serviços relacionados        |         0.247 (0.151) |         0.247 (0.351) |
+|                                                                        |   (p $\approx$ 0.101) |   (p $\approx$ 0.481) |
+| secaoAtividades imobiliárias                                           |  -0.337\*\*\* (0.065) |        -0.337 (0.256) |
+|                                                                        | (p $\approx$ \<0.001) |   (p $\approx$ 0.188) |
+| secaoAtividades profissionais, científicas e técnicas                  |        -0.078 (0.076) |        -0.078 (0.295) |
+|                                                                        |   (p $\approx$ 0.306) |   (p $\approx$ 0.791) |
+| secaoComércio; reparação de veículos automotores e motocicletas        |  -0.470\*\*\* (0.074) |      -0.470\* (0.227) |
+|                                                                        | (p $\approx$ \<0.001) |   (p $\approx$ 0.039) |
+| secaoConstrução                                                        |  -0.216\*\*\* (0.057) |        -0.216 (0.264) |
+|                                                                        | (p $\approx$ \<0.001) |   (p $\approx$ 0.413) |
+| secaoEducação                                                          |         0.176 (0.131) |         0.176 (0.359) |
+|                                                                        |   (p $\approx$ 0.181) |   (p $\approx$ 0.624) |
+| secaoEletricidade e gás                                                |   0.702\*\*\* (0.103) |     0.702\*\* (0.265) |
+|                                                                        | (p $\approx$ \<0.001) |   (p $\approx$ 0.008) |
+| secao��gua, esgoto, atividades de gestão de resíduos e descontaminação |         0.077 (0.102) |         0.077 (0.315) |
+|                                                                        |   (p $\approx$ 0.447) |   (p $\approx$ 0.806) |
+| secaoIndústrias de transformação                                       |    -0.174\*\* (0.056) |        -0.174 (0.269) |
+|                                                                        |   (p $\approx$ 0.002) |   (p $\approx$ 0.517) |
+| secaoIndústrias extrativas                                             |   0.484\*\*\* (0.082) |         0.484 (0.308) |
+|                                                                        | (p $\approx$ \<0.001) |   (p $\approx$ 0.116) |
+| secaoInformação e comunicação                                          |         0.015 (0.073) |         0.015 (0.246) |
+|                                                                        |   (p $\approx$ 0.835) |   (p $\approx$ 0.951) |
+| secaoOrganismos internacionais e outras instituições extraterritoriais |   0.369\*\*\* (0.072) |         0.369 (0.270) |
+|                                                                        | (p $\approx$ \<0.001) |   (p $\approx$ 0.172) |
+| secaoOutras atividades de serviços                                     |  -0.217\*\*\* (0.065) |        -0.217 (0.279) |
+|                                                                        | (p $\approx$ \<0.001) |   (p $\approx$ 0.437) |
+| secaoSaúde humana e serviços sociais                                   |  -0.213\*\*\* (0.059) |        -0.213 (0.248) |
+|                                                                        | (p $\approx$ \<0.001) |   (p $\approx$ 0.391) |
+| secaoServiços domésticos                                               |  -0.649\*\*\* (0.121) |  -0.649\*\*\* (0.194) |
 |                                                                        | (p $\approx$ \<0.001) | (p $\approx$ \<0.001) |
-| secaoTransporte, armazenagem e correio                                 |    -0.076\*\* (0.029) |        -0.076 (0.079) |
-|                                                                        |   (p $\approx$ 0.009) |   (p $\approx$ 0.332) |
-| Num.Obs.                                                               |                  1260 |                  1260 |
-| R2                                                                     |                 0.916 |                 0.390 |
-| R2 Adj.                                                                |                 0.913 |                 0.373 |
+| secaoTransporte, armazenagem e correio                                 |        -0.079 (0.065) |        -0.079 (0.257) |
+|                                                                        |   (p $\approx$ 0.230) |   (p $\approx$ 0.760) |
+| Num.Obs.                                                               |                  1344 |                  1344 |
+| R2                                                                     |                 0.914 |                 0.389 |
+| R2 Adj.                                                                |                 0.912 |                 0.372 |
 | Std.Errors                                                             |                   HC1 |                   HC1 |
 
 The main interest in this results is the possibility of bias in the
