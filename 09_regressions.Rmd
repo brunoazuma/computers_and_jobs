@@ -102,12 +102,12 @@ default_table <- function(models, coefs, robust='stata', ...) {
   return(tb)
 }
 
-gtsummary_table <- function(model, coefs, robust=NULL, ...) {
+gtsummary_table <- function(model, include, label, robust=NULL, ...) {
   
   tb <- tbl_regression(
     model,
-    include = names(coefs),
-    label = coefs,
+    include = include,
+    label = label,
     intercept=TRUE,
     estimate_fun = function(x) style_number(x, digits = 4),
     ...
@@ -116,8 +116,8 @@ gtsummary_table <- function(model, coefs, robust=NULL, ...) {
     if (robust!=FALSE) {
       tb <- tbl_regression(
         model,
-        include = names(coefs),
-        label = coefs,
+        include = include,
+        label = label,
         intercept=TRUE,
         estimate_fun = function(x) style_number(x, digits = 4),
         tidy_fun = partial(tidy_robust, vcov = robust, quiet = TRUE),
@@ -205,13 +205,15 @@ wtwfe_reg <- plm(log_wage ~ exposure,
 ```{r}
 tb1 <- gtsummary_table(
   twfe_reg,
-  coefs = list('exposure'='Exposure to computers'),
+  include = c('exposure'),
+  label = list('exposure'='Exposure to computers'),
   robust = 'HC1'
 )
 
 tb2 <- gtsummary_table(
   wtwfe_reg,
-  coefs = list('exposure'='Exposure to computers')
+  include=c('exposure'),
+  label = list('exposure'='Exposure to computers')
 )
 
 tbl_merge(
@@ -229,7 +231,20 @@ As a second step, I'll modify the model to incorporate the task compositions of 
 So, the data will now be aggregated by industry sector, year and task group. With that new aggregation, in order to be able to use the @baltagi2021 TWFE, I have to create a new composite factor of industry-group to serve as my "individual" observation identification.
 
 ```{r}
-data2 <- data
+data2 <- data %>%
+  group_by(ano) %>%
+  mutate(
+    job_share = case_when(
+      ano == 2006 ~ job_number/ sum(job_number),
+      .default = 0
+    )
+  ) %>%
+  ungroup() %>%
+  group_by(id) %>%
+  mutate(
+    job_share = order_by(ano, cumsum(job_share)),
+  ) %>%
+  ungroup()
 
 data2 %>% head()
 ```
@@ -245,10 +260,31 @@ twfe_reg_2 <- plm(log_wage ~ exposure,
 ```
 
 ```{r}
-default_table(
+wtwfe_reg_2 <- plm(log_wage ~ exposure,
+             data = data2,
+             model = 'within',
+             effect = 'twoways',
+             index = c('id','ano'),
+             weights = job_share)
+```
+
+```{r}
+tb3 <- gtsummary_table(
   twfe_reg_2,
-  c('exposure'='Exposure to computers'),
-  robust='stata'
+  include = c('exposure'),
+  label = list('exposure'='Exposure to computers'),
+  robust = 'HC1'
+)
+
+tb4 <- gtsummary_table(
+  wtwfe_reg_2,
+  include = c('exposure'),
+  label = list('exposure'='Exposure to computers'),
+)
+
+tbl_merge(
+  list(tb3, tb4),
+  c('**TWFE**', '**Weighted TWFE**')
 )
 ```
 
@@ -267,6 +303,15 @@ twfe_reg_3 <- plm(log_wage ~ exposure:group,
 ```
 
 ```{r}
+wtwfe_reg_3 <- plm(log_wage ~ exposure:group,
+             data = data2 %>% filter(ano != '2006'),
+             model = 'within',
+             effect = 'twoways',
+             index = c('id','ano'),
+             weights = job_share)
+```
+
+```{r}
 twfe_reg_4 <- plm(log_wage ~ exposure + exposure:group,
              data = data2 %>% filter(ano != '2006'),
              model = 'within',
@@ -275,18 +320,52 @@ twfe_reg_4 <- plm(log_wage ~ exposure + exposure:group,
 ```
 
 ```{r}
-third_coefs <- c(
-  'exposure'='Exposure to computers',
-  'exposure:groupNRM'='Exposure to computers $\\times$ NRM',
-  'exposure:groupNRC'='Exposure to computers $\\times$ NRC',
-  'exposure:groupRC'='Exposure to computers $\\times$ RC',
-  'exposure:groupRM'='Exposure to computers $\\times$ RM'
+wtwfe_reg_4 <- plm(log_wage ~ exposure + exposure:group,
+             data = data2 %>% filter(ano != '2006'),
+             model = 'within',
+             effect = 'twoways',
+             index = c('id','ano'),
+             weights = job_share)
+```
+
+```{r}
+tb5 <- gtsummary_table(
+  twfe_reg_3,
+  include = c('exposure:group'),
+  label = list(
+    'exposure:group'='Exposure to computers x Skill type'
+    ),
+  robust = 'HC1'
 )
 
-default_table(
-  list(twfe_reg_3, twfe_reg_4),
-  third_coefs,
-  robust='stata'
+tb6 <- gtsummary_table(
+  wtwfe_reg_3,
+  include = c('exposure:group'),
+  label = list(
+    'exposure:group'='Exposure to computers x Skill type'
+    )
+)
+
+tb7 <- gtsummary_table(
+  twfe_reg_4,
+  include = c('exposure', 'exposure:group'),
+  label = list(
+    'exposure:group'='Exposure to computers x Skill type'
+    ),
+  robust = 'HC1'
+)
+
+tb8 <- gtsummary_table(
+  wtwfe_reg_4,
+  include = c('exposure', 'exposure:group'),
+  label = list(
+    'exposure:group'='Exposure to computers x Skill type'
+    )
+)
+
+tbl_merge(
+  list(tb7, tb8, tb5, tb6),
+  c('**TWFE**', '**Weighted TWFE**', '**TWFE**', '**Weighted TWFE**')
 )
 ```
 
@@ -306,13 +385,34 @@ twfe_reg_5 <- plm(log_wage ~ exposure + exposure:group,
              model = 'within',
              effect = 'twoways',
              index = c('id','ano'))
+
+wtwfe_reg_5 <- plm(log_wage ~ exposure + exposure:group,
+             data = data3,
+             model = 'within',
+             effect = 'twoways',
+             index = c('id','ano'),
+             weights = job_share)
 ```
 
 ```{r}
-default_table(
-  list(twfe_reg_3, twfe_reg_4, twfe_reg_5),
-  third_coefs,
-  robust='stata'
+tb9 <- gtsummary_table(
+  twfe_reg_5,
+  include=c('exposure', 'exposure:group'),
+  label = list('exposure'='exposure',
+               'exposure:group'='Exposure to computers x Skill type'),
+  robust = 'HC1'
+)
+
+tb10 <- gtsummary_table(
+  wtwfe_reg_5,
+  include=c('exposure', 'exposure:group'),
+  label = list('exposure'='exposure',
+               'exposure:group'='Exposure to computers x Skill type')
+)
+
+tbl_merge(
+  list(tb9, tb10),
+  c('**TWFE**', '**Weighted TWFE**')
 )
 ```
 
