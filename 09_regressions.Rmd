@@ -82,7 +82,7 @@ data <- data %>%
   )
 
 tictoc::toc()
-knitr::kable(data %>% head())
+data %>% head()
 ```
 
 ```{r include=FALSE}
@@ -180,7 +180,7 @@ nber30400 <- data%>%
   ) %>%
   ungroup()
 
-knitr::kable(nber30400 %>% head())
+nber30400 %>% head()
 ```
 
 Now, I regress exposure on log_remuneracao_media with plm. This package provides a series of estimators for panel data, including the Two-Way Fixed Effects described in @baltagi2021 [p. 47-49], which is used here.
@@ -231,7 +231,7 @@ So, the data will now be aggregated by industry sector, year and task group. Wit
 ```{r}
 data2 <- data
 
-knitr::kable(data2 %>% head())
+data2 %>% head()
 ```
 
 With the data in the new shape, I regress the log_wages on the exposure measure.
