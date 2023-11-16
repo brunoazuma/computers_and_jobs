@@ -159,10 +159,24 @@ nber30400 <- data%>%
   group_by(secao, ano) %>%
   summarise(
     mean_wage = mean(mean_wage),
-    exposure = mean(exposure)
+    exposure = mean(exposure),
+    job_number = sum(job_number)
   ) %>%
   mutate(
     log_wage = log(mean_wage + 1)
+  ) %>%
+  ungroup() %>%
+  group_by(ano) %>%
+  mutate(
+    job_share = case_when(
+      ano == 2006 ~ job_number/ sum(job_number),
+      .default = 0
+    )
+  ) %>%
+  ungroup() %>%
+  group_by(secao) %>%
+  mutate(
+    job_share = cumsum(job_share)
   ) %>%
   ungroup()
 
@@ -180,10 +194,29 @@ twfe_reg <- plm(log_wage ~ exposure,
 ```
 
 ```{r}
-default_table(
+wtwfe_reg <- plm(log_wage ~ exposure,
+             data = nber30400,
+             model = 'within',
+             effect = 'twoways',
+             index = c('secao','ano'),
+             weights = job_share)
+```
+
+```{r}
+tb1 <- gtsummary_table(
   twfe_reg,
-  c('exposure'='Exposure to computers'),
-  robust='stata'
+  coefs = list('exposure'='Exposure to computers'),
+  robust = 'HC1'
+)
+
+tb2 <- gtsummary_table(
+  wtwfe_reg,
+  coefs = list('exposure'='Exposure to computers')
+)
+
+tbl_merge(
+  list(tb1, tb2),
+  c('**TWFE**', '**Weighted TWFE**')
 )
 ```
 
