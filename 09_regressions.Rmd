@@ -447,23 +447,26 @@ fe_reg2 <- plm(log_wage ~ group + secao,
 ## Results of the skill groups specifications
 
 ```{r}
-library(tibble)
-rows <- tribble(~term,          ~`(1)`,  ~`(2)`,
-                'Industry FE',  '', 'X',
-                'Year FE',  'X', 'X')
-attr(rows, 'position') <- c(7, 8)
-
-default_table(
-  list(fe_reg1, fe_reg2),
-  c(
-    'groupNRC'='NRC',
-    'groupRC'='RC',
-    'groupRM'='RM',
-    'groupNRM'='NRM'
+tb11 <- gtsummary_table(
+  fe_reg1,
+  include=c('group'),
+  label=list(
+    'group'='Skill group'
   ),
-  robust='stata',
-  coef_omit='.*secao*.',
-  add_rows=rows
+  robust='HC1'
+)
+tb12 <- gtsummary_table(
+  fe_reg2,
+  include=c('group'),
+  label=list(
+    'group'='Skill group'
+  ),
+  robust='HC1'
+)
+
+tbl_merge(
+  list(tb11, tb12),
+  c('**Without industry FE**', '**With industry FE**')
 )
 ```
 
@@ -490,15 +493,25 @@ fe_reg3 <- plm(log_wage ~ secao,
 ## Results of the industry sector specifications
 
 ```{r}
-default_table(
-  list(fe_reg2, fe_reg3),
-  c(
-    'groupNRC'='NRC',
-    'groupRC'='RC',
-    'groupRM'='RM',
-    'groupNRM'='NRM'
+tb13 <- gtsummary_table(
+  fe_reg2,
+  include=c('secao'),
+  label=list(
+    'secao'='CNAE industry sector'
   ),
-  robust='stata'
+  robust='HC1'
+)
+tb14 <- gtsummary_table(
+  fe_reg3,
+  include=c('secao'),
+  label=list(
+    'secao'='CNAE industry sector'
+  ),
+  robust='HC1'
+)
+tbl_merge(
+  list(tb13, tb14),
+  c('**With skill group FE**', '**Without skill group FE**')
 )
 ```
 

@@ -63,6 +63,7 @@ if(!require(modelsummary)){install.packages('modelsummary');require(modelsummary
     ## Carregando pacotes exigidos: modelsummary
 
 ``` r
+library("gtsummary")
 if(!require(plm)){install.packages("plm");require(plm)}
 ```
 
@@ -144,11 +145,13 @@ data <- data %>%
 tictoc::toc()
 ```
 
-    ## 4.5 sec elapsed
+    ## 3.62 sec elapsed
 
 ``` r
-knitr::kable(data %>% head())
+data %>% head()
 ```
+
+<div class="kable-table">
 
 <table>
 <thead>
@@ -209,64 +212,12 @@ id
 <tr>
 <td style="text-align:left;">
 
-Atividades profissionais, científicas e técnicas
+Agricultura, pecuária, produção florestal, pesca e aqüicultura
 
 </td>
 <td style="text-align:left;">
 
-2006
-
-</td>
-<td style="text-align:left;">
-
-NRM
-
-</td>
-<td style="text-align:right;">
-
-0.5115781
-
-</td>
-<td style="text-align:right;">
-
-683.7699
-
-</td>
-<td style="text-align:right;">
-
-2.033380
-
-</td>
-<td style="text-align:right;">
-
-9.787783
-
-</td>
-<td style="text-align:right;">
-
-64766
-
-</td>
-<td style="text-align:right;">
-
-2.378414
-
-</td>
-<td style="text-align:left;">
-
-Atividades profissionais, científicas e técnicas-NRM
-
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-
-Transporte, armazenagem e correio
-
-</td>
-<td style="text-align:left;">
-
-2006
+2007
 
 </td>
 <td style="text-align:left;">
@@ -276,153 +227,257 @@ RM
 </td>
 <td style="text-align:right;">
 
-0.2258729
+0.0300704
 
 </td>
 <td style="text-align:right;">
 
-869.2727
+582.9249
 
 </td>
 <td style="text-align:right;">
 
-2.585307
+1.560649
 
 </td>
 <td style="text-align:right;">
 
-12.052210
+7.951023
 
 </td>
 <td style="text-align:right;">
 
-1149009
+2655421
 
 </td>
 <td style="text-align:right;">
 
-2.568957
+2.191768
 
 </td>
 <td style="text-align:left;">
 
-Transporte, armazenagem e correio-RM
+Agricultura, pecuária, produção florestal, pesca e aqüicultura-RM
 
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
 
-Comércio; reparação de veículos automotores e motocicletas
+Serviços domésticos
 
 </td>
 <td style="text-align:left;">
 
-2006
+2007
 
 </td>
 <td style="text-align:left;">
 
-NRC
+RM
 
 </td>
 <td style="text-align:right;">
 
-0.5886394
+0.0369244
 
 </td>
 <td style="text-align:right;">
 
-1262.0876
+591.9065
 
 </td>
 <td style="text-align:right;">
 
-3.761147
+1.585252
 
 </td>
 <td style="text-align:right;">
 
-17.489360
+7.785373
 
 </td>
 <td style="text-align:right;">
 
-869410
+3434
 
 </td>
 <td style="text-align:right;">
 
-2.917195
+2.173088
 
 </td>
 <td style="text-align:left;">
 
-Comércio; reparação de veículos automotores e motocicletas-NRC
+Serviços domésticos-RM
 
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
 
-Saúde humana e serviços sociais
+Educação
 
 </td>
 <td style="text-align:left;">
 
-2006
+2007
 
 </td>
 <td style="text-align:left;">
 
-NRC
+RM
 
 </td>
 <td style="text-align:right;">
 
-0.3332401
+0.2641262
 
 </td>
 <td style="text-align:right;">
 
-1267.3959
+793.4969
 
 </td>
 <td style="text-align:right;">
 
-3.769753
+2.128201
 
 </td>
 <td style="text-align:right;">
 
-22.447841
+11.012829
 
 </td>
 <td style="text-align:right;">
 
-685974
+66431
 
 </td>
 <td style="text-align:right;">
 
-3.154778
+2.485975
 
 </td>
 <td style="text-align:left;">
 
-Saúde humana e serviços sociais-NRC
+Educação-RM
 
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
 
-Transporte, armazenagem e correio
+Outras atividades de serviços
 
 </td>
 <td style="text-align:left;">
 
-2006
+2007
+
+</td>
+<td style="text-align:left;">
+
+RM
+
+</td>
+<td style="text-align:right;">
+
+0.2963505
+
+</td>
+<td style="text-align:right;">
+
+755.2996
+
+</td>
+<td style="text-align:right;">
+
+2.025855
+
+</td>
+<td style="text-align:right;">
+
+10.784176
+
+</td>
+<td style="text-align:right;">
+
+259837
+
+</td>
+<td style="text-align:right;">
+
+2.466758
+
+</td>
+<td style="text-align:left;">
+
+Outras atividades de serviços-RM
+
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+
+Administração pública, defesa e seguridade social
+
+</td>
+<td style="text-align:left;">
+
+2007
+
+</td>
+<td style="text-align:left;">
+
+RM
+
+</td>
+<td style="text-align:right;">
+
+0.3351270
+
+</td>
+<td style="text-align:right;">
+
+799.0380
+
+</td>
+<td style="text-align:right;">
+
+2.143549
+
+</td>
+<td style="text-align:right;">
+
+12.439843
+
+</td>
+<td style="text-align:right;">
+
+679545
+
+</td>
+<td style="text-align:right;">
+
+2.598224
+
+</td>
+<td style="text-align:left;">
+
+Administração pública, defesa e seguridade social-RM
+
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+
+Educação
+
+</td>
+<td style="text-align:left;">
+
+2007
 
 </td>
 <td style="text-align:left;">
@@ -432,94 +487,44 @@ RC
 </td>
 <td style="text-align:right;">
 
-0.2258729
+0.2641262
 
 </td>
 <td style="text-align:right;">
 
-1145.2084
+1078.1387
 
 </td>
 <td style="text-align:right;">
 
-3.411737
+2.897043
 
 </td>
 <td style="text-align:right;">
 
-15.770226
+20.890300
 
 </td>
 <td style="text-align:right;">
 
-501628
+538213
 
 </td>
 <td style="text-align:right;">
 
-2.819605
+3.086044
 
 </td>
 <td style="text-align:left;">
 
-Transporte, armazenagem e correio-RC
-
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-
-Agricultura, pecuária, produção florestal, pesca e aqüicultura
-
-</td>
-<td style="text-align:left;">
-
-2006
-
-</td>
-<td style="text-align:left;">
-
-NRC
-
-</td>
-<td style="text-align:right;">
-
-0.0354269
-
-</td>
-<td style="text-align:right;">
-
-1530.9414
-
-</td>
-<td style="text-align:right;">
-
-4.565710
-
-</td>
-<td style="text-align:right;">
-
-22.199597
-
-</td>
-<td style="text-align:right;">
-
-66098
-
-</td>
-<td style="text-align:right;">
-
-3.144135
-
-</td>
-<td style="text-align:left;">
-
-Agricultura, pecuária, produção florestal, pesca e aqüicultura-NRC
+Educação-RC
 
 </td>
 </tr>
 </tbody>
 </table>
+
+</div>
 
 # 2 First specification - reproduction of Boustan, Choi e Clingingsmith (2022)
 
@@ -534,10 +539,24 @@ nber30400 <- data%>%
   group_by(secao, ano) %>%
   summarise(
     mean_wage = mean(mean_wage),
-    exposure = mean(exposure)
+    exposure = mean(exposure),
+    job_number = sum(job_number)
   ) %>%
   mutate(
     log_wage = log(mean_wage + 1)
+  ) %>%
+  ungroup() %>%
+  group_by(ano) %>%
+  mutate(
+    job_share = case_when(
+      ano == 2006 ~ job_number/ sum(job_number),
+      .default = 0
+    )
+  ) %>%
+  ungroup() %>%
+  group_by(secao) %>%
+  mutate(
+    job_share = cumsum(job_share)
   ) %>%
   ungroup()
 ```
@@ -546,8 +565,10 @@ nber30400 <- data%>%
     ## `.groups` argument.
 
 ``` r
-knitr::kable(nber30400 %>% head())
+nber30400 %>% head()
 ```
+
+<div class="kable-table">
 
 <table>
 <thead>
@@ -574,7 +595,17 @@ exposure
 </th>
 <th style="text-align:right;">
 
+job_number
+
+</th>
+<th style="text-align:right;">
+
 log_wage
+
+</th>
+<th style="text-align:right;">
+
+job_share
 
 </th>
 </tr>
@@ -603,7 +634,17 @@ Administração pública, defesa e seguridade social
 </td>
 <td style="text-align:right;">
 
+7991148
+
+</td>
+<td style="text-align:right;">
+
 2.940394
+
+</td>
+<td style="text-align:right;">
+
+0.1601092
 
 </td>
 </tr>
@@ -630,7 +671,17 @@ Administração pública, defesa e seguridade social
 </td>
 <td style="text-align:right;">
 
+8544899
+
+</td>
+<td style="text-align:right;">
+
 2.971672
+
+</td>
+<td style="text-align:right;">
+
+0.1601092
 
 </td>
 </tr>
@@ -657,7 +708,17 @@ Administração pública, defesa e seguridade social
 </td>
 <td style="text-align:right;">
 
+9016991
+
+</td>
+<td style="text-align:right;">
+
 2.978557
+
+</td>
+<td style="text-align:right;">
+
+0.1601092
 
 </td>
 </tr>
@@ -684,7 +745,17 @@ Administração pública, defesa e seguridade social
 </td>
 <td style="text-align:right;">
 
+9351978
+
+</td>
+<td style="text-align:right;">
+
 3.015867
+
+</td>
+<td style="text-align:right;">
+
+0.1601092
 
 </td>
 </tr>
@@ -711,7 +782,17 @@ Administração pública, defesa e seguridade social
 </td>
 <td style="text-align:right;">
 
+9881696
+
+</td>
+<td style="text-align:right;">
+
 3.041700
+
+</td>
+<td style="text-align:right;">
+
+0.1601092
 
 </td>
 </tr>
@@ -738,12 +819,24 @@ Administração pública, defesa e seguridade social
 </td>
 <td style="text-align:right;">
 
+9955126
+
+</td>
+<td style="text-align:right;">
+
 3.095042
+
+</td>
+<td style="text-align:right;">
+
+0.1601092
 
 </td>
 </tr>
 </tbody>
 </table>
+
+</div>
 
 Now, I regress exposure on log_remuneracao_media with plm. This package
 provides a series of estimators for panel data, including the Two-Way
@@ -758,21 +851,488 @@ twfe_reg <- plm(log_wage ~ exposure,
 ```
 
 ``` r
-default_table(
+wtwfe_reg <- plm(log_wage ~ exposure,
+             data = nber30400,
+             model = 'within',
+             effect = 'twoways',
+             index = c('secao','ano'),
+             weights = job_share)
+```
+
+``` r
+tb1 <- gtsummary_table(
   twfe_reg,
-  c('exposure'='Exposure to computers'),
-  robust='stata'
+  include = c('exposure'),
+  label = list('exposure'='Exposure to computers'),
+  robust = 'HC1'
 )
 ```
 
-|                       |                 $1$ |
-|-----------------------|--------------------:|
-| Exposure to computers |       0.040 (0.123) |
-|                       | (p $\approx$ 0.747) |
-| Num.Obs.              |                 336 |
-| R2                    |               0.001 |
-| R2 Adj.               |              -0.119 |
-| Std.Errors            |                 HC1 |
+    ## Warning: Using an external vector in selections was deprecated in tidyselect 1.1.0.
+    ## ℹ Please use `all_of()` or `any_of()` instead.
+    ##   # Was:
+    ##   data %>% select(include)
+    ## 
+    ##   # Now:
+    ##   data %>% select(all_of(include))
+    ## 
+    ## See <https://tidyselect.r-lib.org/reference/faq-external-vector.html>.
+    ## This warning is displayed once every 8 hours.
+    ## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+    ## generated.
+
+``` r
+tb2 <- gtsummary_table(
+  wtwfe_reg,
+  include=c('exposure'),
+  label = list('exposure'='Exposure to computers')
+)
+
+tbl_merge(
+  list(tb1, tb2),
+  c('**TWFE**', '**Weighted TWFE**')
+)
+```
+
+<div id="sugokzjmsf" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#sugokzjmsf table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+&#10;#sugokzjmsf thead, #sugokzjmsf tbody, #sugokzjmsf tfoot, #sugokzjmsf tr, #sugokzjmsf td, #sugokzjmsf th {
+  border-style: none;
+}
+&#10;#sugokzjmsf p {
+  margin: 0;
+  padding: 0;
+}
+&#10;#sugokzjmsf .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+&#10;#sugokzjmsf .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+&#10;#sugokzjmsf .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+&#10;#sugokzjmsf .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+&#10;#sugokzjmsf .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+&#10;#sugokzjmsf .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+&#10;#sugokzjmsf .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+&#10;#sugokzjmsf .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+&#10;#sugokzjmsf .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+&#10;#sugokzjmsf .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+&#10;#sugokzjmsf .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+&#10;#sugokzjmsf .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+&#10;#sugokzjmsf .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+&#10;#sugokzjmsf .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+&#10;#sugokzjmsf .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+&#10;#sugokzjmsf .gt_from_md > :first-child {
+  margin-top: 0;
+}
+&#10;#sugokzjmsf .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+&#10;#sugokzjmsf .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+&#10;#sugokzjmsf .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+&#10;#sugokzjmsf .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+&#10;#sugokzjmsf .gt_row_group_first td {
+  border-top-width: 2px;
+}
+&#10;#sugokzjmsf .gt_row_group_first th {
+  border-top-width: 2px;
+}
+&#10;#sugokzjmsf .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+&#10;#sugokzjmsf .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+&#10;#sugokzjmsf .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+&#10;#sugokzjmsf .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+&#10;#sugokzjmsf .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+&#10;#sugokzjmsf .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+&#10;#sugokzjmsf .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+&#10;#sugokzjmsf .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+&#10;#sugokzjmsf .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+&#10;#sugokzjmsf .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+&#10;#sugokzjmsf .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+&#10;#sugokzjmsf .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+&#10;#sugokzjmsf .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+&#10;#sugokzjmsf .gt_left {
+  text-align: left;
+}
+&#10;#sugokzjmsf .gt_center {
+  text-align: center;
+}
+&#10;#sugokzjmsf .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+&#10;#sugokzjmsf .gt_font_normal {
+  font-weight: normal;
+}
+&#10;#sugokzjmsf .gt_font_bold {
+  font-weight: bold;
+}
+&#10;#sugokzjmsf .gt_font_italic {
+  font-style: italic;
+}
+&#10;#sugokzjmsf .gt_super {
+  font-size: 65%;
+}
+&#10;#sugokzjmsf .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+&#10;#sugokzjmsf .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+&#10;#sugokzjmsf .gt_indent_1 {
+  text-indent: 5px;
+}
+&#10;#sugokzjmsf .gt_indent_2 {
+  text-indent: 10px;
+}
+&#10;#sugokzjmsf .gt_indent_3 {
+  text-indent: 15px;
+}
+&#10;#sugokzjmsf .gt_indent_4 {
+  text-indent: 20px;
+}
+&#10;#sugokzjmsf .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <thead>
+    &#10;    <tr class="gt_col_headings gt_spanner_row">
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="2" colspan="1" scope="col" id="&lt;strong&gt;Characteristic&lt;/strong&gt;"><strong>Characteristic</strong></th>
+      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="2" scope="colgroup" id="&lt;strong&gt;TWFE&lt;/strong&gt;">
+        <span class="gt_column_spanner"><strong>TWFE</strong></span>
+      </th>
+      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="2" scope="colgroup" id="&lt;strong&gt;Weighted TWFE&lt;/strong&gt;">
+        <span class="gt_column_spanner"><strong>Weighted TWFE</strong></span>
+      </th>
+    </tr>
+    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;Beta (SE)&lt;/strong&gt;&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;&quot;&gt;&lt;sup&gt;1,2&lt;/sup&gt;&lt;/span&gt;"><strong>Beta (SE)</strong><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1,2</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;p-value&lt;/strong&gt;"><strong>p-value</strong></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;Beta (SE)&lt;/strong&gt;&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;&quot;&gt;&lt;sup&gt;1,2&lt;/sup&gt;&lt;/span&gt;"><strong>Beta (SE)</strong><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1,2</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;p-value&lt;/strong&gt;"><strong>p-value</strong></th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Exposure to computers</td>
+<td headers="estimate_1" class="gt_row gt_center">0.0398 (0.123)</td>
+<td headers="p.value_1" class="gt_row gt_center">0.7</td>
+<td headers="estimate_2" class="gt_row gt_center">-0.1137** (0.037)</td>
+<td headers="p.value_2" class="gt_row gt_center">0.002</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;">R²</td>
+<td headers="estimate_1" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;">0.001</td>
+<td headers="p.value_1" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;"></td>
+<td headers="estimate_2" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;">0.001</td>
+<td headers="p.value_2" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;"></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">Adjusted R²</td>
+<td headers="estimate_1" class="gt_row gt_center">-0.119</td>
+<td headers="p.value_1" class="gt_row gt_center"></td>
+<td headers="estimate_2" class="gt_row gt_center">-0.119</td>
+<td headers="p.value_2" class="gt_row gt_center"></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">No. Obs.</td>
+<td headers="estimate_1" class="gt_row gt_center">336</td>
+<td headers="p.value_1" class="gt_row gt_center"></td>
+<td headers="estimate_2" class="gt_row gt_center">336</td>
+<td headers="p.value_2" class="gt_row gt_center"></td></tr>
+  </tbody>
+  &#10;  <tfoot class="gt_footnotes">
+    <tr>
+      <td class="gt_footnote" colspan="5"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1</sup></span> *p&lt;0.05; **p&lt;0.01; ***p&lt;0.001</td>
+    </tr>
+    <tr>
+      <td class="gt_footnote" colspan="5"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>2</sup></span> SE = Standard error</td>
+    </tr>
+  </tfoot>
+</table>
+</div>
 
 The results show that the `Exposure to computers` measure alone does not
 explain any variation in the log mean_wage of the brazilian formal
@@ -791,10 +1351,25 @@ group. With that new aggregation, in order to be able to use the Baltagi
 to serve as my “individual” observation identification.
 
 ``` r
-data2 <- data
+data2 <- data %>%
+  group_by(ano) %>%
+  mutate(
+    job_share = case_when(
+      ano == 2006 ~ job_number/ sum(job_number),
+      .default = 0
+    )
+  ) %>%
+  ungroup() %>%
+  group_by(id) %>%
+  mutate(
+    job_share = order_by(ano, cumsum(job_share)),
+  ) %>%
+  ungroup()
 
-knitr::kable(data2 %>% head())
+data2 %>% head()
 ```
+
+<div class="kable-table">
 
 <table>
 <thead>
@@ -849,70 +1424,23 @@ log_wage
 id
 
 </th>
+<th style="text-align:right;">
+
+job_share
+
+</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td style="text-align:left;">
 
-Atividades profissionais, científicas e técnicas
+Agricultura, pecuária, produção florestal, pesca e aqüicultura
 
 </td>
 <td style="text-align:left;">
 
-2006
-
-</td>
-<td style="text-align:left;">
-
-NRM
-
-</td>
-<td style="text-align:right;">
-
-0.5115781
-
-</td>
-<td style="text-align:right;">
-
-683.7699
-
-</td>
-<td style="text-align:right;">
-
-2.033380
-
-</td>
-<td style="text-align:right;">
-
-9.787783
-
-</td>
-<td style="text-align:right;">
-
-64766
-
-</td>
-<td style="text-align:right;">
-
-2.378414
-
-</td>
-<td style="text-align:left;">
-
-Atividades profissionais, científicas e técnicas-NRM
-
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-
-Transporte, armazenagem e correio
-
-</td>
-<td style="text-align:left;">
-
-2006
+2007
 
 </td>
 <td style="text-align:left;">
@@ -922,153 +1450,282 @@ RM
 </td>
 <td style="text-align:right;">
 
-0.2258729
+0.0300704
 
 </td>
 <td style="text-align:right;">
 
-869.2727
+582.9249
 
 </td>
 <td style="text-align:right;">
 
-2.585307
+1.560649
 
 </td>
 <td style="text-align:right;">
 
-12.052210
+7.951023
 
 </td>
 <td style="text-align:right;">
 
-1149009
+2655421
 
 </td>
 <td style="text-align:right;">
 
-2.568957
+2.191768
 
 </td>
 <td style="text-align:left;">
 
-Transporte, armazenagem e correio-RM
+Agricultura, pecuária, produção florestal, pesca e aqüicultura-RM
+
+</td>
+<td style="text-align:right;">
+
+0.0517737
 
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
 
-Comércio; reparação de veículos automotores e motocicletas
+Serviços domésticos
 
 </td>
 <td style="text-align:left;">
 
-2006
+2007
 
 </td>
 <td style="text-align:left;">
 
-NRC
+RM
 
 </td>
 <td style="text-align:right;">
 
-0.5886394
+0.0369244
 
 </td>
 <td style="text-align:right;">
 
-1262.0876
+591.9065
 
 </td>
 <td style="text-align:right;">
 
-3.761147
+1.585252
 
 </td>
 <td style="text-align:right;">
 
-17.489360
+7.785373
 
 </td>
 <td style="text-align:right;">
 
-869410
+3434
 
 </td>
 <td style="text-align:right;">
 
-2.917195
+2.173088
 
 </td>
 <td style="text-align:left;">
 
-Comércio; reparação de veículos automotores e motocicletas-NRC
+Serviços domésticos-RM
+
+</td>
+<td style="text-align:right;">
+
+0.0000479
 
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
 
-Saúde humana e serviços sociais
+Educação
 
 </td>
 <td style="text-align:left;">
 
-2006
+2007
 
 </td>
 <td style="text-align:left;">
 
-NRC
+RM
 
 </td>
 <td style="text-align:right;">
 
-0.3332401
+0.2641262
 
 </td>
 <td style="text-align:right;">
 
-1267.3959
+793.4969
 
 </td>
 <td style="text-align:right;">
 
-3.769753
+2.128201
 
 </td>
 <td style="text-align:right;">
 
-22.447841
+11.012829
 
 </td>
 <td style="text-align:right;">
 
-685974
+66431
 
 </td>
 <td style="text-align:right;">
 
-3.154778
+2.485975
 
 </td>
 <td style="text-align:left;">
 
-Saúde humana e serviços sociais-NRC
+Educação-RM
+
+</td>
+<td style="text-align:right;">
+
+0.0013399
 
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
 
-Transporte, armazenagem e correio
+Outras atividades de serviços
 
 </td>
 <td style="text-align:left;">
 
-2006
+2007
+
+</td>
+<td style="text-align:left;">
+
+RM
+
+</td>
+<td style="text-align:right;">
+
+0.2963505
+
+</td>
+<td style="text-align:right;">
+
+755.2996
+
+</td>
+<td style="text-align:right;">
+
+2.025855
+
+</td>
+<td style="text-align:right;">
+
+10.784176
+
+</td>
+<td style="text-align:right;">
+
+259837
+
+</td>
+<td style="text-align:right;">
+
+2.466758
+
+</td>
+<td style="text-align:left;">
+
+Outras atividades de serviços-RM
+
+</td>
+<td style="text-align:right;">
+
+0.0049124
+
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+
+Administração pública, defesa e seguridade social
+
+</td>
+<td style="text-align:left;">
+
+2007
+
+</td>
+<td style="text-align:left;">
+
+RM
+
+</td>
+<td style="text-align:right;">
+
+0.3351270
+
+</td>
+<td style="text-align:right;">
+
+799.0380
+
+</td>
+<td style="text-align:right;">
+
+2.143549
+
+</td>
+<td style="text-align:right;">
+
+12.439843
+
+</td>
+<td style="text-align:right;">
+
+679545
+
+</td>
+<td style="text-align:right;">
+
+2.598224
+
+</td>
+<td style="text-align:left;">
+
+Administração pública, defesa e seguridade social-RM
+
+</td>
+<td style="text-align:right;">
+
+0.0128236
+
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+
+Educação
+
+</td>
+<td style="text-align:left;">
+
+2007
 
 </td>
 <td style="text-align:left;">
@@ -1078,94 +1735,49 @@ RC
 </td>
 <td style="text-align:right;">
 
-0.2258729
+0.2641262
 
 </td>
 <td style="text-align:right;">
 
-1145.2084
+1078.1387
 
 </td>
 <td style="text-align:right;">
 
-3.411737
+2.897043
 
 </td>
 <td style="text-align:right;">
 
-15.770226
+20.890300
 
 </td>
 <td style="text-align:right;">
 
-501628
+538213
 
 </td>
 <td style="text-align:right;">
 
-2.819605
+3.086044
 
 </td>
 <td style="text-align:left;">
 
-Transporte, armazenagem e correio-RC
-
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-
-Agricultura, pecuária, produção florestal, pesca e aqüicultura
-
-</td>
-<td style="text-align:left;">
-
-2006
-
-</td>
-<td style="text-align:left;">
-
-NRC
+Educação-RC
 
 </td>
 <td style="text-align:right;">
 
-0.0354269
-
-</td>
-<td style="text-align:right;">
-
-1530.9414
-
-</td>
-<td style="text-align:right;">
-
-4.565710
-
-</td>
-<td style="text-align:right;">
-
-22.199597
-
-</td>
-<td style="text-align:right;">
-
-66098
-
-</td>
-<td style="text-align:right;">
-
-3.144135
-
-</td>
-<td style="text-align:left;">
-
-Agricultura, pecuária, produção florestal, pesca e aqüicultura-NRC
+0.0100562
 
 </td>
 </tr>
 </tbody>
 </table>
+
+</div>
 
 With the data in the new shape, I regress the log_wages on the exposure
 measure.
@@ -1179,21 +1791,473 @@ twfe_reg_2 <- plm(log_wage ~ exposure,
 ```
 
 ``` r
-default_table(
+wtwfe_reg_2 <- plm(log_wage ~ exposure,
+             data = data2,
+             model = 'within',
+             effect = 'twoways',
+             index = c('id','ano'),
+             weights = job_share)
+```
+
+``` r
+tb3 <- gtsummary_table(
   twfe_reg_2,
-  c('exposure'='Exposure to computers'),
-  robust='stata'
+  include = c('exposure'),
+  label = list('exposure'='Exposure to computers'),
+  robust = 'HC1'
+)
+
+tb4 <- gtsummary_table(
+  wtwfe_reg_2,
+  include = c('exposure'),
+  label = list('exposure'='Exposure to computers'),
+)
+
+tbl_merge(
+  list(tb3, tb4),
+  c('**TWFE**', '**Weighted TWFE**')
 )
 ```
 
-|                       |                 $1$ |
-|-----------------------|--------------------:|
-| Exposure to computers |       0.032 (0.076) |
-|                       | (p $\approx$ 0.676) |
-| Num.Obs.              |                1344 |
-| R2                    |               0.000 |
-| R2 Adj.               |              -0.079 |
-| Std.Errors            |                 HC1 |
+<div id="tqmieomntv" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#tqmieomntv table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+&#10;#tqmieomntv thead, #tqmieomntv tbody, #tqmieomntv tfoot, #tqmieomntv tr, #tqmieomntv td, #tqmieomntv th {
+  border-style: none;
+}
+&#10;#tqmieomntv p {
+  margin: 0;
+  padding: 0;
+}
+&#10;#tqmieomntv .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+&#10;#tqmieomntv .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+&#10;#tqmieomntv .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+&#10;#tqmieomntv .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+&#10;#tqmieomntv .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+&#10;#tqmieomntv .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+&#10;#tqmieomntv .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+&#10;#tqmieomntv .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+&#10;#tqmieomntv .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+&#10;#tqmieomntv .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+&#10;#tqmieomntv .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+&#10;#tqmieomntv .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+&#10;#tqmieomntv .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+&#10;#tqmieomntv .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+&#10;#tqmieomntv .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+&#10;#tqmieomntv .gt_from_md > :first-child {
+  margin-top: 0;
+}
+&#10;#tqmieomntv .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+&#10;#tqmieomntv .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+&#10;#tqmieomntv .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+&#10;#tqmieomntv .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+&#10;#tqmieomntv .gt_row_group_first td {
+  border-top-width: 2px;
+}
+&#10;#tqmieomntv .gt_row_group_first th {
+  border-top-width: 2px;
+}
+&#10;#tqmieomntv .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+&#10;#tqmieomntv .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+&#10;#tqmieomntv .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+&#10;#tqmieomntv .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+&#10;#tqmieomntv .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+&#10;#tqmieomntv .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+&#10;#tqmieomntv .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+&#10;#tqmieomntv .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+&#10;#tqmieomntv .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+&#10;#tqmieomntv .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+&#10;#tqmieomntv .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+&#10;#tqmieomntv .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+&#10;#tqmieomntv .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+&#10;#tqmieomntv .gt_left {
+  text-align: left;
+}
+&#10;#tqmieomntv .gt_center {
+  text-align: center;
+}
+&#10;#tqmieomntv .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+&#10;#tqmieomntv .gt_font_normal {
+  font-weight: normal;
+}
+&#10;#tqmieomntv .gt_font_bold {
+  font-weight: bold;
+}
+&#10;#tqmieomntv .gt_font_italic {
+  font-style: italic;
+}
+&#10;#tqmieomntv .gt_super {
+  font-size: 65%;
+}
+&#10;#tqmieomntv .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+&#10;#tqmieomntv .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+&#10;#tqmieomntv .gt_indent_1 {
+  text-indent: 5px;
+}
+&#10;#tqmieomntv .gt_indent_2 {
+  text-indent: 10px;
+}
+&#10;#tqmieomntv .gt_indent_3 {
+  text-indent: 15px;
+}
+&#10;#tqmieomntv .gt_indent_4 {
+  text-indent: 20px;
+}
+&#10;#tqmieomntv .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <thead>
+    &#10;    <tr class="gt_col_headings gt_spanner_row">
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="2" colspan="1" scope="col" id="&lt;strong&gt;Characteristic&lt;/strong&gt;"><strong>Characteristic</strong></th>
+      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="2" scope="colgroup" id="&lt;strong&gt;TWFE&lt;/strong&gt;">
+        <span class="gt_column_spanner"><strong>TWFE</strong></span>
+      </th>
+      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="2" scope="colgroup" id="&lt;strong&gt;Weighted TWFE&lt;/strong&gt;">
+        <span class="gt_column_spanner"><strong>Weighted TWFE</strong></span>
+      </th>
+    </tr>
+    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;Beta (SE)&lt;/strong&gt;&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;&quot;&gt;&lt;sup&gt;1,2&lt;/sup&gt;&lt;/span&gt;"><strong>Beta (SE)</strong><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1,2</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;p-value&lt;/strong&gt;"><strong>p-value</strong></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;Beta (SE)&lt;/strong&gt;&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;&quot;&gt;&lt;sup&gt;1,2&lt;/sup&gt;&lt;/span&gt;"><strong>Beta (SE)</strong><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1,2</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;p-value&lt;/strong&gt;"><strong>p-value</strong></th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Exposure to computers</td>
+<td headers="estimate_1" class="gt_row gt_center">0.0318 (0.076)</td>
+<td headers="p.value_1" class="gt_row gt_center">0.7</td>
+<td headers="estimate_2" class="gt_row gt_center">0.0273 (0.022)</td>
+<td headers="p.value_2" class="gt_row gt_center">0.2</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;">R²</td>
+<td headers="estimate_1" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;">0.000</td>
+<td headers="p.value_1" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;"></td>
+<td headers="estimate_2" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;">0.000</td>
+<td headers="p.value_2" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;"></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">Adjusted R²</td>
+<td headers="estimate_1" class="gt_row gt_center">-0.079</td>
+<td headers="p.value_1" class="gt_row gt_center"></td>
+<td headers="estimate_2" class="gt_row gt_center">-0.079</td>
+<td headers="p.value_2" class="gt_row gt_center"></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">No. Obs.</td>
+<td headers="estimate_1" class="gt_row gt_center">1,344</td>
+<td headers="p.value_1" class="gt_row gt_center"></td>
+<td headers="estimate_2" class="gt_row gt_center">1,344</td>
+<td headers="p.value_2" class="gt_row gt_center"></td></tr>
+  </tbody>
+  &#10;  <tfoot class="gt_footnotes">
+    <tr>
+      <td class="gt_footnote" colspan="5"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1</sup></span> *p&lt;0.05; **p&lt;0.01; ***p&lt;0.001</td>
+    </tr>
+    <tr>
+      <td class="gt_footnote" colspan="5"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>2</sup></span> SE = Standard error</td>
+    </tr>
+  </tfoot>
+</table>
+</div>
 
 Again, the results show that the `Exposure to computers` measure alone
 does not explain any variation in the log mean_wage of the brazilian
@@ -1221,6 +2285,15 @@ twfe_reg_3 <- plm(log_wage ~ exposure:group,
 ```
 
 ``` r
+wtwfe_reg_3 <- plm(log_wage ~ exposure:group,
+             data = data2 %>% filter(ano != '2006'),
+             model = 'within',
+             effect = 'twoways',
+             index = c('id','ano'),
+             weights = job_share)
+```
+
+``` r
 twfe_reg_4 <- plm(log_wage ~ exposure + exposure:group,
              data = data2 %>% filter(ano != '2006'),
              model = 'within',
@@ -1229,37 +2302,559 @@ twfe_reg_4 <- plm(log_wage ~ exposure + exposure:group,
 ```
 
 ``` r
-third_coefs <- c(
-  'exposure'='Exposure to computers',
-  'exposure:groupNRM'='Exposure to computers $\\times$ NRM',
-  'exposure:groupNRC'='Exposure to computers $\\times$ NRC',
-  'exposure:groupRC'='Exposure to computers $\\times$ RC',
-  'exposure:groupRM'='Exposure to computers $\\times$ RM'
+wtwfe_reg_4 <- plm(log_wage ~ exposure + exposure:group,
+             data = data2 %>% filter(ano != '2006'),
+             model = 'within',
+             effect = 'twoways',
+             index = c('id','ano'),
+             weights = job_share)
+```
+
+``` r
+tb5 <- gtsummary_table(
+  twfe_reg_3,
+  include = c('exposure:group'),
+  label = list(
+    'exposure:group'='Exposure to computers x Skill type'
+    ),
+  robust = 'HC1'
 )
 
-default_table(
-  list(twfe_reg_3, twfe_reg_4),
-  third_coefs,
-  robust='stata'
+tb6 <- gtsummary_table(
+  wtwfe_reg_3,
+  include = c('exposure:group'),
+  label = list(
+    'exposure:group'='Exposure to computers x Skill type'
+    )
+)
+
+tb7 <- gtsummary_table(
+  twfe_reg_4,
+  include = c('exposure', 'exposure:group'),
+  label = list(
+    'exposure:group'='Exposure to computers x Skill type'
+    ),
+  robust = 'HC1'
+)
+
+tb8 <- gtsummary_table(
+  wtwfe_reg_4,
+  include = c('exposure', 'exposure:group'),
+  label = list(
+    'exposure:group'='Exposure to computers x Skill type'
+    )
+)
+
+tbl_merge(
+  list(tb7, tb8, tb5, tb6),
+  c('**TWFE**', '**Weighted TWFE**', '**TWFE**', '**Weighted TWFE**')
 )
 ```
 
-|                                    |                 $1$ |                 $2$ |
-|------------------------------------|--------------------:|--------------------:|
-| Exposure to computers $\times$ NRM |      -0.087 (0.088) |                     |
-|                                    | (p $\approx$ 0.328) |                     |
-| Exposure to computers $\times$ NRC |       0.089 (0.094) |      0.176+ (0.101) |
-|                                    | (p $\approx$ 0.340) | (p $\approx$ 0.082) |
-| Exposure to computers $\times$ RC  |       0.143 (0.093) |     0.230\* (0.102) |
-|                                    | (p $\approx$ 0.123) | (p $\approx$ 0.025) |
-| Exposure to computers $\times$ RM  |      -0.109 (0.100) |      -0.022 (0.097) |
-|                                    | (p $\approx$ 0.276) | (p $\approx$ 0.820) |
-| Exposure to computers              |                     |      -0.087 (0.088) |
-|                                    |                     | (p $\approx$ 0.328) |
-| Num.Obs.                           |                1260 |                1260 |
-| R2                                 |               0.020 |               0.020 |
-| R2 Adj.                            |              -0.066 |              -0.066 |
-| Std.Errors                         |                 HC1 |                 HC1 |
+<div id="iounxvmnte" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#iounxvmnte table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+&#10;#iounxvmnte thead, #iounxvmnte tbody, #iounxvmnte tfoot, #iounxvmnte tr, #iounxvmnte td, #iounxvmnte th {
+  border-style: none;
+}
+&#10;#iounxvmnte p {
+  margin: 0;
+  padding: 0;
+}
+&#10;#iounxvmnte .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+&#10;#iounxvmnte .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+&#10;#iounxvmnte .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+&#10;#iounxvmnte .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+&#10;#iounxvmnte .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+&#10;#iounxvmnte .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+&#10;#iounxvmnte .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+&#10;#iounxvmnte .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+&#10;#iounxvmnte .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+&#10;#iounxvmnte .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+&#10;#iounxvmnte .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+&#10;#iounxvmnte .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+&#10;#iounxvmnte .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+&#10;#iounxvmnte .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+&#10;#iounxvmnte .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+&#10;#iounxvmnte .gt_from_md > :first-child {
+  margin-top: 0;
+}
+&#10;#iounxvmnte .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+&#10;#iounxvmnte .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+&#10;#iounxvmnte .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+&#10;#iounxvmnte .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+&#10;#iounxvmnte .gt_row_group_first td {
+  border-top-width: 2px;
+}
+&#10;#iounxvmnte .gt_row_group_first th {
+  border-top-width: 2px;
+}
+&#10;#iounxvmnte .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+&#10;#iounxvmnte .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+&#10;#iounxvmnte .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+&#10;#iounxvmnte .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+&#10;#iounxvmnte .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+&#10;#iounxvmnte .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+&#10;#iounxvmnte .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+&#10;#iounxvmnte .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+&#10;#iounxvmnte .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+&#10;#iounxvmnte .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+&#10;#iounxvmnte .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+&#10;#iounxvmnte .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+&#10;#iounxvmnte .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+&#10;#iounxvmnte .gt_left {
+  text-align: left;
+}
+&#10;#iounxvmnte .gt_center {
+  text-align: center;
+}
+&#10;#iounxvmnte .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+&#10;#iounxvmnte .gt_font_normal {
+  font-weight: normal;
+}
+&#10;#iounxvmnte .gt_font_bold {
+  font-weight: bold;
+}
+&#10;#iounxvmnte .gt_font_italic {
+  font-style: italic;
+}
+&#10;#iounxvmnte .gt_super {
+  font-size: 65%;
+}
+&#10;#iounxvmnte .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+&#10;#iounxvmnte .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+&#10;#iounxvmnte .gt_indent_1 {
+  text-indent: 5px;
+}
+&#10;#iounxvmnte .gt_indent_2 {
+  text-indent: 10px;
+}
+&#10;#iounxvmnte .gt_indent_3 {
+  text-indent: 15px;
+}
+&#10;#iounxvmnte .gt_indent_4 {
+  text-indent: 20px;
+}
+&#10;#iounxvmnte .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <thead>
+    &#10;    <tr class="gt_col_headings gt_spanner_row">
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="2" colspan="1" scope="col" id="&lt;strong&gt;Characteristic&lt;/strong&gt;"><strong>Characteristic</strong></th>
+      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="4" scope="colgroup" id="&lt;strong&gt;TWFE&lt;/strong&gt;">
+        <span class="gt_column_spanner"><strong>TWFE</strong></span>
+      </th>
+      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="4" scope="colgroup" id="&lt;strong&gt;Weighted TWFE&lt;/strong&gt;">
+        <span class="gt_column_spanner"><strong>Weighted TWFE</strong></span>
+      </th>
+    </tr>
+    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;Beta (SE)&lt;/strong&gt;&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;&quot;&gt;&lt;sup&gt;1,2&lt;/sup&gt;&lt;/span&gt;"><strong>Beta (SE)</strong><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1,2</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;p-value&lt;/strong&gt;"><strong>p-value</strong></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;Beta (SE)&lt;/strong&gt;&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;&quot;&gt;&lt;sup&gt;1,2&lt;/sup&gt;&lt;/span&gt;"><strong>Beta (SE)</strong><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1,2</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;p-value&lt;/strong&gt;"><strong>p-value</strong></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;Beta (SE)&lt;/strong&gt;&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;&quot;&gt;&lt;sup&gt;1,2&lt;/sup&gt;&lt;/span&gt;"><strong>Beta (SE)</strong><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1,2</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;p-value&lt;/strong&gt;"><strong>p-value</strong></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;Beta (SE)&lt;/strong&gt;&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;&quot;&gt;&lt;sup&gt;1,2&lt;/sup&gt;&lt;/span&gt;"><strong>Beta (SE)</strong><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1,2</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;p-value&lt;/strong&gt;"><strong>p-value</strong></th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">exposure</td>
+<td headers="estimate_1" class="gt_row gt_center">-0.0865 (0.088)</td>
+<td headers="p.value_1" class="gt_row gt_center">0.3</td>
+<td headers="estimate_3" class="gt_row gt_center"></td>
+<td headers="p.value_3" class="gt_row gt_center"></td>
+<td headers="estimate_2" class="gt_row gt_center">-0.2182*** (0.036)</td>
+<td headers="p.value_2" class="gt_row gt_center"><0.001</td>
+<td headers="estimate_4" class="gt_row gt_center"></td>
+<td headers="p.value_4" class="gt_row gt_center"></td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Exposure to computers x Skill type</td>
+<td headers="estimate_1" class="gt_row gt_center"></td>
+<td headers="p.value_1" class="gt_row gt_center"></td>
+<td headers="estimate_3" class="gt_row gt_center"></td>
+<td headers="p.value_3" class="gt_row gt_center"></td>
+<td headers="estimate_2" class="gt_row gt_center"></td>
+<td headers="p.value_2" class="gt_row gt_center"></td>
+<td headers="estimate_4" class="gt_row gt_center"></td>
+<td headers="p.value_4" class="gt_row gt_center"></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    exposure * NRC</td>
+<td headers="estimate_1" class="gt_row gt_center">0.1760 (0.101)</td>
+<td headers="p.value_1" class="gt_row gt_center">0.082</td>
+<td headers="estimate_3" class="gt_row gt_center">0.0895 (0.094)</td>
+<td headers="p.value_3" class="gt_row gt_center">0.3</td>
+<td headers="estimate_2" class="gt_row gt_center">0.2492*** (0.037)</td>
+<td headers="p.value_2" class="gt_row gt_center"><0.001</td>
+<td headers="estimate_4" class="gt_row gt_center">0.0310 (0.031)</td>
+<td headers="p.value_4" class="gt_row gt_center">0.3</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    exposure * RC</td>
+<td headers="estimate_1" class="gt_row gt_center">0.2300* (0.102)</td>
+<td headers="p.value_1" class="gt_row gt_center">0.025</td>
+<td headers="estimate_3" class="gt_row gt_center">0.1434 (0.093)</td>
+<td headers="p.value_3" class="gt_row gt_center">0.12</td>
+<td headers="estimate_2" class="gt_row gt_center">0.2768*** (0.031)</td>
+<td headers="p.value_2" class="gt_row gt_center"><0.001</td>
+<td headers="estimate_4" class="gt_row gt_center">0.0585** (0.022)</td>
+<td headers="p.value_4" class="gt_row gt_center">0.008</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    exposure * RM</td>
+<td headers="estimate_1" class="gt_row gt_center">-0.0220 (0.097)</td>
+<td headers="p.value_1" class="gt_row gt_center">0.8</td>
+<td headers="estimate_3" class="gt_row gt_center">-0.1086 (0.100)</td>
+<td headers="p.value_3" class="gt_row gt_center">0.3</td>
+<td headers="estimate_2" class="gt_row gt_center">0.0974** (0.036)</td>
+<td headers="p.value_2" class="gt_row gt_center">0.008</td>
+<td headers="estimate_4" class="gt_row gt_center">-0.1208*** (0.033)</td>
+<td headers="p.value_4" class="gt_row gt_center"><0.001</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    exposure * NRM</td>
+<td headers="estimate_1" class="gt_row gt_center"></td>
+<td headers="p.value_1" class="gt_row gt_center"></td>
+<td headers="estimate_3" class="gt_row gt_center">-0.0865 (0.088)</td>
+<td headers="p.value_3" class="gt_row gt_center">0.3</td>
+<td headers="estimate_2" class="gt_row gt_center"></td>
+<td headers="p.value_2" class="gt_row gt_center"></td>
+<td headers="estimate_4" class="gt_row gt_center">-0.2182*** (0.036)</td>
+<td headers="p.value_4" class="gt_row gt_center"><0.001</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;">R²</td>
+<td headers="estimate_1" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;">0.020</td>
+<td headers="p.value_1" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;"></td>
+<td headers="estimate_3" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;">0.020</td>
+<td headers="p.value_3" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;"></td>
+<td headers="estimate_2" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;">0.015</td>
+<td headers="p.value_2" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;"></td>
+<td headers="estimate_4" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;">0.015</td>
+<td headers="p.value_4" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;"></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">Adjusted R²</td>
+<td headers="estimate_1" class="gt_row gt_center">-0.066</td>
+<td headers="p.value_1" class="gt_row gt_center"></td>
+<td headers="estimate_3" class="gt_row gt_center">-0.066</td>
+<td headers="p.value_3" class="gt_row gt_center"></td>
+<td headers="estimate_2" class="gt_row gt_center">-0.071</td>
+<td headers="p.value_2" class="gt_row gt_center"></td>
+<td headers="estimate_4" class="gt_row gt_center">-0.071</td>
+<td headers="p.value_4" class="gt_row gt_center"></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">No. Obs.</td>
+<td headers="estimate_1" class="gt_row gt_center">1,260</td>
+<td headers="p.value_1" class="gt_row gt_center"></td>
+<td headers="estimate_3" class="gt_row gt_center">1,260</td>
+<td headers="p.value_3" class="gt_row gt_center"></td>
+<td headers="estimate_2" class="gt_row gt_center">1,260</td>
+<td headers="p.value_2" class="gt_row gt_center"></td>
+<td headers="estimate_4" class="gt_row gt_center">1,260</td>
+<td headers="p.value_4" class="gt_row gt_center"></td></tr>
+  </tbody>
+  &#10;  <tfoot class="gt_footnotes">
+    <tr>
+      <td class="gt_footnote" colspan="9"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1</sup></span> *p&lt;0.05; **p&lt;0.01; ***p&lt;0.001</td>
+    </tr>
+    <tr>
+      <td class="gt_footnote" colspan="9"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>2</sup></span> SE = Standard error</td>
+    </tr>
+  </tfoot>
+</table>
+</div>
 
 Now, some interesting results. On **(1)**, with just the interactions as
 explainable variables, none of the coefficients are significant at 5%
@@ -1295,32 +2890,496 @@ twfe_reg_5 <- plm(log_wage ~ exposure + exposure:group,
              model = 'within',
              effect = 'twoways',
              index = c('id','ano'))
+
+wtwfe_reg_5 <- plm(log_wage ~ exposure + exposure:group,
+             data = data3,
+             model = 'within',
+             effect = 'twoways',
+             index = c('id','ano'),
+             weights = job_share)
 ```
 
 ``` r
-default_table(
-  list(twfe_reg_3, twfe_reg_4, twfe_reg_5),
-  third_coefs,
-  robust='stata'
+tb9 <- gtsummary_table(
+  twfe_reg_5,
+  include=c('exposure', 'exposure:group'),
+  label = list('exposure'='exposure',
+               'exposure:group'='Exposure to computers x Skill type'),
+  robust = 'HC1'
+)
+
+tb10 <- gtsummary_table(
+  wtwfe_reg_5,
+  include=c('exposure', 'exposure:group'),
+  label = list('exposure'='exposure',
+               'exposure:group'='Exposure to computers x Skill type')
+)
+
+tbl_merge(
+  list(tb9, tb10),
+  c('**TWFE**', '**Weighted TWFE**')
 )
 ```
 
-|                                    |                 $1$ |                 $2$ |                 $3$ |
-|------------------------------------|--------------------:|--------------------:|--------------------:|
-| Exposure to computers $\times$ NRM |      -0.087 (0.088) |                     |     -0.176+ (0.101) |
-|                                    | (p $\approx$ 0.328) |                     | (p $\approx$ 0.082) |
-| Exposure to computers $\times$ NRC |       0.089 (0.094) |      0.176+ (0.101) |                     |
-|                                    | (p $\approx$ 0.340) | (p $\approx$ 0.082) |                     |
-| Exposure to computers $\times$ RC  |       0.143 (0.093) |     0.230\* (0.102) |       0.054 (0.101) |
-|                                    | (p $\approx$ 0.123) | (p $\approx$ 0.025) | (p $\approx$ 0.592) |
-| Exposure to computers $\times$ RM  |      -0.109 (0.100) |      -0.022 (0.097) |    -0.198\* (0.095) |
-|                                    | (p $\approx$ 0.276) | (p $\approx$ 0.820) | (p $\approx$ 0.038) |
-| Exposure to computers              |                     |      -0.087 (0.088) |       0.089 (0.094) |
-|                                    |                     | (p $\approx$ 0.328) | (p $\approx$ 0.340) |
-| Num.Obs.                           |                1260 |                1260 |                1260 |
-| R2                                 |               0.020 |               0.020 |               0.020 |
-| R2 Adj.                            |              -0.066 |              -0.066 |              -0.066 |
-| Std.Errors                         |                 HC1 |                 HC1 |                 HC1 |
+<div id="mrzgnlkeio" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#mrzgnlkeio table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+&#10;#mrzgnlkeio thead, #mrzgnlkeio tbody, #mrzgnlkeio tfoot, #mrzgnlkeio tr, #mrzgnlkeio td, #mrzgnlkeio th {
+  border-style: none;
+}
+&#10;#mrzgnlkeio p {
+  margin: 0;
+  padding: 0;
+}
+&#10;#mrzgnlkeio .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+&#10;#mrzgnlkeio .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+&#10;#mrzgnlkeio .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+&#10;#mrzgnlkeio .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+&#10;#mrzgnlkeio .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+&#10;#mrzgnlkeio .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+&#10;#mrzgnlkeio .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+&#10;#mrzgnlkeio .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+&#10;#mrzgnlkeio .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+&#10;#mrzgnlkeio .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+&#10;#mrzgnlkeio .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+&#10;#mrzgnlkeio .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+&#10;#mrzgnlkeio .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+&#10;#mrzgnlkeio .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+&#10;#mrzgnlkeio .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+&#10;#mrzgnlkeio .gt_from_md > :first-child {
+  margin-top: 0;
+}
+&#10;#mrzgnlkeio .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+&#10;#mrzgnlkeio .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+&#10;#mrzgnlkeio .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+&#10;#mrzgnlkeio .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+&#10;#mrzgnlkeio .gt_row_group_first td {
+  border-top-width: 2px;
+}
+&#10;#mrzgnlkeio .gt_row_group_first th {
+  border-top-width: 2px;
+}
+&#10;#mrzgnlkeio .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+&#10;#mrzgnlkeio .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+&#10;#mrzgnlkeio .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+&#10;#mrzgnlkeio .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+&#10;#mrzgnlkeio .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+&#10;#mrzgnlkeio .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+&#10;#mrzgnlkeio .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+&#10;#mrzgnlkeio .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+&#10;#mrzgnlkeio .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+&#10;#mrzgnlkeio .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+&#10;#mrzgnlkeio .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+&#10;#mrzgnlkeio .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+&#10;#mrzgnlkeio .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+&#10;#mrzgnlkeio .gt_left {
+  text-align: left;
+}
+&#10;#mrzgnlkeio .gt_center {
+  text-align: center;
+}
+&#10;#mrzgnlkeio .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+&#10;#mrzgnlkeio .gt_font_normal {
+  font-weight: normal;
+}
+&#10;#mrzgnlkeio .gt_font_bold {
+  font-weight: bold;
+}
+&#10;#mrzgnlkeio .gt_font_italic {
+  font-style: italic;
+}
+&#10;#mrzgnlkeio .gt_super {
+  font-size: 65%;
+}
+&#10;#mrzgnlkeio .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+&#10;#mrzgnlkeio .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+&#10;#mrzgnlkeio .gt_indent_1 {
+  text-indent: 5px;
+}
+&#10;#mrzgnlkeio .gt_indent_2 {
+  text-indent: 10px;
+}
+&#10;#mrzgnlkeio .gt_indent_3 {
+  text-indent: 15px;
+}
+&#10;#mrzgnlkeio .gt_indent_4 {
+  text-indent: 20px;
+}
+&#10;#mrzgnlkeio .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <thead>
+    &#10;    <tr class="gt_col_headings gt_spanner_row">
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="2" colspan="1" scope="col" id="&lt;strong&gt;Characteristic&lt;/strong&gt;"><strong>Characteristic</strong></th>
+      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="2" scope="colgroup" id="&lt;strong&gt;TWFE&lt;/strong&gt;">
+        <span class="gt_column_spanner"><strong>TWFE</strong></span>
+      </th>
+      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="2" scope="colgroup" id="&lt;strong&gt;Weighted TWFE&lt;/strong&gt;">
+        <span class="gt_column_spanner"><strong>Weighted TWFE</strong></span>
+      </th>
+    </tr>
+    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;Beta (SE)&lt;/strong&gt;&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;&quot;&gt;&lt;sup&gt;1,2&lt;/sup&gt;&lt;/span&gt;"><strong>Beta (SE)</strong><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1,2</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;p-value&lt;/strong&gt;"><strong>p-value</strong></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;Beta (SE)&lt;/strong&gt;&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;&quot;&gt;&lt;sup&gt;1,2&lt;/sup&gt;&lt;/span&gt;"><strong>Beta (SE)</strong><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1,2</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;p-value&lt;/strong&gt;"><strong>p-value</strong></th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">exposure</td>
+<td headers="estimate_1" class="gt_row gt_center">0.0895 (0.094)</td>
+<td headers="p.value_1" class="gt_row gt_center">0.3</td>
+<td headers="estimate_2" class="gt_row gt_center">0.0310 (0.031)</td>
+<td headers="p.value_2" class="gt_row gt_center">0.3</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Exposure to computers x Skill type</td>
+<td headers="estimate_1" class="gt_row gt_center"></td>
+<td headers="p.value_1" class="gt_row gt_center"></td>
+<td headers="estimate_2" class="gt_row gt_center"></td>
+<td headers="p.value_2" class="gt_row gt_center"></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    exposure * NRM</td>
+<td headers="estimate_1" class="gt_row gt_center">-0.1760 (0.101)</td>
+<td headers="p.value_1" class="gt_row gt_center">0.082</td>
+<td headers="estimate_2" class="gt_row gt_center">-0.2492*** (0.037)</td>
+<td headers="p.value_2" class="gt_row gt_center"><0.001</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    exposure * RC</td>
+<td headers="estimate_1" class="gt_row gt_center">0.0540 (0.101)</td>
+<td headers="p.value_1" class="gt_row gt_center">0.6</td>
+<td headers="estimate_2" class="gt_row gt_center">0.0276 (0.028)</td>
+<td headers="p.value_2" class="gt_row gt_center">0.3</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    exposure * RM</td>
+<td headers="estimate_1" class="gt_row gt_center">-0.1980* (0.095)</td>
+<td headers="p.value_1" class="gt_row gt_center">0.038</td>
+<td headers="estimate_2" class="gt_row gt_center">-0.1518*** (0.034)</td>
+<td headers="p.value_2" class="gt_row gt_center"><0.001</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;">R²</td>
+<td headers="estimate_1" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;">0.020</td>
+<td headers="p.value_1" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;"></td>
+<td headers="estimate_2" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;">0.015</td>
+<td headers="p.value_2" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;"></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">Adjusted R²</td>
+<td headers="estimate_1" class="gt_row gt_center">-0.066</td>
+<td headers="p.value_1" class="gt_row gt_center"></td>
+<td headers="estimate_2" class="gt_row gt_center">-0.071</td>
+<td headers="p.value_2" class="gt_row gt_center"></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">No. Obs.</td>
+<td headers="estimate_1" class="gt_row gt_center">1,260</td>
+<td headers="p.value_1" class="gt_row gt_center"></td>
+<td headers="estimate_2" class="gt_row gt_center">1,260</td>
+<td headers="p.value_2" class="gt_row gt_center"></td></tr>
+  </tbody>
+  &#10;  <tfoot class="gt_footnotes">
+    <tr>
+      <td class="gt_footnote" colspan="5"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1</sup></span> *p&lt;0.05; **p&lt;0.01; ***p&lt;0.001</td>
+    </tr>
+    <tr>
+      <td class="gt_footnote" colspan="5"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>2</sup></span> SE = Standard error</td>
+    </tr>
+  </tfoot>
+</table>
+</div>
 
 As expected, in **(3)** the significance of the RC interaction doesn’t
 keep significant (by far, with a $0.342$ *p-value*) with the change of
@@ -1369,40 +3428,488 @@ fe_reg2 <- plm(log_wage ~ group + secao,
 ## 5.3 Results of the skill groups specifications
 
 ``` r
-library(tibble)
-rows <- tribble(~term,          ~`(1)`,  ~`(2)`,
-                'Industry FE',  '', 'X',
-                'Year FE',  'X', 'X')
-attr(rows, 'position') <- c(7, 8)
-
-default_table(
-  list(fe_reg1, fe_reg2),
-  c(
-    'groupNRC'='NRC',
-    'groupRC'='RC',
-    'groupRM'='RM',
-    'groupNRM'='NRM'
+tb11 <- gtsummary_table(
+  fe_reg1,
+  include=c('group'),
+  label=list(
+    'group'='Skill group'
   ),
-  robust='stata',
-  coef_omit='.*secao*.',
-  add_rows=rows
+  robust='HC1'
+)
+tb12 <- gtsummary_table(
+  fe_reg2,
+  include=c('group'),
+  label=list(
+    'group'='Skill group'
+  ),
+  robust='HC1'
+)
+
+tbl_merge(
+  list(tb11, tb12),
+  c('**Without industry FE**', '**With industry FE**')
 )
 ```
 
-|             |                   $1$ |                   $2$ |
-|-------------|----------------------:|----------------------:|
-| NRC         |   1.027\*\*\* (0.112) |   1.027\*\*\* (0.048) |
-|             | (p $\approx$ \<0.001) | (p $\approx$ \<0.001) |
-| RC          |   0.387\*\*\* (0.101) |   0.387\*\*\* (0.042) |
-|             | (p $\approx$ \<0.001) | (p $\approx$ \<0.001) |
-| RM          |         0.147 (0.093) |   0.147\*\*\* (0.042) |
-|             |   (p $\approx$ 0.113) | (p $\approx$ \<0.001) |
-| Industry FE |                       |                     X |
-| Year FE     |                     X |                     X |
-| Num.Obs.    |                  1344 |                  1344 |
-| R2          |                 0.525 |                 0.914 |
-| R2 Adj.     |                 0.519 |                 0.912 |
-| Std.Errors  |                   HC1 |                   HC1 |
+<div id="rpcxhihtjl" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#rpcxhihtjl table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+&#10;#rpcxhihtjl thead, #rpcxhihtjl tbody, #rpcxhihtjl tfoot, #rpcxhihtjl tr, #rpcxhihtjl td, #rpcxhihtjl th {
+  border-style: none;
+}
+&#10;#rpcxhihtjl p {
+  margin: 0;
+  padding: 0;
+}
+&#10;#rpcxhihtjl .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+&#10;#rpcxhihtjl .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+&#10;#rpcxhihtjl .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+&#10;#rpcxhihtjl .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+&#10;#rpcxhihtjl .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+&#10;#rpcxhihtjl .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+&#10;#rpcxhihtjl .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+&#10;#rpcxhihtjl .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+&#10;#rpcxhihtjl .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+&#10;#rpcxhihtjl .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+&#10;#rpcxhihtjl .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+&#10;#rpcxhihtjl .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+&#10;#rpcxhihtjl .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+&#10;#rpcxhihtjl .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+&#10;#rpcxhihtjl .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+&#10;#rpcxhihtjl .gt_from_md > :first-child {
+  margin-top: 0;
+}
+&#10;#rpcxhihtjl .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+&#10;#rpcxhihtjl .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+&#10;#rpcxhihtjl .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+&#10;#rpcxhihtjl .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+&#10;#rpcxhihtjl .gt_row_group_first td {
+  border-top-width: 2px;
+}
+&#10;#rpcxhihtjl .gt_row_group_first th {
+  border-top-width: 2px;
+}
+&#10;#rpcxhihtjl .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+&#10;#rpcxhihtjl .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+&#10;#rpcxhihtjl .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+&#10;#rpcxhihtjl .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+&#10;#rpcxhihtjl .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+&#10;#rpcxhihtjl .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+&#10;#rpcxhihtjl .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+&#10;#rpcxhihtjl .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+&#10;#rpcxhihtjl .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+&#10;#rpcxhihtjl .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+&#10;#rpcxhihtjl .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+&#10;#rpcxhihtjl .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+&#10;#rpcxhihtjl .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+&#10;#rpcxhihtjl .gt_left {
+  text-align: left;
+}
+&#10;#rpcxhihtjl .gt_center {
+  text-align: center;
+}
+&#10;#rpcxhihtjl .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+&#10;#rpcxhihtjl .gt_font_normal {
+  font-weight: normal;
+}
+&#10;#rpcxhihtjl .gt_font_bold {
+  font-weight: bold;
+}
+&#10;#rpcxhihtjl .gt_font_italic {
+  font-style: italic;
+}
+&#10;#rpcxhihtjl .gt_super {
+  font-size: 65%;
+}
+&#10;#rpcxhihtjl .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+&#10;#rpcxhihtjl .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+&#10;#rpcxhihtjl .gt_indent_1 {
+  text-indent: 5px;
+}
+&#10;#rpcxhihtjl .gt_indent_2 {
+  text-indent: 10px;
+}
+&#10;#rpcxhihtjl .gt_indent_3 {
+  text-indent: 15px;
+}
+&#10;#rpcxhihtjl .gt_indent_4 {
+  text-indent: 20px;
+}
+&#10;#rpcxhihtjl .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <thead>
+    &#10;    <tr class="gt_col_headings gt_spanner_row">
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="2" colspan="1" scope="col" id="&lt;strong&gt;Characteristic&lt;/strong&gt;"><strong>Characteristic</strong></th>
+      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="2" scope="colgroup" id="&lt;strong&gt;Without industry FE&lt;/strong&gt;">
+        <span class="gt_column_spanner"><strong>Without industry FE</strong></span>
+      </th>
+      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="2" scope="colgroup" id="&lt;strong&gt;With industry FE&lt;/strong&gt;">
+        <span class="gt_column_spanner"><strong>With industry FE</strong></span>
+      </th>
+    </tr>
+    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;Beta (SE)&lt;/strong&gt;&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;&quot;&gt;&lt;sup&gt;1,2&lt;/sup&gt;&lt;/span&gt;"><strong>Beta (SE)</strong><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1,2</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;p-value&lt;/strong&gt;"><strong>p-value</strong></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;Beta (SE)&lt;/strong&gt;&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;&quot;&gt;&lt;sup&gt;1,2&lt;/sup&gt;&lt;/span&gt;"><strong>Beta (SE)</strong><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1,2</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;p-value&lt;/strong&gt;"><strong>p-value</strong></th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Skill group</td>
+<td headers="estimate_1" class="gt_row gt_center"></td>
+<td headers="p.value_1" class="gt_row gt_center"></td>
+<td headers="estimate_2" class="gt_row gt_center"></td>
+<td headers="p.value_2" class="gt_row gt_center"></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    NRM</td>
+<td headers="estimate_1" class="gt_row gt_center">—</td>
+<td headers="p.value_1" class="gt_row gt_center"></td>
+<td headers="estimate_2" class="gt_row gt_center">—</td>
+<td headers="p.value_2" class="gt_row gt_center"></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    NRC</td>
+<td headers="estimate_1" class="gt_row gt_center">1.0272*** (0.112)</td>
+<td headers="p.value_1" class="gt_row gt_center"><0.001</td>
+<td headers="estimate_2" class="gt_row gt_center">1.0272*** (0.048)</td>
+<td headers="p.value_2" class="gt_row gt_center"><0.001</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    RC</td>
+<td headers="estimate_1" class="gt_row gt_center">0.3873*** (0.101)</td>
+<td headers="p.value_1" class="gt_row gt_center"><0.001</td>
+<td headers="estimate_2" class="gt_row gt_center">0.3873*** (0.042)</td>
+<td headers="p.value_2" class="gt_row gt_center"><0.001</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    RM</td>
+<td headers="estimate_1" class="gt_row gt_center">0.1473 (0.093)</td>
+<td headers="p.value_1" class="gt_row gt_center">0.11</td>
+<td headers="estimate_2" class="gt_row gt_center">0.1473*** (0.042)</td>
+<td headers="p.value_2" class="gt_row gt_center"><0.001</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;">R²</td>
+<td headers="estimate_1" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;">0.525</td>
+<td headers="p.value_1" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;"></td>
+<td headers="estimate_2" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;">0.914</td>
+<td headers="p.value_2" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;"></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">Adjusted R²</td>
+<td headers="estimate_1" class="gt_row gt_center">0.519</td>
+<td headers="p.value_1" class="gt_row gt_center"></td>
+<td headers="estimate_2" class="gt_row gt_center">0.912</td>
+<td headers="p.value_2" class="gt_row gt_center"></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">No. Obs.</td>
+<td headers="estimate_1" class="gt_row gt_center">1,344</td>
+<td headers="p.value_1" class="gt_row gt_center"></td>
+<td headers="estimate_2" class="gt_row gt_center">1,344</td>
+<td headers="p.value_2" class="gt_row gt_center"></td></tr>
+  </tbody>
+  &#10;  <tfoot class="gt_footnotes">
+    <tr>
+      <td class="gt_footnote" colspan="5"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1</sup></span> *p&lt;0.05; **p&lt;0.01; ***p&lt;0.001</td>
+    </tr>
+    <tr>
+      <td class="gt_footnote" colspan="5"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>2</sup></span> SE = Standard error</td>
+    </tr>
+  </tfoot>
+</table>
+</div>
 
 Now, more interesting results. Although the main focus of the thesis was
 to investigate the relation of computers and wage polarization, the
@@ -1459,70 +3966,572 @@ fe_reg3 <- plm(log_wage ~ secao,
 ## 5.5 Results of the industry sector specifications
 
 ``` r
-default_table(
-  list(fe_reg2, fe_reg3),
-  c(
-    'groupNRC'='NRC',
-    'groupRC'='RC',
-    'groupRM'='RM',
-    'groupNRM'='NRM'
+tb13 <- gtsummary_table(
+  fe_reg2,
+  include=c('secao'),
+  label=list(
+    'secao'='CNAE industry sector'
   ),
-  robust='stata'
+  robust='HC1'
+)
+tb14 <- gtsummary_table(
+  fe_reg3,
+  include=c('secao'),
+  label=list(
+    'secao'='CNAE industry sector'
+  ),
+  robust='HC1'
+)
+tbl_merge(
+  list(tb13, tb14),
+  c('**With skill group FE**', '**Without skill group FE**')
 )
 ```
 
-|                                                                        |                   $1$ |                   $2$ |
-|------------------------------------------------------------------------|----------------------:|----------------------:|
-| NRC                                                                    |   1.027\*\*\* (0.048) |                       |
-|                                                                        | (p $\approx$ \<0.001) |                       |
-| RC                                                                     |   0.387\*\*\* (0.042) |                       |
-|                                                                        | (p $\approx$ \<0.001) |                       |
-| RM                                                                     |   0.147\*\*\* (0.042) |                       |
-|                                                                        | (p $\approx$ \<0.001) |                       |
-| secaoAgricultura, pecuária, produção florestal, pesca e aqüicultura    |  -0.364\*\*\* (0.064) |        -0.364 (0.254) |
-|                                                                        | (p $\approx$ \<0.001) |   (p $\approx$ 0.152) |
-| secaoAlojamento e alimentação                                          |  -0.577\*\*\* (0.102) |    -0.577\*\* (0.204) |
-|                                                                        | (p $\approx$ \<0.001) |   (p $\approx$ 0.005) |
-| secaoArtes, cultura, esporte e recreação                               |    -0.254\*\* (0.087) |        -0.254 (0.224) |
-|                                                                        |   (p $\approx$ 0.004) |   (p $\approx$ 0.257) |
-| secaoAtividades administrativas e serviços complementares              |  -0.381\*\*\* (0.065) |        -0.381 (0.240) |
-|                                                                        | (p $\approx$ \<0.001) |   (p $\approx$ 0.113) |
-| secaoAtividades financeiras, de seguros e serviços relacionados        |         0.247 (0.151) |         0.247 (0.351) |
-|                                                                        |   (p $\approx$ 0.101) |   (p $\approx$ 0.481) |
-| secaoAtividades imobiliárias                                           |  -0.337\*\*\* (0.065) |        -0.337 (0.256) |
-|                                                                        | (p $\approx$ \<0.001) |   (p $\approx$ 0.188) |
-| secaoAtividades profissionais, científicas e técnicas                  |        -0.078 (0.076) |        -0.078 (0.295) |
-|                                                                        |   (p $\approx$ 0.306) |   (p $\approx$ 0.791) |
-| secaoComércio; reparação de veículos automotores e motocicletas        |  -0.470\*\*\* (0.074) |      -0.470\* (0.227) |
-|                                                                        | (p $\approx$ \<0.001) |   (p $\approx$ 0.039) |
-| secaoConstrução                                                        |  -0.216\*\*\* (0.057) |        -0.216 (0.264) |
-|                                                                        | (p $\approx$ \<0.001) |   (p $\approx$ 0.413) |
-| secaoEducação                                                          |         0.176 (0.131) |         0.176 (0.359) |
-|                                                                        |   (p $\approx$ 0.181) |   (p $\approx$ 0.624) |
-| secaoEletricidade e gás                                                |   0.702\*\*\* (0.103) |     0.702\*\* (0.265) |
-|                                                                        | (p $\approx$ \<0.001) |   (p $\approx$ 0.008) |
-| secao��gua, esgoto, atividades de gestão de resíduos e descontaminação |         0.077 (0.102) |         0.077 (0.315) |
-|                                                                        |   (p $\approx$ 0.447) |   (p $\approx$ 0.806) |
-| secaoIndústrias de transformação                                       |    -0.174\*\* (0.056) |        -0.174 (0.269) |
-|                                                                        |   (p $\approx$ 0.002) |   (p $\approx$ 0.517) |
-| secaoIndústrias extrativas                                             |   0.484\*\*\* (0.082) |         0.484 (0.308) |
-|                                                                        | (p $\approx$ \<0.001) |   (p $\approx$ 0.116) |
-| secaoInformação e comunicação                                          |         0.015 (0.073) |         0.015 (0.246) |
-|                                                                        |   (p $\approx$ 0.835) |   (p $\approx$ 0.951) |
-| secaoOrganismos internacionais e outras instituições extraterritoriais |   0.369\*\*\* (0.072) |         0.369 (0.270) |
-|                                                                        | (p $\approx$ \<0.001) |   (p $\approx$ 0.172) |
-| secaoOutras atividades de serviços                                     |  -0.217\*\*\* (0.065) |        -0.217 (0.279) |
-|                                                                        | (p $\approx$ \<0.001) |   (p $\approx$ 0.437) |
-| secaoSaúde humana e serviços sociais                                   |  -0.213\*\*\* (0.059) |        -0.213 (0.248) |
-|                                                                        | (p $\approx$ \<0.001) |   (p $\approx$ 0.391) |
-| secaoServiços domésticos                                               |  -0.649\*\*\* (0.121) |  -0.649\*\*\* (0.194) |
-|                                                                        | (p $\approx$ \<0.001) | (p $\approx$ \<0.001) |
-| secaoTransporte, armazenagem e correio                                 |        -0.079 (0.065) |        -0.079 (0.257) |
-|                                                                        |   (p $\approx$ 0.230) |   (p $\approx$ 0.760) |
-| Num.Obs.                                                               |                  1344 |                  1344 |
-| R2                                                                     |                 0.914 |                 0.389 |
-| R2 Adj.                                                                |                 0.912 |                 0.372 |
-| Std.Errors                                                             |                   HC1 |                   HC1 |
+<div id="nffcfbhluz" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#nffcfbhluz table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+&#10;#nffcfbhluz thead, #nffcfbhluz tbody, #nffcfbhluz tfoot, #nffcfbhluz tr, #nffcfbhluz td, #nffcfbhluz th {
+  border-style: none;
+}
+&#10;#nffcfbhluz p {
+  margin: 0;
+  padding: 0;
+}
+&#10;#nffcfbhluz .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+&#10;#nffcfbhluz .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+&#10;#nffcfbhluz .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+&#10;#nffcfbhluz .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+&#10;#nffcfbhluz .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+&#10;#nffcfbhluz .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+&#10;#nffcfbhluz .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+&#10;#nffcfbhluz .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+&#10;#nffcfbhluz .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+&#10;#nffcfbhluz .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+&#10;#nffcfbhluz .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+&#10;#nffcfbhluz .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+&#10;#nffcfbhluz .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+&#10;#nffcfbhluz .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+&#10;#nffcfbhluz .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+&#10;#nffcfbhluz .gt_from_md > :first-child {
+  margin-top: 0;
+}
+&#10;#nffcfbhluz .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+&#10;#nffcfbhluz .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+&#10;#nffcfbhluz .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+&#10;#nffcfbhluz .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+&#10;#nffcfbhluz .gt_row_group_first td {
+  border-top-width: 2px;
+}
+&#10;#nffcfbhluz .gt_row_group_first th {
+  border-top-width: 2px;
+}
+&#10;#nffcfbhluz .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+&#10;#nffcfbhluz .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+&#10;#nffcfbhluz .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+&#10;#nffcfbhluz .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+&#10;#nffcfbhluz .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+&#10;#nffcfbhluz .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+&#10;#nffcfbhluz .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+&#10;#nffcfbhluz .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+&#10;#nffcfbhluz .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+&#10;#nffcfbhluz .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+&#10;#nffcfbhluz .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+&#10;#nffcfbhluz .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+&#10;#nffcfbhluz .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+&#10;#nffcfbhluz .gt_left {
+  text-align: left;
+}
+&#10;#nffcfbhluz .gt_center {
+  text-align: center;
+}
+&#10;#nffcfbhluz .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+&#10;#nffcfbhluz .gt_font_normal {
+  font-weight: normal;
+}
+&#10;#nffcfbhluz .gt_font_bold {
+  font-weight: bold;
+}
+&#10;#nffcfbhluz .gt_font_italic {
+  font-style: italic;
+}
+&#10;#nffcfbhluz .gt_super {
+  font-size: 65%;
+}
+&#10;#nffcfbhluz .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+&#10;#nffcfbhluz .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+&#10;#nffcfbhluz .gt_indent_1 {
+  text-indent: 5px;
+}
+&#10;#nffcfbhluz .gt_indent_2 {
+  text-indent: 10px;
+}
+&#10;#nffcfbhluz .gt_indent_3 {
+  text-indent: 15px;
+}
+&#10;#nffcfbhluz .gt_indent_4 {
+  text-indent: 20px;
+}
+&#10;#nffcfbhluz .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <thead>
+    &#10;    <tr class="gt_col_headings gt_spanner_row">
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="2" colspan="1" scope="col" id="&lt;strong&gt;Characteristic&lt;/strong&gt;"><strong>Characteristic</strong></th>
+      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="2" scope="colgroup" id="&lt;strong&gt;With skill group FE&lt;/strong&gt;">
+        <span class="gt_column_spanner"><strong>With skill group FE</strong></span>
+      </th>
+      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="2" scope="colgroup" id="&lt;strong&gt;Without skill group FE&lt;/strong&gt;">
+        <span class="gt_column_spanner"><strong>Without skill group FE</strong></span>
+      </th>
+    </tr>
+    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;Beta (SE)&lt;/strong&gt;&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;&quot;&gt;&lt;sup&gt;1,2&lt;/sup&gt;&lt;/span&gt;"><strong>Beta (SE)</strong><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1,2</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;p-value&lt;/strong&gt;"><strong>p-value</strong></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;Beta (SE)&lt;/strong&gt;&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;&quot;&gt;&lt;sup&gt;1,2&lt;/sup&gt;&lt;/span&gt;"><strong>Beta (SE)</strong><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1,2</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;p-value&lt;/strong&gt;"><strong>p-value</strong></th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">CNAE industry sector</td>
+<td headers="estimate_1" class="gt_row gt_center"></td>
+<td headers="p.value_1" class="gt_row gt_center"></td>
+<td headers="estimate_2" class="gt_row gt_center"></td>
+<td headers="p.value_2" class="gt_row gt_center"></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Administração pública, defesa e seguridade social</td>
+<td headers="estimate_1" class="gt_row gt_center">—</td>
+<td headers="p.value_1" class="gt_row gt_center"></td>
+<td headers="estimate_2" class="gt_row gt_center">—</td>
+<td headers="p.value_2" class="gt_row gt_center"></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Agricultura, pecuária, produção florestal, pesca e aqüicultura</td>
+<td headers="estimate_1" class="gt_row gt_center">-0.3640*** (0.064)</td>
+<td headers="p.value_1" class="gt_row gt_center"><0.001</td>
+<td headers="estimate_2" class="gt_row gt_center">-0.3640 (0.254)</td>
+<td headers="p.value_2" class="gt_row gt_center">0.2</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Alojamento e alimentação</td>
+<td headers="estimate_1" class="gt_row gt_center">-0.5770*** (0.102)</td>
+<td headers="p.value_1" class="gt_row gt_center"><0.001</td>
+<td headers="estimate_2" class="gt_row gt_center">-0.5770** (0.204)</td>
+<td headers="p.value_2" class="gt_row gt_center">0.005</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Artes, cultura, esporte e recreação</td>
+<td headers="estimate_1" class="gt_row gt_center">-0.2542** (0.087)</td>
+<td headers="p.value_1" class="gt_row gt_center">0.004</td>
+<td headers="estimate_2" class="gt_row gt_center">-0.2542 (0.224)</td>
+<td headers="p.value_2" class="gt_row gt_center">0.3</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Atividades administrativas e serviços complementares</td>
+<td headers="estimate_1" class="gt_row gt_center">-0.3811*** (0.065)</td>
+<td headers="p.value_1" class="gt_row gt_center"><0.001</td>
+<td headers="estimate_2" class="gt_row gt_center">-0.3811 (0.240)</td>
+<td headers="p.value_2" class="gt_row gt_center">0.11</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Atividades financeiras, de seguros e serviços relacionados</td>
+<td headers="estimate_1" class="gt_row gt_center">0.2474 (0.151)</td>
+<td headers="p.value_1" class="gt_row gt_center">0.10</td>
+<td headers="estimate_2" class="gt_row gt_center">0.2474 (0.351)</td>
+<td headers="p.value_2" class="gt_row gt_center">0.5</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Atividades imobiliárias</td>
+<td headers="estimate_1" class="gt_row gt_center">-0.3368*** (0.065)</td>
+<td headers="p.value_1" class="gt_row gt_center"><0.001</td>
+<td headers="estimate_2" class="gt_row gt_center">-0.3368 (0.256)</td>
+<td headers="p.value_2" class="gt_row gt_center">0.2</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Atividades profissionais, científicas e técnicas</td>
+<td headers="estimate_1" class="gt_row gt_center">-0.0779 (0.076)</td>
+<td headers="p.value_1" class="gt_row gt_center">0.3</td>
+<td headers="estimate_2" class="gt_row gt_center">-0.0779 (0.295)</td>
+<td headers="p.value_2" class="gt_row gt_center">0.8</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Comércio; reparação de veículos automotores e motocicletas</td>
+<td headers="estimate_1" class="gt_row gt_center">-0.4698*** (0.074)</td>
+<td headers="p.value_1" class="gt_row gt_center"><0.001</td>
+<td headers="estimate_2" class="gt_row gt_center">-0.4698* (0.227)</td>
+<td headers="p.value_2" class="gt_row gt_center">0.039</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Construção</td>
+<td headers="estimate_1" class="gt_row gt_center">-0.2161*** (0.057)</td>
+<td headers="p.value_1" class="gt_row gt_center"><0.001</td>
+<td headers="estimate_2" class="gt_row gt_center">-0.2161 (0.264)</td>
+<td headers="p.value_2" class="gt_row gt_center">0.4</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Educação</td>
+<td headers="estimate_1" class="gt_row gt_center">0.1757 (0.131)</td>
+<td headers="p.value_1" class="gt_row gt_center">0.2</td>
+<td headers="estimate_2" class="gt_row gt_center">0.1757 (0.359)</td>
+<td headers="p.value_2" class="gt_row gt_center">0.6</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Eletricidade e gás</td>
+<td headers="estimate_1" class="gt_row gt_center">0.7022*** (0.103)</td>
+<td headers="p.value_1" class="gt_row gt_center"><0.001</td>
+<td headers="estimate_2" class="gt_row gt_center">0.7022** (0.265)</td>
+<td headers="p.value_2" class="gt_row gt_center">0.008</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    ��gua, esgoto, atividades de gestão de resíduos e descontaminação</td>
+<td headers="estimate_1" class="gt_row gt_center">0.0774 (0.102)</td>
+<td headers="p.value_1" class="gt_row gt_center">0.4</td>
+<td headers="estimate_2" class="gt_row gt_center">0.0774 (0.315)</td>
+<td headers="p.value_2" class="gt_row gt_center">0.8</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Indústrias de transformação</td>
+<td headers="estimate_1" class="gt_row gt_center">-0.1744** (0.056)</td>
+<td headers="p.value_1" class="gt_row gt_center">0.002</td>
+<td headers="estimate_2" class="gt_row gt_center">-0.1744 (0.269)</td>
+<td headers="p.value_2" class="gt_row gt_center">0.5</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Indústrias extrativas</td>
+<td headers="estimate_1" class="gt_row gt_center">0.4844*** (0.082)</td>
+<td headers="p.value_1" class="gt_row gt_center"><0.001</td>
+<td headers="estimate_2" class="gt_row gt_center">0.4844 (0.308)</td>
+<td headers="p.value_2" class="gt_row gt_center">0.12</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Informação e comunicação</td>
+<td headers="estimate_1" class="gt_row gt_center">0.0153 (0.073)</td>
+<td headers="p.value_1" class="gt_row gt_center">0.8</td>
+<td headers="estimate_2" class="gt_row gt_center">0.0153 (0.246)</td>
+<td headers="p.value_2" class="gt_row gt_center">>0.9</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Organismos internacionais e outras instituições extraterritoriais</td>
+<td headers="estimate_1" class="gt_row gt_center">0.3692*** (0.072)</td>
+<td headers="p.value_1" class="gt_row gt_center"><0.001</td>
+<td headers="estimate_2" class="gt_row gt_center">0.3692 (0.270)</td>
+<td headers="p.value_2" class="gt_row gt_center">0.2</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Outras atividades de serviços</td>
+<td headers="estimate_1" class="gt_row gt_center">-0.2168*** (0.065)</td>
+<td headers="p.value_1" class="gt_row gt_center"><0.001</td>
+<td headers="estimate_2" class="gt_row gt_center">-0.2168 (0.279)</td>
+<td headers="p.value_2" class="gt_row gt_center">0.4</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Saúde humana e serviços sociais</td>
+<td headers="estimate_1" class="gt_row gt_center">-0.2132*** (0.059)</td>
+<td headers="p.value_1" class="gt_row gt_center"><0.001</td>
+<td headers="estimate_2" class="gt_row gt_center">-0.2132 (0.248)</td>
+<td headers="p.value_2" class="gt_row gt_center">0.4</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Serviços domésticos</td>
+<td headers="estimate_1" class="gt_row gt_center">-0.6487*** (0.121)</td>
+<td headers="p.value_1" class="gt_row gt_center"><0.001</td>
+<td headers="estimate_2" class="gt_row gt_center">-0.6487*** (0.194)</td>
+<td headers="p.value_2" class="gt_row gt_center"><0.001</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Transporte, armazenagem e correio</td>
+<td headers="estimate_1" class="gt_row gt_center">-0.0786 (0.065)</td>
+<td headers="p.value_1" class="gt_row gt_center">0.2</td>
+<td headers="estimate_2" class="gt_row gt_center">-0.0786 (0.257)</td>
+<td headers="p.value_2" class="gt_row gt_center">0.8</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;">R²</td>
+<td headers="estimate_1" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;">0.914</td>
+<td headers="p.value_1" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;"></td>
+<td headers="estimate_2" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;">0.389</td>
+<td headers="p.value_2" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;"></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">Adjusted R²</td>
+<td headers="estimate_1" class="gt_row gt_center">0.912</td>
+<td headers="p.value_1" class="gt_row gt_center"></td>
+<td headers="estimate_2" class="gt_row gt_center">0.372</td>
+<td headers="p.value_2" class="gt_row gt_center"></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">No. Obs.</td>
+<td headers="estimate_1" class="gt_row gt_center">1,344</td>
+<td headers="p.value_1" class="gt_row gt_center"></td>
+<td headers="estimate_2" class="gt_row gt_center">1,344</td>
+<td headers="p.value_2" class="gt_row gt_center"></td></tr>
+  </tbody>
+  &#10;  <tfoot class="gt_footnotes">
+    <tr>
+      <td class="gt_footnote" colspan="5"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1</sup></span> *p&lt;0.05; **p&lt;0.01; ***p&lt;0.001</td>
+    </tr>
+    <tr>
+      <td class="gt_footnote" colspan="5"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>2</sup></span> SE = Standard error</td>
+    </tr>
+  </tfoot>
+</table>
+</div>
 
 The main interest in this results is the possibility of bias in the
 industry sector coefficients, which didn’t appear, as all the
