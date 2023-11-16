@@ -24,6 +24,7 @@ library(arrow, warn.conflicts = FALSE)
 library("tidyverse")
 library("duckdb")
 if(!require(modelsummary)){install.packages('modelsummary');require(modelsummary)}
+library("gtsummary")
 if(!require(plm)){install.packages("plm");require(plm)}
 ```
 
@@ -98,6 +99,52 @@ default_table <- function(models, coefs, robust='stata', ...) {
     ...
   )
 
+  return(tb)
+}
+
+gtsummary_table <- function(model, coefs, robust=NULL, ...) {
+  
+  tb <- tbl_regression(
+    model,
+    include = names(coefs),
+    label = coefs,
+    intercept=TRUE,
+    estimate_fun = function(x) style_number(x, digits = 4),
+    ...
+    ) 
+  if(!is.null(robust)) {
+    if (robust!=FALSE) {
+      tb <- tbl_regression(
+        model,
+        include = names(coefs),
+        label = coefs,
+        intercept=TRUE,
+        estimate_fun = function(x) style_number(x, digits = 4),
+        tidy_fun = partial(tidy_robust, vcov = robust, quiet = TRUE),
+        ...
+        )
+    }
+  }
+
+  tb <- tb %>%
+  bold_labels() %>%
+  add_significance_stars(
+    hide_se = TRUE,
+    hide_p=FALSE,
+    pattern = '{estimate}{stars} ({std.error})'
+  ) %>%
+  modify_header(
+    estimate ~ '**Beta (SE)**',
+    p.value ~ '**p-value**'
+    ) %>%
+  modify_footnote(estimate ~ "SE = Standard error", abbreviation = TRUE) %>%
+  add_glance_table(
+    include=c(
+      'r.squared',
+      'adj.r.squared',
+      'nobs'
+    )
+  )
   return(tb)
 }
 ```
