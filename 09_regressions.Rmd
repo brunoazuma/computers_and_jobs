@@ -50,6 +50,9 @@ data <- tbl(con, file) %>%
   filter(
     !is.na(secao) & !is.na(ano) & !is.na(group)
   ) %>%
+  filter (
+    ano < 2020
+  ) %>%
   group_by(
     descricao_secao,
     ano,
@@ -163,7 +166,8 @@ nber30400 <- data%>%
     job_number = sum(job_number)
   ) %>%
   mutate(
-    log_wage = log(mean_wage + 1)
+    log_wage = log(mean_wage + 1),
+    log_job = log(job_number)
   ) %>%
   ungroup() %>%
   group_by(ano) %>%
@@ -186,7 +190,7 @@ nber30400 %>% head()
 Now, I regress exposure on log_remuneracao_media with plm. This package provides a series of estimators for panel data, including the Two-Way Fixed Effects described in @baltagi2021 [p. 47-49], which is used here.
 
 ```{r}
-twfe_reg <- plm(log_wage ~ exposure,
+twfe_reg_w <- plm(log_wage ~ exposure,
              data = nber30400,
              model = 'within',
              effect = 'twoways',
@@ -194,31 +198,31 @@ twfe_reg <- plm(log_wage ~ exposure,
 ```
 
 ```{r}
-wtwfe_reg <- plm(log_wage ~ exposure,
+twfe_reg_j <- plm(log_job ~ exposure,
              data = nber30400,
              model = 'within',
              effect = 'twoways',
-             index = c('secao','ano'),
-             weights = job_share)
+             index = c('secao','ano'))
 ```
 
 ```{r}
-tb1 <- gtsummary_table(
-  twfe_reg,
+tb_twfe_reg_w <- gtsummary_table(
+  twfe_reg_w,
   include = c('exposure'),
   label = list('exposure'='Exposure to computers'),
   robust = 'HC1'
 )
 
-tb2 <- gtsummary_table(
-  wtwfe_reg,
+tb_twfe_reg_j <- gtsummary_table(
+  twfe_reg_j,
   include=c('exposure'),
-  label = list('exposure'='Exposure to computers')
+  label = list('exposure'='Exposure to computers'),
+  robust = 'HC1'
 )
 
 tbl_merge(
-  list(tb1, tb2),
-  c('**TWFE**', '**Weighted TWFE**')
+  list(tb_twfe_reg_w, tb_twfe_reg_j),
+  c('**log(wages)**', '**log(jobs)**')
 )
 ```
 
@@ -243,6 +247,7 @@ data2 <- data %>%
   group_by(id) %>%
   mutate(
     job_share = order_by(ano, cumsum(job_share)),
+    log_job = log(job_number)
   ) %>%
   ungroup()
 
@@ -252,7 +257,7 @@ data2 %>% head()
 With the data in the new shape, I regress the log_wages on the exposure measure.
 
 ```{r}
-twfe_reg_2 <- plm(log_wage ~ exposure,
+twfe_reg_w_2 <- plm(log_wage ~ exposure,
              data = data2,
              model = 'within',
              effect = 'twoways',
@@ -260,31 +265,31 @@ twfe_reg_2 <- plm(log_wage ~ exposure,
 ```
 
 ```{r}
-wtwfe_reg_2 <- plm(log_wage ~ exposure,
+twfe_reg_j_2 <- plm(log_job ~ exposure,
              data = data2,
              model = 'within',
              effect = 'twoways',
-             index = c('id','ano'),
-             weights = job_share)
+             index = c('id','ano'))
 ```
 
 ```{r}
-tb3 <- gtsummary_table(
-  twfe_reg_2,
+tb_twfe_reg_w_2 <- gtsummary_table(
+  twfe_reg_w_2,
   include = c('exposure'),
   label = list('exposure'='Exposure to computers'),
   robust = 'HC1'
 )
 
-tb4 <- gtsummary_table(
-  wtwfe_reg_2,
+tb_twfe_reg_j_2 <- gtsummary_table(
+  twfe_reg_j_2,
   include = c('exposure'),
   label = list('exposure'='Exposure to computers'),
+  robust='HC1'
 )
 
 tbl_merge(
-  list(tb3, tb4),
-  c('**TWFE**', '**Weighted TWFE**')
+  list(tb_twfe_reg_w_2, tb_twfe_reg_j_2),
+  c('**log(wages)**', '**log(jobs)**')
 )
 ```
 
@@ -295,7 +300,7 @@ Again, the results show that the `Exposure to computers` measure alone does not 
 Two last test using the @baltagi2021 TWFE will be made by interacting the predominant skill group of the occupations with the exposure to computers measure, so we can investigate if the exposure to computer has heterogeneous effects through the different skill groups. To prevent the correlation between the exposure to computers measure and the RC occupations of the first period, used to construct the measure, we exclude the first period data in this evaluation.
 
 ```{r}
-twfe_reg_3 <- plm(log_wage ~ exposure:group,
+twfe_reg_w_3 <- plm(log_wage ~ exposure:group,
              data = data2 %>% filter(ano != '2006'),
              model = 'within',
              effect = 'twoways',
@@ -303,16 +308,7 @@ twfe_reg_3 <- plm(log_wage ~ exposure:group,
 ```
 
 ```{r}
-wtwfe_reg_3 <- plm(log_wage ~ exposure:group,
-             data = data2 %>% filter(ano != '2006'),
-             model = 'within',
-             effect = 'twoways',
-             index = c('id','ano'),
-             weights = job_share)
-```
-
-```{r}
-twfe_reg_4 <- plm(log_wage ~ exposure + exposure:group,
+twfe_reg_j_3 <- plm(log_job ~ exposure:group,
              data = data2 %>% filter(ano != '2006'),
              model = 'within',
              effect = 'twoways',
@@ -320,17 +316,24 @@ twfe_reg_4 <- plm(log_wage ~ exposure + exposure:group,
 ```
 
 ```{r}
-wtwfe_reg_4 <- plm(log_wage ~ exposure + exposure:group,
+twfe_reg_w_4 <- plm(log_wage ~ exposure + exposure:group,
              data = data2 %>% filter(ano != '2006'),
              model = 'within',
              effect = 'twoways',
-             index = c('id','ano'),
-             weights = job_share)
+             index = c('id','ano'))
 ```
 
 ```{r}
-tb5 <- gtsummary_table(
-  twfe_reg_3,
+twfe_reg_j_4 <- plm(log_job ~ exposure + exposure:group,
+             data = data2 %>% filter(ano != '2006'),
+             model = 'within',
+             effect = 'twoways',
+             index = c('id','ano'))
+```
+
+```{r}
+tb_twfe_reg_w_3 <- gtsummary_table(
+  twfe_reg_w_3,
   include = c('exposure:group'),
   label = list(
     'exposure:group'='Exposure to computers x Skill type'
@@ -338,16 +341,8 @@ tb5 <- gtsummary_table(
   robust = 'HC1'
 )
 
-tb6 <- gtsummary_table(
-  wtwfe_reg_3,
-  include = c('exposure:group'),
-  label = list(
-    'exposure:group'='Exposure to computers x Skill type'
-    )
-)
-
-tb7 <- gtsummary_table(
-  twfe_reg_4,
+tb_twfe_reg_w_4 <- gtsummary_table(
+  twfe_reg_w_4,
   include = c('exposure', 'exposure:group'),
   label = list(
     'exposure:group'='Exposure to computers x Skill type'
@@ -355,17 +350,27 @@ tb7 <- gtsummary_table(
   robust = 'HC1'
 )
 
-tb8 <- gtsummary_table(
-  wtwfe_reg_4,
+tb_twfe_reg_j_3 <- gtsummary_table(
+  twfe_reg_j_3,
+  include = c('exposure:group'),
+  label = list(
+    'exposure:group'='Exposure to computers x Skill type'
+    ),
+  robust = 'HC1'
+)
+
+tb_twfe_reg_j_4 <- gtsummary_table(
+  twfe_reg_j_4,
   include = c('exposure', 'exposure:group'),
   label = list(
     'exposure:group'='Exposure to computers x Skill type'
-    )
+    ),
+  robust = 'HC1'
 )
 
 tbl_merge(
-  list(tb7, tb8, tb5, tb6),
-  c('**TWFE**', '**Weighted TWFE**', '**TWFE**', '**Weighted TWFE**')
+  list(tb_twfe_reg_w_4, tb_twfe_reg_w_3, tb_twfe_reg_j_4, tb_twfe_reg_j_3),
+  c('**log(wage)**', '**log(wage)**', '**log(job)**', '**log(job)**')
 )
 ```
 
@@ -380,39 +385,39 @@ data3 <- data2 %>%
   ) %>%
   filter(ano != '2006')
 
-twfe_reg_5 <- plm(log_wage ~ exposure + exposure:group,
+twfe_reg_w_5 <- plm(log_wage ~ exposure + exposure:group,
              data = data3,
              model = 'within',
              effect = 'twoways',
              index = c('id','ano'))
 
-wtwfe_reg_5 <- plm(log_wage ~ exposure + exposure:group,
+twfe_reg_j_5 <- plm(log_job ~ exposure + exposure:group,
              data = data3,
              model = 'within',
              effect = 'twoways',
-             index = c('id','ano'),
-             weights = job_share)
+             index = c('id','ano'))
 ```
 
 ```{r}
-tb9 <- gtsummary_table(
-  twfe_reg_5,
+tb_twfe_reg_w_5 <- gtsummary_table(
+  twfe_reg_w_5,
   include=c('exposure', 'exposure:group'),
   label = list('exposure'='exposure',
                'exposure:group'='Exposure to computers x Skill type'),
   robust = 'HC1'
 )
 
-tb10 <- gtsummary_table(
-  wtwfe_reg_5,
+tb_twfe_reg_j_5 <- gtsummary_table(
+  twfe_reg_j_5,
   include=c('exposure', 'exposure:group'),
   label = list('exposure'='exposure',
-               'exposure:group'='Exposure to computers x Skill type')
+               'exposure:group'='Exposure to computers x Skill type'),
+  robust = 'HC1'
 )
 
 tbl_merge(
-  list(tb9, tb10),
-  c('**TWFE**', '**Weighted TWFE**')
+  list(tb_twfe_reg_w_5, tb_twfe_reg_j_5),
+  c('**log(wage)**', '**log(job)**')
 )
 ```
 
@@ -427,7 +432,13 @@ To do that, I'll use a One-Way Fixed Effect model [@baltagi2021, p. 15-19] on th
 ## Only skill groups as explainable variables
 
 ```{r}
-fe_reg1 <- plm(log_wage ~ group,
+fe_reg_w_1 <- plm(log_wage ~ group,
+             data = data2,
+             model = 'within',
+             effect = 'time',
+             index = c('id', 'ano'))
+
+fe_reg_j_1 <- plm(log_job ~ group,
              data = data2,
              model = 'within',
              effect = 'time',
@@ -437,7 +448,13 @@ fe_reg1 <- plm(log_wage ~ group,
 ## Skill groups and industry sectors as explainable variables
 
 ```{r}
-fe_reg2 <- plm(log_wage ~ group + secao,
+fe_reg_w_2 <- plm(log_wage ~ group + secao,
+             data = data2,
+             model = 'within',
+             effect = 'time',
+             index = c('id', 'ano'))
+
+fe_reg_j_2 <- plm(log_job ~ group + secao,
              data = data2,
              model = 'within',
              effect = 'time',
@@ -447,16 +464,33 @@ fe_reg2 <- plm(log_wage ~ group + secao,
 ## Results of the skill groups specifications
 
 ```{r}
-tb11 <- gtsummary_table(
-  fe_reg1,
+tb_fe_reg_w_1 <- gtsummary_table(
+  fe_reg_w_1,
   include=c('group'),
   label=list(
     'group'='Skill group'
   ),
   robust='HC1'
 )
-tb12 <- gtsummary_table(
-  fe_reg2,
+tb_fe_reg_j_1 <- gtsummary_table(
+  fe_reg_j_1,
+  include=c('group'),
+  label=list(
+    'group'='Skill group'
+  ),
+  robust='HC1'
+)
+
+tb_fe_reg_w_2 <- gtsummary_table(
+  fe_reg_w_2,
+  include=c('group'),
+  label=list(
+    'group'='Skill group'
+  ),
+  robust='HC1'
+)
+tb_fe_reg_j_2 <- gtsummary_table(
+  fe_reg_j_2,
   include=c('group'),
   label=list(
     'group'='Skill group'
@@ -465,8 +499,8 @@ tb12 <- gtsummary_table(
 )
 
 tbl_merge(
-  list(tb11, tb12),
-  c('**Without industry FE**', '**With industry FE**')
+  list(tb_fe_reg_w_1, tb_fe_reg_w_2, tb_fe_reg_j_1, tb_fe_reg_j_2),
+  c('**log(wage)**', '**log(wage)**', '**log(job)**', '**log(job)**')
 )
 ```
 
@@ -483,7 +517,13 @@ The interpretation of the coefficients in this case, thankfully, is very simple:
 Just to dig a little bit more about omitted variable bias in the industry sector fixed effects, I'll regress wages on industry sector only and compare with the fixed effects in the previous model with industry sector and skill groups.
 
 ```{r}
-fe_reg3 <- plm(log_wage ~ secao,
+fe_reg_w_3 <- plm(log_wage ~ secao,
+             data = data2,
+             model = 'within',
+             effect = 'time',
+             index = c('id', 'ano'))
+
+fe_reg_j_3 <- plm(log_job ~ secao,
              data = data2,
              model = 'within',
              effect = 'time',
@@ -493,16 +533,32 @@ fe_reg3 <- plm(log_wage ~ secao,
 ## Results of the industry sector specifications
 
 ```{r}
-tb13 <- gtsummary_table(
-  fe_reg2,
+tb2_fe_reg_w_2 <- gtsummary_table(
+  fe_reg_w_2,
   include=c('secao'),
   label=list(
     'secao'='CNAE industry sector'
   ),
   robust='HC1'
 )
-tb14 <- gtsummary_table(
-  fe_reg3,
+tb_fe_reg_w_3 <- gtsummary_table(
+  fe_reg_w_3,
+  include=c('secao'),
+  label=list(
+    'secao'='CNAE industry sector'
+  ),
+  robust='HC1'
+)
+tb2_fe_reg_j_2 <- gtsummary_table(
+  fe_reg_j_2,
+  include=c('secao'),
+  label=list(
+    'secao'='CNAE industry sector'
+  ),
+  robust='HC1'
+)
+tb_fe_reg_j_3 <- gtsummary_table(
+  fe_reg_j_3,
   include=c('secao'),
   label=list(
     'secao'='CNAE industry sector'
@@ -510,8 +566,8 @@ tb14 <- gtsummary_table(
   robust='HC1'
 )
 tbl_merge(
-  list(tb13, tb14),
-  c('**With skill group FE**', '**Without skill group FE**')
+  list(tb2_fe_reg_w_2, tb_fe_reg_w_3, tb2_fe_reg_j_2, tb_fe_reg_j_3),
+  c('**log(wage)**', '**log(wage)**', '**log(job)**', '**log(job)**')
 )
 ```
 

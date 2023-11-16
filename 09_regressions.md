@@ -64,6 +64,11 @@ if(!require(modelsummary)){install.packages('modelsummary');require(modelsummary
 
 ``` r
 library("gtsummary")
+```
+
+    ## #StandWithUkraine
+
+``` r
 if(!require(plm)){install.packages("plm");require(plm)}
 ```
 
@@ -101,6 +106,9 @@ tictoc::tic()
 data <- tbl(con, file) %>%
   filter(
     !is.na(secao) & !is.na(ano) & !is.na(group)
+  ) %>%
+  filter (
+    ano < 2020
   ) %>%
   group_by(
     descricao_secao,
@@ -145,7 +153,7 @@ data <- data %>%
 tictoc::toc()
 ```
 
-    ## 3.62 sec elapsed
+    ## 4.09 sec elapsed
 
 ``` r
 data %>% head()
@@ -212,156 +220,104 @@ id
 <tr>
 <td style="text-align:left;">
 
+Indústrias de transformação
+
+</td>
+<td style="text-align:left;">
+
+2013
+
+</td>
+<td style="text-align:left;">
+
+RM
+
+</td>
+<td style="text-align:right;">
+
+0.1593080
+
+</td>
+<td style="text-align:right;">
+
+1424.6707
+
+</td>
+<td style="text-align:right;">
+
+2.093360
+
+</td>
+<td style="text-align:right;">
+
+13.49297
+
+</td>
+<td style="text-align:right;">
+
+8494636
+
+</td>
+<td style="text-align:right;">
+
+2.673663
+
+</td>
+<td style="text-align:left;">
+
+Indústrias de transformação-RM
+
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+
 Agricultura, pecuária, produção florestal, pesca e aqüicultura
 
 </td>
 <td style="text-align:left;">
 
-2007
+2013
 
 </td>
 <td style="text-align:left;">
 
-RM
+RC
 
 </td>
 <td style="text-align:right;">
 
-0.0300704
+0.0386127
 
 </td>
 <td style="text-align:right;">
 
-582.9249
+1702.8877
 
 </td>
 <td style="text-align:right;">
 
-1.560649
+2.504045
 
 </td>
 <td style="text-align:right;">
 
-7.951023
+16.19799
 
 </td>
 <td style="text-align:right;">
 
-2655421
+133920
 
 </td>
 <td style="text-align:right;">
 
-2.191768
+2.844792
 
 </td>
 <td style="text-align:left;">
 
-Agricultura, pecuária, produção florestal, pesca e aqüicultura-RM
-
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-
-Serviços domésticos
-
-</td>
-<td style="text-align:left;">
-
-2007
-
-</td>
-<td style="text-align:left;">
-
-RM
-
-</td>
-<td style="text-align:right;">
-
-0.0369244
-
-</td>
-<td style="text-align:right;">
-
-591.9065
-
-</td>
-<td style="text-align:right;">
-
-1.585252
-
-</td>
-<td style="text-align:right;">
-
-7.785373
-
-</td>
-<td style="text-align:right;">
-
-3434
-
-</td>
-<td style="text-align:right;">
-
-2.173088
-
-</td>
-<td style="text-align:left;">
-
-Serviços domésticos-RM
-
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-
-Educação
-
-</td>
-<td style="text-align:left;">
-
-2007
-
-</td>
-<td style="text-align:left;">
-
-RM
-
-</td>
-<td style="text-align:right;">
-
-0.2641262
-
-</td>
-<td style="text-align:right;">
-
-793.4969
-
-</td>
-<td style="text-align:right;">
-
-2.128201
-
-</td>
-<td style="text-align:right;">
-
-11.012829
-
-</td>
-<td style="text-align:right;">
-
-66431
-
-</td>
-<td style="text-align:right;">
-
-2.485975
-
-</td>
-<td style="text-align:left;">
-
-Educação-RM
+Agricultura, pecuária, produção florestal, pesca e aqüicultura-RC
 
 </td>
 </tr>
@@ -373,47 +329,47 @@ Outras atividades de serviços
 </td>
 <td style="text-align:left;">
 
-2007
+2013
 
 </td>
 <td style="text-align:left;">
 
-RM
+NRM
 
 </td>
 <td style="text-align:right;">
 
-0.2963505
+0.3805370
 
 </td>
 <td style="text-align:right;">
 
-755.2996
+973.0612
 
 </td>
 <td style="text-align:right;">
 
-2.025855
+1.427845
 
 </td>
 <td style="text-align:right;">
 
-10.784176
+9.70619
 
 </td>
 <td style="text-align:right;">
 
-259837
+486524
 
 </td>
 <td style="text-align:right;">
 
-2.466758
+2.370822
 
 </td>
 <td style="text-align:left;">
 
-Outras atividades de serviços-RM
+Outras atividades de serviços-NRM
 
 </td>
 </tr>
@@ -425,59 +381,59 @@ Administração pública, defesa e seguridade social
 </td>
 <td style="text-align:left;">
 
-2007
+2013
 
 </td>
 <td style="text-align:left;">
 
-RM
+NRC
 
 </td>
 <td style="text-align:right;">
 
-0.3351270
+0.4303290
 
 </td>
 <td style="text-align:right;">
 
-799.0380
+2769.6554
 
 </td>
 <td style="text-align:right;">
 
-2.143549
+4.077361
 
 </td>
 <td style="text-align:right;">
 
-12.439843
+34.49037
 
 </td>
 <td style="text-align:right;">
 
-679545
+4277041
 
 </td>
 <td style="text-align:right;">
 
-2.598224
+3.569261
 
 </td>
 <td style="text-align:left;">
 
-Administração pública, defesa e seguridade social-RM
+Administração pública, defesa e seguridade social-NRC
 
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
 
-Educação
+��gua, esgoto, atividades de gestão de resíduos e descontaminação
 
 </td>
 <td style="text-align:left;">
 
-2007
+2013
 
 </td>
 <td style="text-align:left;">
@@ -487,37 +443,89 @@ RC
 </td>
 <td style="text-align:right;">
 
-0.2641262
+0.1667834
 
 </td>
 <td style="text-align:right;">
 
-1078.1387
+2485.0925
 
 </td>
 <td style="text-align:right;">
 
-2.897043
+3.656901
 
 </td>
 <td style="text-align:right;">
 
-20.890300
+24.81860
 
 </td>
 <td style="text-align:right;">
 
-538213
+68364
 
 </td>
 <td style="text-align:right;">
 
-3.086044
+3.251095
 
 </td>
 <td style="text-align:left;">
 
-Educação-RC
+��gua, esgoto, atividades de gestão de resíduos e descontaminação-RC
+
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+
+Indústrias de transformação
+
+</td>
+<td style="text-align:left;">
+
+2013
+
+</td>
+<td style="text-align:left;">
+
+RC
+
+</td>
+<td style="text-align:right;">
+
+0.1593080
+
+</td>
+<td style="text-align:right;">
+
+1859.6553
+
+</td>
+<td style="text-align:right;">
+
+2.734774
+
+</td>
+<td style="text-align:right;">
+
+17.54743
+
+</td>
+<td style="text-align:right;">
+
+1952553
+
+</td>
+<td style="text-align:right;">
+
+2.920332
+
+</td>
+<td style="text-align:left;">
+
+Indústrias de transformação-RC
 
 </td>
 </tr>
@@ -543,7 +551,8 @@ nber30400 <- data%>%
     job_number = sum(job_number)
   ) %>%
   mutate(
-    log_wage = log(mean_wage + 1)
+    log_wage = log(mean_wage + 1),
+    log_job = log(job_number)
   ) %>%
   ungroup() %>%
   group_by(ano) %>%
@@ -605,6 +614,11 @@ log_wage
 </th>
 <th style="text-align:right;">
 
+log_job
+
+</th>
+<th style="text-align:right;">
+
 job_share
 
 </th>
@@ -640,6 +654,11 @@ Administração pública, defesa e seguridade social
 <td style="text-align:right;">
 
 2.940394
+
+</td>
+<td style="text-align:right;">
+
+15.89385
 
 </td>
 <td style="text-align:right;">
@@ -681,6 +700,11 @@ Administração pública, defesa e seguridade social
 </td>
 <td style="text-align:right;">
 
+15.96085
+
+</td>
+<td style="text-align:right;">
+
 0.1601092
 
 </td>
@@ -714,6 +738,11 @@ Administração pública, defesa e seguridade social
 <td style="text-align:right;">
 
 2.978557
+
+</td>
+<td style="text-align:right;">
+
+16.01462
 
 </td>
 <td style="text-align:right;">
@@ -755,6 +784,11 @@ Administração pública, defesa e seguridade social
 </td>
 <td style="text-align:right;">
 
+16.05110
+
+</td>
+<td style="text-align:right;">
+
 0.1601092
 
 </td>
@@ -788,6 +822,11 @@ Administração pública, defesa e seguridade social
 <td style="text-align:right;">
 
 3.041700
+
+</td>
+<td style="text-align:right;">
+
+16.10619
 
 </td>
 <td style="text-align:right;">
@@ -829,6 +868,11 @@ Administração pública, defesa e seguridade social
 </td>
 <td style="text-align:right;">
 
+16.11360
+
+</td>
+<td style="text-align:right;">
+
 0.1601092
 
 </td>
@@ -843,7 +887,7 @@ provides a series of estimators for panel data, including the Two-Way
 Fixed Effects described in Baltagi (2021, p. 47–49), which is used here.
 
 ``` r
-twfe_reg <- plm(log_wage ~ exposure,
+twfe_reg_w <- plm(log_wage ~ exposure,
              data = nber30400,
              model = 'within',
              effect = 'twoways',
@@ -851,17 +895,16 @@ twfe_reg <- plm(log_wage ~ exposure,
 ```
 
 ``` r
-wtwfe_reg <- plm(log_wage ~ exposure,
+twfe_reg_j <- plm(log_job ~ exposure,
              data = nber30400,
              model = 'within',
              effect = 'twoways',
-             index = c('secao','ano'),
-             weights = job_share)
+             index = c('secao','ano'))
 ```
 
 ``` r
-tb1 <- gtsummary_table(
-  twfe_reg,
+tb_twfe_reg_w <- gtsummary_table(
+  twfe_reg_w,
   include = c('exposure'),
   label = list('exposure'='Exposure to computers'),
   robust = 'HC1'
@@ -882,32 +925,33 @@ tb1 <- gtsummary_table(
     ## generated.
 
 ``` r
-tb2 <- gtsummary_table(
-  wtwfe_reg,
+tb_twfe_reg_j <- gtsummary_table(
+  twfe_reg_j,
   include=c('exposure'),
-  label = list('exposure'='Exposure to computers')
+  label = list('exposure'='Exposure to computers'),
+  robust = 'HC1'
 )
 
 tbl_merge(
-  list(tb1, tb2),
-  c('**TWFE**', '**Weighted TWFE**')
+  list(tb_twfe_reg_w, tb_twfe_reg_j),
+  c('**log(wages)**', '**log(jobs)**')
 )
 ```
 
-<div id="sugokzjmsf" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#sugokzjmsf table {
+<div id="ebqheovhgy" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#ebqheovhgy table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-&#10;#sugokzjmsf thead, #sugokzjmsf tbody, #sugokzjmsf tfoot, #sugokzjmsf tr, #sugokzjmsf td, #sugokzjmsf th {
+&#10;#ebqheovhgy thead, #ebqheovhgy tbody, #ebqheovhgy tfoot, #ebqheovhgy tr, #ebqheovhgy td, #ebqheovhgy th {
   border-style: none;
 }
-&#10;#sugokzjmsf p {
+&#10;#ebqheovhgy p {
   margin: 0;
   padding: 0;
 }
-&#10;#sugokzjmsf .gt_table {
+&#10;#ebqheovhgy .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -932,11 +976,11 @@ tbl_merge(
   border-left-width: 2px;
   border-left-color: #D3D3D3;
 }
-&#10;#sugokzjmsf .gt_caption {
+&#10;#ebqheovhgy .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
-&#10;#sugokzjmsf .gt_title {
+&#10;#ebqheovhgy .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -947,7 +991,7 @@ tbl_merge(
   border-bottom-color: #FFFFFF;
   border-bottom-width: 0;
 }
-&#10;#sugokzjmsf .gt_subtitle {
+&#10;#ebqheovhgy .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -958,7 +1002,7 @@ tbl_merge(
   border-top-color: #FFFFFF;
   border-top-width: 0;
 }
-&#10;#sugokzjmsf .gt_heading {
+&#10;#ebqheovhgy .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -969,12 +1013,12 @@ tbl_merge(
   border-right-width: 1px;
   border-right-color: #D3D3D3;
 }
-&#10;#sugokzjmsf .gt_bottom_border {
+&#10;#ebqheovhgy .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
-&#10;#sugokzjmsf .gt_col_headings {
+&#10;#ebqheovhgy .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -988,7 +1032,7 @@ tbl_merge(
   border-right-width: 1px;
   border-right-color: #D3D3D3;
 }
-&#10;#sugokzjmsf .gt_col_heading {
+&#10;#ebqheovhgy .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1007,7 +1051,7 @@ tbl_merge(
   padding-right: 5px;
   overflow-x: hidden;
 }
-&#10;#sugokzjmsf .gt_column_spanner_outer {
+&#10;#ebqheovhgy .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1018,13 +1062,13 @@ tbl_merge(
   padding-left: 4px;
   padding-right: 4px;
 }
-&#10;#sugokzjmsf .gt_column_spanner_outer:first-child {
+&#10;#ebqheovhgy .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
-&#10;#sugokzjmsf .gt_column_spanner_outer:last-child {
+&#10;#ebqheovhgy .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
-&#10;#sugokzjmsf .gt_column_spanner {
+&#10;#ebqheovhgy .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1035,10 +1079,10 @@ tbl_merge(
   display: inline-block;
   width: 100%;
 }
-&#10;#sugokzjmsf .gt_spanner_row {
+&#10;#ebqheovhgy .gt_spanner_row {
   border-bottom-style: hidden;
 }
-&#10;#sugokzjmsf .gt_group_heading {
+&#10;#ebqheovhgy .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1063,7 +1107,7 @@ tbl_merge(
   vertical-align: middle;
   text-align: left;
 }
-&#10;#sugokzjmsf .gt_empty_group_heading {
+&#10;#ebqheovhgy .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1077,13 +1121,13 @@ tbl_merge(
   border-bottom-color: #D3D3D3;
   vertical-align: middle;
 }
-&#10;#sugokzjmsf .gt_from_md > :first-child {
+&#10;#ebqheovhgy .gt_from_md > :first-child {
   margin-top: 0;
 }
-&#10;#sugokzjmsf .gt_from_md > :last-child {
+&#10;#ebqheovhgy .gt_from_md > :last-child {
   margin-bottom: 0;
 }
-&#10;#sugokzjmsf .gt_row {
+&#10;#ebqheovhgy .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1101,7 +1145,7 @@ tbl_merge(
   vertical-align: middle;
   overflow-x: hidden;
 }
-&#10;#sugokzjmsf .gt_stub {
+&#10;#ebqheovhgy .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1113,7 +1157,7 @@ tbl_merge(
   padding-left: 5px;
   padding-right: 5px;
 }
-&#10;#sugokzjmsf .gt_stub_row_group {
+&#10;#ebqheovhgy .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1126,13 +1170,13 @@ tbl_merge(
   padding-right: 5px;
   vertical-align: top;
 }
-&#10;#sugokzjmsf .gt_row_group_first td {
+&#10;#ebqheovhgy .gt_row_group_first td {
   border-top-width: 2px;
 }
-&#10;#sugokzjmsf .gt_row_group_first th {
+&#10;#ebqheovhgy .gt_row_group_first th {
   border-top-width: 2px;
 }
-&#10;#sugokzjmsf .gt_summary_row {
+&#10;#ebqheovhgy .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1141,14 +1185,14 @@ tbl_merge(
   padding-left: 5px;
   padding-right: 5px;
 }
-&#10;#sugokzjmsf .gt_first_summary_row {
+&#10;#ebqheovhgy .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
-&#10;#sugokzjmsf .gt_first_summary_row.thick {
+&#10;#ebqheovhgy .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
-&#10;#sugokzjmsf .gt_last_summary_row {
+&#10;#ebqheovhgy .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1157,7 +1201,7 @@ tbl_merge(
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
-&#10;#sugokzjmsf .gt_grand_summary_row {
+&#10;#ebqheovhgy .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1166,7 +1210,7 @@ tbl_merge(
   padding-left: 5px;
   padding-right: 5px;
 }
-&#10;#sugokzjmsf .gt_first_grand_summary_row {
+&#10;#ebqheovhgy .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1175,7 +1219,7 @@ tbl_merge(
   border-top-width: 6px;
   border-top-color: #D3D3D3;
 }
-&#10;#sugokzjmsf .gt_last_grand_summary_row_top {
+&#10;#ebqheovhgy .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1184,10 +1228,10 @@ tbl_merge(
   border-bottom-width: 6px;
   border-bottom-color: #D3D3D3;
 }
-&#10;#sugokzjmsf .gt_striped {
+&#10;#ebqheovhgy .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
-&#10;#sugokzjmsf .gt_table_body {
+&#10;#ebqheovhgy .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1195,7 +1239,7 @@ tbl_merge(
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
-&#10;#sugokzjmsf .gt_footnotes {
+&#10;#ebqheovhgy .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1208,7 +1252,7 @@ tbl_merge(
   border-right-width: 2px;
   border-right-color: #D3D3D3;
 }
-&#10;#sugokzjmsf .gt_footnote {
+&#10;#ebqheovhgy .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1216,7 +1260,7 @@ tbl_merge(
   padding-left: 5px;
   padding-right: 5px;
 }
-&#10;#sugokzjmsf .gt_sourcenotes {
+&#10;#ebqheovhgy .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1229,57 +1273,57 @@ tbl_merge(
   border-right-width: 2px;
   border-right-color: #D3D3D3;
 }
-&#10;#sugokzjmsf .gt_sourcenote {
+&#10;#ebqheovhgy .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
   padding-left: 5px;
   padding-right: 5px;
 }
-&#10;#sugokzjmsf .gt_left {
+&#10;#ebqheovhgy .gt_left {
   text-align: left;
 }
-&#10;#sugokzjmsf .gt_center {
+&#10;#ebqheovhgy .gt_center {
   text-align: center;
 }
-&#10;#sugokzjmsf .gt_right {
+&#10;#ebqheovhgy .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
-&#10;#sugokzjmsf .gt_font_normal {
+&#10;#ebqheovhgy .gt_font_normal {
   font-weight: normal;
 }
-&#10;#sugokzjmsf .gt_font_bold {
+&#10;#ebqheovhgy .gt_font_bold {
   font-weight: bold;
 }
-&#10;#sugokzjmsf .gt_font_italic {
+&#10;#ebqheovhgy .gt_font_italic {
   font-style: italic;
 }
-&#10;#sugokzjmsf .gt_super {
+&#10;#ebqheovhgy .gt_super {
   font-size: 65%;
 }
-&#10;#sugokzjmsf .gt_footnote_marks {
+&#10;#ebqheovhgy .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
-&#10;#sugokzjmsf .gt_asterisk {
+&#10;#ebqheovhgy .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
-&#10;#sugokzjmsf .gt_indent_1 {
+&#10;#ebqheovhgy .gt_indent_1 {
   text-indent: 5px;
 }
-&#10;#sugokzjmsf .gt_indent_2 {
+&#10;#ebqheovhgy .gt_indent_2 {
   text-indent: 10px;
 }
-&#10;#sugokzjmsf .gt_indent_3 {
+&#10;#ebqheovhgy .gt_indent_3 {
   text-indent: 15px;
 }
-&#10;#sugokzjmsf .gt_indent_4 {
+&#10;#ebqheovhgy .gt_indent_4 {
   text-indent: 20px;
 }
-&#10;#sugokzjmsf .gt_indent_5 {
+&#10;#ebqheovhgy .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -1287,11 +1331,11 @@ tbl_merge(
   <thead>
     &#10;    <tr class="gt_col_headings gt_spanner_row">
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="2" colspan="1" scope="col" id="&lt;strong&gt;Characteristic&lt;/strong&gt;"><strong>Characteristic</strong></th>
-      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="2" scope="colgroup" id="&lt;strong&gt;TWFE&lt;/strong&gt;">
-        <span class="gt_column_spanner"><strong>TWFE</strong></span>
+      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="2" scope="colgroup" id="&lt;strong&gt;log(wages)&lt;/strong&gt;">
+        <span class="gt_column_spanner"><strong>log(wages)</strong></span>
       </th>
-      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="2" scope="colgroup" id="&lt;strong&gt;Weighted TWFE&lt;/strong&gt;">
-        <span class="gt_column_spanner"><strong>Weighted TWFE</strong></span>
+      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="2" scope="colgroup" id="&lt;strong&gt;log(jobs)&lt;/strong&gt;">
+        <span class="gt_column_spanner"><strong>log(jobs)</strong></span>
       </th>
     </tr>
     <tr class="gt_col_headings">
@@ -1303,24 +1347,24 @@ tbl_merge(
   </thead>
   <tbody class="gt_table_body">
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Exposure to computers</td>
-<td headers="estimate_1" class="gt_row gt_center">0.0398 (0.123)</td>
-<td headers="p.value_1" class="gt_row gt_center">0.7</td>
-<td headers="estimate_2" class="gt_row gt_center">-0.1137** (0.037)</td>
-<td headers="p.value_2" class="gt_row gt_center">0.002</td></tr>
+<td headers="estimate_1" class="gt_row gt_center">-0.0117 (0.109)</td>
+<td headers="p.value_1" class="gt_row gt_center">>0.9</td>
+<td headers="estimate_2" class="gt_row gt_center">-0.8675* (0.347)</td>
+<td headers="p.value_2" class="gt_row gt_center">0.013</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;">R²</td>
-<td headers="estimate_1" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;">0.001</td>
+<td headers="estimate_1" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;">0.000</td>
 <td headers="p.value_1" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;"></td>
-<td headers="estimate_2" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;">0.001</td>
+<td headers="estimate_2" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;">0.042</td>
 <td headers="p.value_2" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;"></td></tr>
     <tr><td headers="label" class="gt_row gt_left">Adjusted R²</td>
-<td headers="estimate_1" class="gt_row gt_center">-0.119</td>
+<td headers="estimate_1" class="gt_row gt_center">-0.131</td>
 <td headers="p.value_1" class="gt_row gt_center"></td>
-<td headers="estimate_2" class="gt_row gt_center">-0.119</td>
+<td headers="estimate_2" class="gt_row gt_center">-0.083</td>
 <td headers="p.value_2" class="gt_row gt_center"></td></tr>
     <tr><td headers="label" class="gt_row gt_left">No. Obs.</td>
-<td headers="estimate_1" class="gt_row gt_center">336</td>
+<td headers="estimate_1" class="gt_row gt_center">294</td>
 <td headers="p.value_1" class="gt_row gt_center"></td>
-<td headers="estimate_2" class="gt_row gt_center">336</td>
+<td headers="estimate_2" class="gt_row gt_center">294</td>
 <td headers="p.value_2" class="gt_row gt_center"></td></tr>
   </tbody>
   &#10;  <tfoot class="gt_footnotes">
@@ -1363,6 +1407,7 @@ data2 <- data %>%
   group_by(id) %>%
   mutate(
     job_share = order_by(ano, cumsum(job_share)),
+    log_job = log(job_number)
   ) %>%
   ungroup()
 
@@ -1429,9 +1474,76 @@ id
 job_share
 
 </th>
+<th style="text-align:right;">
+
+log_job
+
+</th>
 </tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align:left;">
+
+Indústrias de transformação
+
+</td>
+<td style="text-align:left;">
+
+2013
+
+</td>
+<td style="text-align:left;">
+
+RM
+
+</td>
+<td style="text-align:right;">
+
+0.1593080
+
+</td>
+<td style="text-align:right;">
+
+1424.6707
+
+</td>
+<td style="text-align:right;">
+
+2.093360
+
+</td>
+<td style="text-align:right;">
+
+13.49297
+
+</td>
+<td style="text-align:right;">
+
+8494636
+
+</td>
+<td style="text-align:right;">
+
+2.673663
+
+</td>
+<td style="text-align:left;">
+
+Indústrias de transformação-RM
+
+</td>
+<td style="text-align:right;">
+
+0.1332471
+
+</td>
+<td style="text-align:right;">
+
+15.95495
+
+</td>
+</tr>
 <tr>
 <td style="text-align:left;">
 
@@ -1440,166 +1552,57 @@ Agricultura, pecuária, produção florestal, pesca e aqüicultura
 </td>
 <td style="text-align:left;">
 
-2007
+2013
 
 </td>
 <td style="text-align:left;">
 
-RM
+RC
 
 </td>
 <td style="text-align:right;">
 
-0.0300704
+0.0386127
 
 </td>
 <td style="text-align:right;">
 
-582.9249
+1702.8877
 
 </td>
 <td style="text-align:right;">
 
-1.560649
+2.504045
 
 </td>
 <td style="text-align:right;">
 
-7.951023
+16.19799
 
 </td>
 <td style="text-align:right;">
 
-2655421
+133920
 
 </td>
 <td style="text-align:right;">
 
-2.191768
+2.844792
 
 </td>
 <td style="text-align:left;">
 
-Agricultura, pecuária, produção florestal, pesca e aqüicultura-RM
+Agricultura, pecuária, produção florestal, pesca e aqüicultura-RC
 
 </td>
 <td style="text-align:right;">
 
-0.0517737
-
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-
-Serviços domésticos
-
-</td>
-<td style="text-align:left;">
-
-2007
-
-</td>
-<td style="text-align:left;">
-
-RM
+0.0020271
 
 </td>
 <td style="text-align:right;">
 
-0.0369244
-
-</td>
-<td style="text-align:right;">
-
-591.9065
-
-</td>
-<td style="text-align:right;">
-
-1.585252
-
-</td>
-<td style="text-align:right;">
-
-7.785373
-
-</td>
-<td style="text-align:right;">
-
-3434
-
-</td>
-<td style="text-align:right;">
-
-2.173088
-
-</td>
-<td style="text-align:left;">
-
-Serviços domésticos-RM
-
-</td>
-<td style="text-align:right;">
-
-0.0000479
-
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-
-Educação
-
-</td>
-<td style="text-align:left;">
-
-2007
-
-</td>
-<td style="text-align:left;">
-
-RM
-
-</td>
-<td style="text-align:right;">
-
-0.2641262
-
-</td>
-<td style="text-align:right;">
-
-793.4969
-
-</td>
-<td style="text-align:right;">
-
-2.128201
-
-</td>
-<td style="text-align:right;">
-
-11.012829
-
-</td>
-<td style="text-align:right;">
-
-66431
-
-</td>
-<td style="text-align:right;">
-
-2.485975
-
-</td>
-<td style="text-align:left;">
-
-Educação-RM
-
-</td>
-<td style="text-align:right;">
-
-0.0013399
+11.80500
 
 </td>
 </tr>
@@ -1611,52 +1614,57 @@ Outras atividades de serviços
 </td>
 <td style="text-align:left;">
 
-2007
+2013
 
 </td>
 <td style="text-align:left;">
 
-RM
+NRM
 
 </td>
 <td style="text-align:right;">
 
-0.2963505
+0.3805370
 
 </td>
 <td style="text-align:right;">
 
-755.2996
+973.0612
 
 </td>
 <td style="text-align:right;">
 
-2.025855
+1.427845
 
 </td>
 <td style="text-align:right;">
 
-10.784176
+9.70619
 
 </td>
 <td style="text-align:right;">
 
-259837
+486524
 
 </td>
 <td style="text-align:right;">
 
-2.466758
+2.370822
 
 </td>
 <td style="text-align:left;">
 
-Outras atividades de serviços-RM
+Outras atividades de serviços-NRM
 
 </td>
 <td style="text-align:right;">
 
-0.0049124
+0.0072481
+
+</td>
+<td style="text-align:right;">
+
+13.09504
 
 </td>
 </tr>
@@ -1668,64 +1676,69 @@ Administração pública, defesa e seguridade social
 </td>
 <td style="text-align:left;">
 
-2007
+2013
 
 </td>
 <td style="text-align:left;">
 
-RM
+NRC
 
 </td>
 <td style="text-align:right;">
 
-0.3351270
+0.4303290
 
 </td>
 <td style="text-align:right;">
 
-799.0380
+2769.6554
 
 </td>
 <td style="text-align:right;">
 
-2.143549
+4.077361
 
 </td>
 <td style="text-align:right;">
 
-12.439843
+34.49037
 
 </td>
 <td style="text-align:right;">
 
-679545
+4277041
 
 </td>
 <td style="text-align:right;">
 
-2.598224
+3.569261
 
 </td>
 <td style="text-align:left;">
 
-Administração pública, defesa e seguridade social-RM
+Administração pública, defesa e seguridade social-NRC
 
 </td>
 <td style="text-align:right;">
 
-0.0128236
+0.0601832
+
+</td>
+<td style="text-align:right;">
+
+15.26877
 
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
 
-Educação
+��gua, esgoto, atividades de gestão de resíduos e descontaminação
 
 </td>
 <td style="text-align:left;">
 
-2007
+2013
 
 </td>
 <td style="text-align:left;">
@@ -1735,42 +1748,109 @@ RC
 </td>
 <td style="text-align:right;">
 
-0.2641262
+0.1667834
 
 </td>
 <td style="text-align:right;">
 
-1078.1387
+2485.0925
 
 </td>
 <td style="text-align:right;">
 
-2.897043
+3.656901
 
 </td>
 <td style="text-align:right;">
 
-20.890300
+24.81860
 
 </td>
 <td style="text-align:right;">
 
-538213
+68364
 
 </td>
 <td style="text-align:right;">
 
-3.086044
+3.251095
 
 </td>
 <td style="text-align:left;">
 
-Educação-RC
+��gua, esgoto, atividades de gestão de resíduos e descontaminação-RC
 
 </td>
 <td style="text-align:right;">
 
-0.0100562
+0.0010081
+
+</td>
+<td style="text-align:right;">
+
+11.13260
+
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+
+Indústrias de transformação
+
+</td>
+<td style="text-align:left;">
+
+2013
+
+</td>
+<td style="text-align:left;">
+
+RC
+
+</td>
+<td style="text-align:right;">
+
+0.1593080
+
+</td>
+<td style="text-align:right;">
+
+1859.6553
+
+</td>
+<td style="text-align:right;">
+
+2.734774
+
+</td>
+<td style="text-align:right;">
+
+17.54743
+
+</td>
+<td style="text-align:right;">
+
+1952553
+
+</td>
+<td style="text-align:right;">
+
+2.920332
+
+</td>
+<td style="text-align:left;">
+
+Indústrias de transformação-RC
+
+</td>
+<td style="text-align:right;">
+
+0.0263996
+
+</td>
+<td style="text-align:right;">
+
+14.48465
 
 </td>
 </tr>
@@ -1783,7 +1863,7 @@ With the data in the new shape, I regress the log_wages on the exposure
 measure.
 
 ``` r
-twfe_reg_2 <- plm(log_wage ~ exposure,
+twfe_reg_w_2 <- plm(log_wage ~ exposure,
              data = data2,
              model = 'within',
              effect = 'twoways',
@@ -1791,48 +1871,48 @@ twfe_reg_2 <- plm(log_wage ~ exposure,
 ```
 
 ``` r
-wtwfe_reg_2 <- plm(log_wage ~ exposure,
+twfe_reg_j_2 <- plm(log_job ~ exposure,
              data = data2,
              model = 'within',
              effect = 'twoways',
-             index = c('id','ano'),
-             weights = job_share)
+             index = c('id','ano'))
 ```
 
 ``` r
-tb3 <- gtsummary_table(
-  twfe_reg_2,
+tb_twfe_reg_w_2 <- gtsummary_table(
+  twfe_reg_w_2,
   include = c('exposure'),
   label = list('exposure'='Exposure to computers'),
   robust = 'HC1'
 )
 
-tb4 <- gtsummary_table(
-  wtwfe_reg_2,
+tb_twfe_reg_j_2 <- gtsummary_table(
+  twfe_reg_j_2,
   include = c('exposure'),
   label = list('exposure'='Exposure to computers'),
+  robust='HC1'
 )
 
 tbl_merge(
-  list(tb3, tb4),
-  c('**TWFE**', '**Weighted TWFE**')
+  list(tb_twfe_reg_w_2, tb_twfe_reg_j_2),
+  c('**log(wages)**', '**log(jobs)**')
 )
 ```
 
-<div id="tqmieomntv" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#tqmieomntv table {
+<div id="vygipvbuuh" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#vygipvbuuh table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-&#10;#tqmieomntv thead, #tqmieomntv tbody, #tqmieomntv tfoot, #tqmieomntv tr, #tqmieomntv td, #tqmieomntv th {
+&#10;#vygipvbuuh thead, #vygipvbuuh tbody, #vygipvbuuh tfoot, #vygipvbuuh tr, #vygipvbuuh td, #vygipvbuuh th {
   border-style: none;
 }
-&#10;#tqmieomntv p {
+&#10;#vygipvbuuh p {
   margin: 0;
   padding: 0;
 }
-&#10;#tqmieomntv .gt_table {
+&#10;#vygipvbuuh .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1857,11 +1937,11 @@ tbl_merge(
   border-left-width: 2px;
   border-left-color: #D3D3D3;
 }
-&#10;#tqmieomntv .gt_caption {
+&#10;#vygipvbuuh .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
-&#10;#tqmieomntv .gt_title {
+&#10;#vygipvbuuh .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1872,7 +1952,7 @@ tbl_merge(
   border-bottom-color: #FFFFFF;
   border-bottom-width: 0;
 }
-&#10;#tqmieomntv .gt_subtitle {
+&#10;#vygipvbuuh .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1883,7 +1963,7 @@ tbl_merge(
   border-top-color: #FFFFFF;
   border-top-width: 0;
 }
-&#10;#tqmieomntv .gt_heading {
+&#10;#vygipvbuuh .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1894,12 +1974,12 @@ tbl_merge(
   border-right-width: 1px;
   border-right-color: #D3D3D3;
 }
-&#10;#tqmieomntv .gt_bottom_border {
+&#10;#vygipvbuuh .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
-&#10;#tqmieomntv .gt_col_headings {
+&#10;#vygipvbuuh .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1913,7 +1993,7 @@ tbl_merge(
   border-right-width: 1px;
   border-right-color: #D3D3D3;
 }
-&#10;#tqmieomntv .gt_col_heading {
+&#10;#vygipvbuuh .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1932,7 +2012,7 @@ tbl_merge(
   padding-right: 5px;
   overflow-x: hidden;
 }
-&#10;#tqmieomntv .gt_column_spanner_outer {
+&#10;#vygipvbuuh .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1943,13 +2023,13 @@ tbl_merge(
   padding-left: 4px;
   padding-right: 4px;
 }
-&#10;#tqmieomntv .gt_column_spanner_outer:first-child {
+&#10;#vygipvbuuh .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
-&#10;#tqmieomntv .gt_column_spanner_outer:last-child {
+&#10;#vygipvbuuh .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
-&#10;#tqmieomntv .gt_column_spanner {
+&#10;#vygipvbuuh .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1960,10 +2040,10 @@ tbl_merge(
   display: inline-block;
   width: 100%;
 }
-&#10;#tqmieomntv .gt_spanner_row {
+&#10;#vygipvbuuh .gt_spanner_row {
   border-bottom-style: hidden;
 }
-&#10;#tqmieomntv .gt_group_heading {
+&#10;#vygipvbuuh .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1988,7 +2068,7 @@ tbl_merge(
   vertical-align: middle;
   text-align: left;
 }
-&#10;#tqmieomntv .gt_empty_group_heading {
+&#10;#vygipvbuuh .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2002,13 +2082,13 @@ tbl_merge(
   border-bottom-color: #D3D3D3;
   vertical-align: middle;
 }
-&#10;#tqmieomntv .gt_from_md > :first-child {
+&#10;#vygipvbuuh .gt_from_md > :first-child {
   margin-top: 0;
 }
-&#10;#tqmieomntv .gt_from_md > :last-child {
+&#10;#vygipvbuuh .gt_from_md > :last-child {
   margin-bottom: 0;
 }
-&#10;#tqmieomntv .gt_row {
+&#10;#vygipvbuuh .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2026,7 +2106,7 @@ tbl_merge(
   vertical-align: middle;
   overflow-x: hidden;
 }
-&#10;#tqmieomntv .gt_stub {
+&#10;#vygipvbuuh .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2038,7 +2118,7 @@ tbl_merge(
   padding-left: 5px;
   padding-right: 5px;
 }
-&#10;#tqmieomntv .gt_stub_row_group {
+&#10;#vygipvbuuh .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2051,13 +2131,13 @@ tbl_merge(
   padding-right: 5px;
   vertical-align: top;
 }
-&#10;#tqmieomntv .gt_row_group_first td {
+&#10;#vygipvbuuh .gt_row_group_first td {
   border-top-width: 2px;
 }
-&#10;#tqmieomntv .gt_row_group_first th {
+&#10;#vygipvbuuh .gt_row_group_first th {
   border-top-width: 2px;
 }
-&#10;#tqmieomntv .gt_summary_row {
+&#10;#vygipvbuuh .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2066,14 +2146,14 @@ tbl_merge(
   padding-left: 5px;
   padding-right: 5px;
 }
-&#10;#tqmieomntv .gt_first_summary_row {
+&#10;#vygipvbuuh .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
-&#10;#tqmieomntv .gt_first_summary_row.thick {
+&#10;#vygipvbuuh .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
-&#10;#tqmieomntv .gt_last_summary_row {
+&#10;#vygipvbuuh .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2082,7 +2162,7 @@ tbl_merge(
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
-&#10;#tqmieomntv .gt_grand_summary_row {
+&#10;#vygipvbuuh .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2091,7 +2171,7 @@ tbl_merge(
   padding-left: 5px;
   padding-right: 5px;
 }
-&#10;#tqmieomntv .gt_first_grand_summary_row {
+&#10;#vygipvbuuh .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2100,7 +2180,7 @@ tbl_merge(
   border-top-width: 6px;
   border-top-color: #D3D3D3;
 }
-&#10;#tqmieomntv .gt_last_grand_summary_row_top {
+&#10;#vygipvbuuh .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2109,10 +2189,10 @@ tbl_merge(
   border-bottom-width: 6px;
   border-bottom-color: #D3D3D3;
 }
-&#10;#tqmieomntv .gt_striped {
+&#10;#vygipvbuuh .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
-&#10;#tqmieomntv .gt_table_body {
+&#10;#vygipvbuuh .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2120,7 +2200,7 @@ tbl_merge(
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
-&#10;#tqmieomntv .gt_footnotes {
+&#10;#vygipvbuuh .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2133,7 +2213,7 @@ tbl_merge(
   border-right-width: 2px;
   border-right-color: #D3D3D3;
 }
-&#10;#tqmieomntv .gt_footnote {
+&#10;#vygipvbuuh .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2141,7 +2221,7 @@ tbl_merge(
   padding-left: 5px;
   padding-right: 5px;
 }
-&#10;#tqmieomntv .gt_sourcenotes {
+&#10;#vygipvbuuh .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2154,57 +2234,57 @@ tbl_merge(
   border-right-width: 2px;
   border-right-color: #D3D3D3;
 }
-&#10;#tqmieomntv .gt_sourcenote {
+&#10;#vygipvbuuh .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
   padding-left: 5px;
   padding-right: 5px;
 }
-&#10;#tqmieomntv .gt_left {
+&#10;#vygipvbuuh .gt_left {
   text-align: left;
 }
-&#10;#tqmieomntv .gt_center {
+&#10;#vygipvbuuh .gt_center {
   text-align: center;
 }
-&#10;#tqmieomntv .gt_right {
+&#10;#vygipvbuuh .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
-&#10;#tqmieomntv .gt_font_normal {
+&#10;#vygipvbuuh .gt_font_normal {
   font-weight: normal;
 }
-&#10;#tqmieomntv .gt_font_bold {
+&#10;#vygipvbuuh .gt_font_bold {
   font-weight: bold;
 }
-&#10;#tqmieomntv .gt_font_italic {
+&#10;#vygipvbuuh .gt_font_italic {
   font-style: italic;
 }
-&#10;#tqmieomntv .gt_super {
+&#10;#vygipvbuuh .gt_super {
   font-size: 65%;
 }
-&#10;#tqmieomntv .gt_footnote_marks {
+&#10;#vygipvbuuh .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
-&#10;#tqmieomntv .gt_asterisk {
+&#10;#vygipvbuuh .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
-&#10;#tqmieomntv .gt_indent_1 {
+&#10;#vygipvbuuh .gt_indent_1 {
   text-indent: 5px;
 }
-&#10;#tqmieomntv .gt_indent_2 {
+&#10;#vygipvbuuh .gt_indent_2 {
   text-indent: 10px;
 }
-&#10;#tqmieomntv .gt_indent_3 {
+&#10;#vygipvbuuh .gt_indent_3 {
   text-indent: 15px;
 }
-&#10;#tqmieomntv .gt_indent_4 {
+&#10;#vygipvbuuh .gt_indent_4 {
   text-indent: 20px;
 }
-&#10;#tqmieomntv .gt_indent_5 {
+&#10;#vygipvbuuh .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -2212,11 +2292,11 @@ tbl_merge(
   <thead>
     &#10;    <tr class="gt_col_headings gt_spanner_row">
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="2" colspan="1" scope="col" id="&lt;strong&gt;Characteristic&lt;/strong&gt;"><strong>Characteristic</strong></th>
-      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="2" scope="colgroup" id="&lt;strong&gt;TWFE&lt;/strong&gt;">
-        <span class="gt_column_spanner"><strong>TWFE</strong></span>
+      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="2" scope="colgroup" id="&lt;strong&gt;log(wages)&lt;/strong&gt;">
+        <span class="gt_column_spanner"><strong>log(wages)</strong></span>
       </th>
-      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="2" scope="colgroup" id="&lt;strong&gt;Weighted TWFE&lt;/strong&gt;">
-        <span class="gt_column_spanner"><strong>Weighted TWFE</strong></span>
+      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="2" scope="colgroup" id="&lt;strong&gt;log(jobs)&lt;/strong&gt;">
+        <span class="gt_column_spanner"><strong>log(jobs)</strong></span>
       </th>
     </tr>
     <tr class="gt_col_headings">
@@ -2228,24 +2308,24 @@ tbl_merge(
   </thead>
   <tbody class="gt_table_body">
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Exposure to computers</td>
-<td headers="estimate_1" class="gt_row gt_center">0.0318 (0.076)</td>
-<td headers="p.value_1" class="gt_row gt_center">0.7</td>
-<td headers="estimate_2" class="gt_row gt_center">0.0273 (0.022)</td>
-<td headers="p.value_2" class="gt_row gt_center">0.2</td></tr>
+<td headers="estimate_1" class="gt_row gt_center">-0.0015 (0.064)</td>
+<td headers="p.value_1" class="gt_row gt_center">>0.9</td>
+<td headers="estimate_2" class="gt_row gt_center">-0.5762** (0.205)</td>
+<td headers="p.value_2" class="gt_row gt_center">0.005</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;">R²</td>
 <td headers="estimate_1" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;">0.000</td>
 <td headers="p.value_1" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;"></td>
-<td headers="estimate_2" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;">0.000</td>
+<td headers="estimate_2" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;">0.016</td>
 <td headers="p.value_2" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;"></td></tr>
     <tr><td headers="label" class="gt_row gt_left">Adjusted R²</td>
-<td headers="estimate_1" class="gt_row gt_center">-0.079</td>
+<td headers="estimate_1" class="gt_row gt_center">-0.090</td>
 <td headers="p.value_1" class="gt_row gt_center"></td>
-<td headers="estimate_2" class="gt_row gt_center">-0.079</td>
+<td headers="estimate_2" class="gt_row gt_center">-0.072</td>
 <td headers="p.value_2" class="gt_row gt_center"></td></tr>
     <tr><td headers="label" class="gt_row gt_left">No. Obs.</td>
-<td headers="estimate_1" class="gt_row gt_center">1,344</td>
+<td headers="estimate_1" class="gt_row gt_center">1,176</td>
 <td headers="p.value_1" class="gt_row gt_center"></td>
-<td headers="estimate_2" class="gt_row gt_center">1,344</td>
+<td headers="estimate_2" class="gt_row gt_center">1,176</td>
 <td headers="p.value_2" class="gt_row gt_center"></td></tr>
   </tbody>
   &#10;  <tfoot class="gt_footnotes">
@@ -2277,7 +2357,7 @@ occupations of the first period, used to construct the measure, we
 exclude the first period data in this evaluation.
 
 ``` r
-twfe_reg_3 <- plm(log_wage ~ exposure:group,
+twfe_reg_w_3 <- plm(log_wage ~ exposure:group,
              data = data2 %>% filter(ano != '2006'),
              model = 'within',
              effect = 'twoways',
@@ -2285,16 +2365,7 @@ twfe_reg_3 <- plm(log_wage ~ exposure:group,
 ```
 
 ``` r
-wtwfe_reg_3 <- plm(log_wage ~ exposure:group,
-             data = data2 %>% filter(ano != '2006'),
-             model = 'within',
-             effect = 'twoways',
-             index = c('id','ano'),
-             weights = job_share)
-```
-
-``` r
-twfe_reg_4 <- plm(log_wage ~ exposure + exposure:group,
+twfe_reg_j_3 <- plm(log_job ~ exposure:group,
              data = data2 %>% filter(ano != '2006'),
              model = 'within',
              effect = 'twoways',
@@ -2302,17 +2373,24 @@ twfe_reg_4 <- plm(log_wage ~ exposure + exposure:group,
 ```
 
 ``` r
-wtwfe_reg_4 <- plm(log_wage ~ exposure + exposure:group,
+twfe_reg_w_4 <- plm(log_wage ~ exposure + exposure:group,
              data = data2 %>% filter(ano != '2006'),
              model = 'within',
              effect = 'twoways',
-             index = c('id','ano'),
-             weights = job_share)
+             index = c('id','ano'))
 ```
 
 ``` r
-tb5 <- gtsummary_table(
-  twfe_reg_3,
+twfe_reg_j_4 <- plm(log_job ~ exposure + exposure:group,
+             data = data2 %>% filter(ano != '2006'),
+             model = 'within',
+             effect = 'twoways',
+             index = c('id','ano'))
+```
+
+``` r
+tb_twfe_reg_w_3 <- gtsummary_table(
+  twfe_reg_w_3,
   include = c('exposure:group'),
   label = list(
     'exposure:group'='Exposure to computers x Skill type'
@@ -2320,16 +2398,8 @@ tb5 <- gtsummary_table(
   robust = 'HC1'
 )
 
-tb6 <- gtsummary_table(
-  wtwfe_reg_3,
-  include = c('exposure:group'),
-  label = list(
-    'exposure:group'='Exposure to computers x Skill type'
-    )
-)
-
-tb7 <- gtsummary_table(
-  twfe_reg_4,
+tb_twfe_reg_w_4 <- gtsummary_table(
+  twfe_reg_w_4,
   include = c('exposure', 'exposure:group'),
   label = list(
     'exposure:group'='Exposure to computers x Skill type'
@@ -2337,34 +2407,44 @@ tb7 <- gtsummary_table(
   robust = 'HC1'
 )
 
-tb8 <- gtsummary_table(
-  wtwfe_reg_4,
+tb_twfe_reg_j_3 <- gtsummary_table(
+  twfe_reg_j_3,
+  include = c('exposure:group'),
+  label = list(
+    'exposure:group'='Exposure to computers x Skill type'
+    ),
+  robust = 'HC1'
+)
+
+tb_twfe_reg_j_4 <- gtsummary_table(
+  twfe_reg_j_4,
   include = c('exposure', 'exposure:group'),
   label = list(
     'exposure:group'='Exposure to computers x Skill type'
-    )
+    ),
+  robust = 'HC1'
 )
 
 tbl_merge(
-  list(tb7, tb8, tb5, tb6),
-  c('**TWFE**', '**Weighted TWFE**', '**TWFE**', '**Weighted TWFE**')
+  list(tb_twfe_reg_w_4, tb_twfe_reg_w_3, tb_twfe_reg_j_4, tb_twfe_reg_j_3),
+  c('**log(wage)**', '**log(wage)**', '**log(job)**', '**log(job)**')
 )
 ```
 
-<div id="iounxvmnte" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#iounxvmnte table {
+<div id="tlciqxwzvj" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#tlciqxwzvj table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-&#10;#iounxvmnte thead, #iounxvmnte tbody, #iounxvmnte tfoot, #iounxvmnte tr, #iounxvmnte td, #iounxvmnte th {
+&#10;#tlciqxwzvj thead, #tlciqxwzvj tbody, #tlciqxwzvj tfoot, #tlciqxwzvj tr, #tlciqxwzvj td, #tlciqxwzvj th {
   border-style: none;
 }
-&#10;#iounxvmnte p {
+&#10;#tlciqxwzvj p {
   margin: 0;
   padding: 0;
 }
-&#10;#iounxvmnte .gt_table {
+&#10;#tlciqxwzvj .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -2389,11 +2469,11 @@ tbl_merge(
   border-left-width: 2px;
   border-left-color: #D3D3D3;
 }
-&#10;#iounxvmnte .gt_caption {
+&#10;#tlciqxwzvj .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
-&#10;#iounxvmnte .gt_title {
+&#10;#tlciqxwzvj .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2404,7 +2484,7 @@ tbl_merge(
   border-bottom-color: #FFFFFF;
   border-bottom-width: 0;
 }
-&#10;#iounxvmnte .gt_subtitle {
+&#10;#tlciqxwzvj .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2415,7 +2495,7 @@ tbl_merge(
   border-top-color: #FFFFFF;
   border-top-width: 0;
 }
-&#10;#iounxvmnte .gt_heading {
+&#10;#tlciqxwzvj .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2426,12 +2506,12 @@ tbl_merge(
   border-right-width: 1px;
   border-right-color: #D3D3D3;
 }
-&#10;#iounxvmnte .gt_bottom_border {
+&#10;#tlciqxwzvj .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
-&#10;#iounxvmnte .gt_col_headings {
+&#10;#tlciqxwzvj .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2445,7 +2525,7 @@ tbl_merge(
   border-right-width: 1px;
   border-right-color: #D3D3D3;
 }
-&#10;#iounxvmnte .gt_col_heading {
+&#10;#tlciqxwzvj .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2464,7 +2544,7 @@ tbl_merge(
   padding-right: 5px;
   overflow-x: hidden;
 }
-&#10;#iounxvmnte .gt_column_spanner_outer {
+&#10;#tlciqxwzvj .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2475,13 +2555,13 @@ tbl_merge(
   padding-left: 4px;
   padding-right: 4px;
 }
-&#10;#iounxvmnte .gt_column_spanner_outer:first-child {
+&#10;#tlciqxwzvj .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
-&#10;#iounxvmnte .gt_column_spanner_outer:last-child {
+&#10;#tlciqxwzvj .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
-&#10;#iounxvmnte .gt_column_spanner {
+&#10;#tlciqxwzvj .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2492,10 +2572,10 @@ tbl_merge(
   display: inline-block;
   width: 100%;
 }
-&#10;#iounxvmnte .gt_spanner_row {
+&#10;#tlciqxwzvj .gt_spanner_row {
   border-bottom-style: hidden;
 }
-&#10;#iounxvmnte .gt_group_heading {
+&#10;#tlciqxwzvj .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2520,7 +2600,7 @@ tbl_merge(
   vertical-align: middle;
   text-align: left;
 }
-&#10;#iounxvmnte .gt_empty_group_heading {
+&#10;#tlciqxwzvj .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2534,13 +2614,13 @@ tbl_merge(
   border-bottom-color: #D3D3D3;
   vertical-align: middle;
 }
-&#10;#iounxvmnte .gt_from_md > :first-child {
+&#10;#tlciqxwzvj .gt_from_md > :first-child {
   margin-top: 0;
 }
-&#10;#iounxvmnte .gt_from_md > :last-child {
+&#10;#tlciqxwzvj .gt_from_md > :last-child {
   margin-bottom: 0;
 }
-&#10;#iounxvmnte .gt_row {
+&#10;#tlciqxwzvj .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2558,7 +2638,7 @@ tbl_merge(
   vertical-align: middle;
   overflow-x: hidden;
 }
-&#10;#iounxvmnte .gt_stub {
+&#10;#tlciqxwzvj .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2570,7 +2650,7 @@ tbl_merge(
   padding-left: 5px;
   padding-right: 5px;
 }
-&#10;#iounxvmnte .gt_stub_row_group {
+&#10;#tlciqxwzvj .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2583,13 +2663,13 @@ tbl_merge(
   padding-right: 5px;
   vertical-align: top;
 }
-&#10;#iounxvmnte .gt_row_group_first td {
+&#10;#tlciqxwzvj .gt_row_group_first td {
   border-top-width: 2px;
 }
-&#10;#iounxvmnte .gt_row_group_first th {
+&#10;#tlciqxwzvj .gt_row_group_first th {
   border-top-width: 2px;
 }
-&#10;#iounxvmnte .gt_summary_row {
+&#10;#tlciqxwzvj .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2598,14 +2678,14 @@ tbl_merge(
   padding-left: 5px;
   padding-right: 5px;
 }
-&#10;#iounxvmnte .gt_first_summary_row {
+&#10;#tlciqxwzvj .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
-&#10;#iounxvmnte .gt_first_summary_row.thick {
+&#10;#tlciqxwzvj .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
-&#10;#iounxvmnte .gt_last_summary_row {
+&#10;#tlciqxwzvj .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2614,7 +2694,7 @@ tbl_merge(
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
-&#10;#iounxvmnte .gt_grand_summary_row {
+&#10;#tlciqxwzvj .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2623,7 +2703,7 @@ tbl_merge(
   padding-left: 5px;
   padding-right: 5px;
 }
-&#10;#iounxvmnte .gt_first_grand_summary_row {
+&#10;#tlciqxwzvj .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2632,7 +2712,7 @@ tbl_merge(
   border-top-width: 6px;
   border-top-color: #D3D3D3;
 }
-&#10;#iounxvmnte .gt_last_grand_summary_row_top {
+&#10;#tlciqxwzvj .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2641,10 +2721,10 @@ tbl_merge(
   border-bottom-width: 6px;
   border-bottom-color: #D3D3D3;
 }
-&#10;#iounxvmnte .gt_striped {
+&#10;#tlciqxwzvj .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
-&#10;#iounxvmnte .gt_table_body {
+&#10;#tlciqxwzvj .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2652,7 +2732,7 @@ tbl_merge(
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
-&#10;#iounxvmnte .gt_footnotes {
+&#10;#tlciqxwzvj .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2665,7 +2745,7 @@ tbl_merge(
   border-right-width: 2px;
   border-right-color: #D3D3D3;
 }
-&#10;#iounxvmnte .gt_footnote {
+&#10;#tlciqxwzvj .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2673,7 +2753,7 @@ tbl_merge(
   padding-left: 5px;
   padding-right: 5px;
 }
-&#10;#iounxvmnte .gt_sourcenotes {
+&#10;#tlciqxwzvj .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2686,57 +2766,57 @@ tbl_merge(
   border-right-width: 2px;
   border-right-color: #D3D3D3;
 }
-&#10;#iounxvmnte .gt_sourcenote {
+&#10;#tlciqxwzvj .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
   padding-left: 5px;
   padding-right: 5px;
 }
-&#10;#iounxvmnte .gt_left {
+&#10;#tlciqxwzvj .gt_left {
   text-align: left;
 }
-&#10;#iounxvmnte .gt_center {
+&#10;#tlciqxwzvj .gt_center {
   text-align: center;
 }
-&#10;#iounxvmnte .gt_right {
+&#10;#tlciqxwzvj .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
-&#10;#iounxvmnte .gt_font_normal {
+&#10;#tlciqxwzvj .gt_font_normal {
   font-weight: normal;
 }
-&#10;#iounxvmnte .gt_font_bold {
+&#10;#tlciqxwzvj .gt_font_bold {
   font-weight: bold;
 }
-&#10;#iounxvmnte .gt_font_italic {
+&#10;#tlciqxwzvj .gt_font_italic {
   font-style: italic;
 }
-&#10;#iounxvmnte .gt_super {
+&#10;#tlciqxwzvj .gt_super {
   font-size: 65%;
 }
-&#10;#iounxvmnte .gt_footnote_marks {
+&#10;#tlciqxwzvj .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
-&#10;#iounxvmnte .gt_asterisk {
+&#10;#tlciqxwzvj .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
-&#10;#iounxvmnte .gt_indent_1 {
+&#10;#tlciqxwzvj .gt_indent_1 {
   text-indent: 5px;
 }
-&#10;#iounxvmnte .gt_indent_2 {
+&#10;#tlciqxwzvj .gt_indent_2 {
   text-indent: 10px;
 }
-&#10;#iounxvmnte .gt_indent_3 {
+&#10;#tlciqxwzvj .gt_indent_3 {
   text-indent: 15px;
 }
-&#10;#iounxvmnte .gt_indent_4 {
+&#10;#tlciqxwzvj .gt_indent_4 {
   text-indent: 20px;
 }
-&#10;#iounxvmnte .gt_indent_5 {
+&#10;#tlciqxwzvj .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -2744,11 +2824,11 @@ tbl_merge(
   <thead>
     &#10;    <tr class="gt_col_headings gt_spanner_row">
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="2" colspan="1" scope="col" id="&lt;strong&gt;Characteristic&lt;/strong&gt;"><strong>Characteristic</strong></th>
-      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="4" scope="colgroup" id="&lt;strong&gt;TWFE&lt;/strong&gt;">
-        <span class="gt_column_spanner"><strong>TWFE</strong></span>
+      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="4" scope="colgroup" id="&lt;strong&gt;log(wage)&lt;/strong&gt;">
+        <span class="gt_column_spanner"><strong>log(wage)</strong></span>
       </th>
-      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="4" scope="colgroup" id="&lt;strong&gt;Weighted TWFE&lt;/strong&gt;">
-        <span class="gt_column_spanner"><strong>Weighted TWFE</strong></span>
+      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="4" scope="colgroup" id="&lt;strong&gt;log(job)&lt;/strong&gt;">
+        <span class="gt_column_spanner"><strong>log(job)</strong></span>
       </th>
     </tr>
     <tr class="gt_col_headings">
@@ -2764,85 +2844,85 @@ tbl_merge(
   </thead>
   <tbody class="gt_table_body">
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">exposure</td>
-<td headers="estimate_1" class="gt_row gt_center">-0.0865 (0.088)</td>
+<td headers="estimate_1" class="gt_row gt_center">-0.0748 (0.079)</td>
 <td headers="p.value_1" class="gt_row gt_center">0.3</td>
-<td headers="estimate_3" class="gt_row gt_center"></td>
-<td headers="p.value_3" class="gt_row gt_center"></td>
-<td headers="estimate_2" class="gt_row gt_center">-0.2182*** (0.036)</td>
-<td headers="p.value_2" class="gt_row gt_center"><0.001</td>
+<td headers="estimate_2" class="gt_row gt_center"></td>
+<td headers="p.value_2" class="gt_row gt_center"></td>
+<td headers="estimate_3" class="gt_row gt_center">-0.5641* (0.224)</td>
+<td headers="p.value_3" class="gt_row gt_center">0.012</td>
 <td headers="estimate_4" class="gt_row gt_center"></td>
 <td headers="p.value_4" class="gt_row gt_center"></td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Exposure to computers x Skill type</td>
 <td headers="estimate_1" class="gt_row gt_center"></td>
 <td headers="p.value_1" class="gt_row gt_center"></td>
-<td headers="estimate_3" class="gt_row gt_center"></td>
-<td headers="p.value_3" class="gt_row gt_center"></td>
 <td headers="estimate_2" class="gt_row gt_center"></td>
 <td headers="p.value_2" class="gt_row gt_center"></td>
+<td headers="estimate_3" class="gt_row gt_center"></td>
+<td headers="p.value_3" class="gt_row gt_center"></td>
 <td headers="estimate_4" class="gt_row gt_center"></td>
 <td headers="p.value_4" class="gt_row gt_center"></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    exposure * NRC</td>
-<td headers="estimate_1" class="gt_row gt_center">0.1760 (0.101)</td>
-<td headers="p.value_1" class="gt_row gt_center">0.082</td>
-<td headers="estimate_3" class="gt_row gt_center">0.0895 (0.094)</td>
-<td headers="p.value_3" class="gt_row gt_center">0.3</td>
-<td headers="estimate_2" class="gt_row gt_center">0.2492*** (0.037)</td>
-<td headers="p.value_2" class="gt_row gt_center"><0.001</td>
-<td headers="estimate_4" class="gt_row gt_center">0.0310 (0.031)</td>
-<td headers="p.value_4" class="gt_row gt_center">0.3</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    exposure * RC</td>
-<td headers="estimate_1" class="gt_row gt_center">0.2300* (0.102)</td>
-<td headers="p.value_1" class="gt_row gt_center">0.025</td>
-<td headers="estimate_3" class="gt_row gt_center">0.1434 (0.093)</td>
-<td headers="p.value_3" class="gt_row gt_center">0.12</td>
-<td headers="estimate_2" class="gt_row gt_center">0.2768*** (0.031)</td>
-<td headers="p.value_2" class="gt_row gt_center"><0.001</td>
-<td headers="estimate_4" class="gt_row gt_center">0.0585** (0.022)</td>
-<td headers="p.value_4" class="gt_row gt_center">0.008</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    exposure * RM</td>
-<td headers="estimate_1" class="gt_row gt_center">-0.0220 (0.097)</td>
-<td headers="p.value_1" class="gt_row gt_center">0.8</td>
-<td headers="estimate_3" class="gt_row gt_center">-0.1086 (0.100)</td>
-<td headers="p.value_3" class="gt_row gt_center">0.3</td>
-<td headers="estimate_2" class="gt_row gt_center">0.0974** (0.036)</td>
-<td headers="p.value_2" class="gt_row gt_center">0.008</td>
-<td headers="estimate_4" class="gt_row gt_center">-0.1208*** (0.033)</td>
+<td headers="estimate_1" class="gt_row gt_center">0.0771 (0.087)</td>
+<td headers="p.value_1" class="gt_row gt_center">0.4</td>
+<td headers="estimate_2" class="gt_row gt_center">0.0023 (0.080)</td>
+<td headers="p.value_2" class="gt_row gt_center">>0.9</td>
+<td headers="estimate_3" class="gt_row gt_center">-0.4390* (0.203)</td>
+<td headers="p.value_3" class="gt_row gt_center">0.031</td>
+<td headers="estimate_4" class="gt_row gt_center">-1.0031*** (0.207)</td>
 <td headers="p.value_4" class="gt_row gt_center"><0.001</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    exposure * RC</td>
+<td headers="estimate_1" class="gt_row gt_center">0.1573 (0.083)</td>
+<td headers="p.value_1" class="gt_row gt_center">0.057</td>
+<td headers="estimate_2" class="gt_row gt_center">0.0825 (0.075)</td>
+<td headers="p.value_2" class="gt_row gt_center">0.3</td>
+<td headers="estimate_3" class="gt_row gt_center">-0.0443 (0.196)</td>
+<td headers="p.value_3" class="gt_row gt_center">0.8</td>
+<td headers="estimate_4" class="gt_row gt_center">-0.6084** (0.200)</td>
+<td headers="p.value_4" class="gt_row gt_center">0.002</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    exposure * RM</td>
+<td headers="estimate_1" class="gt_row gt_center">-0.0321 (0.079)</td>
+<td headers="p.value_1" class="gt_row gt_center">0.7</td>
+<td headers="estimate_2" class="gt_row gt_center">-0.1070 (0.080)</td>
+<td headers="p.value_2" class="gt_row gt_center">0.2</td>
+<td headers="estimate_3" class="gt_row gt_center">0.5519* (0.223)</td>
+<td headers="p.value_3" class="gt_row gt_center">0.014</td>
+<td headers="estimate_4" class="gt_row gt_center">-0.0122 (0.214)</td>
+<td headers="p.value_4" class="gt_row gt_center">>0.9</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    exposure * NRM</td>
 <td headers="estimate_1" class="gt_row gt_center"></td>
 <td headers="p.value_1" class="gt_row gt_center"></td>
-<td headers="estimate_3" class="gt_row gt_center">-0.0865 (0.088)</td>
-<td headers="p.value_3" class="gt_row gt_center">0.3</td>
-<td headers="estimate_2" class="gt_row gt_center"></td>
-<td headers="p.value_2" class="gt_row gt_center"></td>
-<td headers="estimate_4" class="gt_row gt_center">-0.2182*** (0.036)</td>
-<td headers="p.value_4" class="gt_row gt_center"><0.001</td></tr>
+<td headers="estimate_2" class="gt_row gt_center">-0.0748 (0.079)</td>
+<td headers="p.value_2" class="gt_row gt_center">0.3</td>
+<td headers="estimate_3" class="gt_row gt_center"></td>
+<td headers="p.value_3" class="gt_row gt_center"></td>
+<td headers="estimate_4" class="gt_row gt_center">-0.5641* (0.224)</td>
+<td headers="p.value_4" class="gt_row gt_center">0.012</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;">R²</td>
-<td headers="estimate_1" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;">0.020</td>
+<td headers="estimate_1" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;">0.008</td>
 <td headers="p.value_1" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;"></td>
-<td headers="estimate_3" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;">0.020</td>
-<td headers="p.value_3" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;"></td>
-<td headers="estimate_2" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;">0.015</td>
+<td headers="estimate_2" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;">0.008</td>
 <td headers="p.value_2" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;"></td>
-<td headers="estimate_4" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;">0.015</td>
+<td headers="estimate_3" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;">0.045</td>
+<td headers="p.value_3" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;"></td>
+<td headers="estimate_4" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;">0.045</td>
 <td headers="p.value_4" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;"></td></tr>
     <tr><td headers="label" class="gt_row gt_left">Adjusted R²</td>
-<td headers="estimate_1" class="gt_row gt_center">-0.066</td>
+<td headers="estimate_1" class="gt_row gt_center">-0.092</td>
 <td headers="p.value_1" class="gt_row gt_center"></td>
-<td headers="estimate_3" class="gt_row gt_center">-0.066</td>
-<td headers="p.value_3" class="gt_row gt_center"></td>
-<td headers="estimate_2" class="gt_row gt_center">-0.071</td>
+<td headers="estimate_2" class="gt_row gt_center">-0.092</td>
 <td headers="p.value_2" class="gt_row gt_center"></td>
-<td headers="estimate_4" class="gt_row gt_center">-0.071</td>
+<td headers="estimate_3" class="gt_row gt_center">-0.050</td>
+<td headers="p.value_3" class="gt_row gt_center"></td>
+<td headers="estimate_4" class="gt_row gt_center">-0.050</td>
 <td headers="p.value_4" class="gt_row gt_center"></td></tr>
     <tr><td headers="label" class="gt_row gt_left">No. Obs.</td>
-<td headers="estimate_1" class="gt_row gt_center">1,260</td>
+<td headers="estimate_1" class="gt_row gt_center">1,092</td>
 <td headers="p.value_1" class="gt_row gt_center"></td>
-<td headers="estimate_3" class="gt_row gt_center">1,260</td>
-<td headers="p.value_3" class="gt_row gt_center"></td>
-<td headers="estimate_2" class="gt_row gt_center">1,260</td>
+<td headers="estimate_2" class="gt_row gt_center">1,092</td>
 <td headers="p.value_2" class="gt_row gt_center"></td>
-<td headers="estimate_4" class="gt_row gt_center">1,260</td>
+<td headers="estimate_3" class="gt_row gt_center">1,092</td>
+<td headers="p.value_3" class="gt_row gt_center"></td>
+<td headers="estimate_4" class="gt_row gt_center">1,092</td>
 <td headers="p.value_4" class="gt_row gt_center"></td></tr>
   </tbody>
   &#10;  <tfoot class="gt_footnotes">
@@ -2885,56 +2965,56 @@ data3 <- data2 %>%
   ) %>%
   filter(ano != '2006')
 
-twfe_reg_5 <- plm(log_wage ~ exposure + exposure:group,
+twfe_reg_w_5 <- plm(log_wage ~ exposure + exposure:group,
              data = data3,
              model = 'within',
              effect = 'twoways',
              index = c('id','ano'))
 
-wtwfe_reg_5 <- plm(log_wage ~ exposure + exposure:group,
+twfe_reg_j_5 <- plm(log_job ~ exposure + exposure:group,
              data = data3,
              model = 'within',
              effect = 'twoways',
-             index = c('id','ano'),
-             weights = job_share)
+             index = c('id','ano'))
 ```
 
 ``` r
-tb9 <- gtsummary_table(
-  twfe_reg_5,
+tb_twfe_reg_w_5 <- gtsummary_table(
+  twfe_reg_w_5,
   include=c('exposure', 'exposure:group'),
   label = list('exposure'='exposure',
                'exposure:group'='Exposure to computers x Skill type'),
   robust = 'HC1'
 )
 
-tb10 <- gtsummary_table(
-  wtwfe_reg_5,
+tb_twfe_reg_j_5 <- gtsummary_table(
+  twfe_reg_j_5,
   include=c('exposure', 'exposure:group'),
   label = list('exposure'='exposure',
-               'exposure:group'='Exposure to computers x Skill type')
+               'exposure:group'='Exposure to computers x Skill type'),
+  robust = 'HC1'
 )
 
 tbl_merge(
-  list(tb9, tb10),
-  c('**TWFE**', '**Weighted TWFE**')
+  list(tb_twfe_reg_w_5, tb_twfe_reg_j_5),
+  c('**log(wage)**', '**log(job)**')
 )
 ```
 
-<div id="mrzgnlkeio" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#mrzgnlkeio table {
+<div id="dhdiywgpzz" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#dhdiywgpzz table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-&#10;#mrzgnlkeio thead, #mrzgnlkeio tbody, #mrzgnlkeio tfoot, #mrzgnlkeio tr, #mrzgnlkeio td, #mrzgnlkeio th {
+&#10;#dhdiywgpzz thead, #dhdiywgpzz tbody, #dhdiywgpzz tfoot, #dhdiywgpzz tr, #dhdiywgpzz td, #dhdiywgpzz th {
   border-style: none;
 }
-&#10;#mrzgnlkeio p {
+&#10;#dhdiywgpzz p {
   margin: 0;
   padding: 0;
 }
-&#10;#mrzgnlkeio .gt_table {
+&#10;#dhdiywgpzz .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -2959,11 +3039,11 @@ tbl_merge(
   border-left-width: 2px;
   border-left-color: #D3D3D3;
 }
-&#10;#mrzgnlkeio .gt_caption {
+&#10;#dhdiywgpzz .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
-&#10;#mrzgnlkeio .gt_title {
+&#10;#dhdiywgpzz .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2974,7 +3054,7 @@ tbl_merge(
   border-bottom-color: #FFFFFF;
   border-bottom-width: 0;
 }
-&#10;#mrzgnlkeio .gt_subtitle {
+&#10;#dhdiywgpzz .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2985,7 +3065,7 @@ tbl_merge(
   border-top-color: #FFFFFF;
   border-top-width: 0;
 }
-&#10;#mrzgnlkeio .gt_heading {
+&#10;#dhdiywgpzz .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2996,12 +3076,12 @@ tbl_merge(
   border-right-width: 1px;
   border-right-color: #D3D3D3;
 }
-&#10;#mrzgnlkeio .gt_bottom_border {
+&#10;#dhdiywgpzz .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
-&#10;#mrzgnlkeio .gt_col_headings {
+&#10;#dhdiywgpzz .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3015,7 +3095,7 @@ tbl_merge(
   border-right-width: 1px;
   border-right-color: #D3D3D3;
 }
-&#10;#mrzgnlkeio .gt_col_heading {
+&#10;#dhdiywgpzz .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3034,7 +3114,7 @@ tbl_merge(
   padding-right: 5px;
   overflow-x: hidden;
 }
-&#10;#mrzgnlkeio .gt_column_spanner_outer {
+&#10;#dhdiywgpzz .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3045,13 +3125,13 @@ tbl_merge(
   padding-left: 4px;
   padding-right: 4px;
 }
-&#10;#mrzgnlkeio .gt_column_spanner_outer:first-child {
+&#10;#dhdiywgpzz .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
-&#10;#mrzgnlkeio .gt_column_spanner_outer:last-child {
+&#10;#dhdiywgpzz .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
-&#10;#mrzgnlkeio .gt_column_spanner {
+&#10;#dhdiywgpzz .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -3062,10 +3142,10 @@ tbl_merge(
   display: inline-block;
   width: 100%;
 }
-&#10;#mrzgnlkeio .gt_spanner_row {
+&#10;#dhdiywgpzz .gt_spanner_row {
   border-bottom-style: hidden;
 }
-&#10;#mrzgnlkeio .gt_group_heading {
+&#10;#dhdiywgpzz .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3090,7 +3170,7 @@ tbl_merge(
   vertical-align: middle;
   text-align: left;
 }
-&#10;#mrzgnlkeio .gt_empty_group_heading {
+&#10;#dhdiywgpzz .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -3104,13 +3184,13 @@ tbl_merge(
   border-bottom-color: #D3D3D3;
   vertical-align: middle;
 }
-&#10;#mrzgnlkeio .gt_from_md > :first-child {
+&#10;#dhdiywgpzz .gt_from_md > :first-child {
   margin-top: 0;
 }
-&#10;#mrzgnlkeio .gt_from_md > :last-child {
+&#10;#dhdiywgpzz .gt_from_md > :last-child {
   margin-bottom: 0;
 }
-&#10;#mrzgnlkeio .gt_row {
+&#10;#dhdiywgpzz .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3128,7 +3208,7 @@ tbl_merge(
   vertical-align: middle;
   overflow-x: hidden;
 }
-&#10;#mrzgnlkeio .gt_stub {
+&#10;#dhdiywgpzz .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3140,7 +3220,7 @@ tbl_merge(
   padding-left: 5px;
   padding-right: 5px;
 }
-&#10;#mrzgnlkeio .gt_stub_row_group {
+&#10;#dhdiywgpzz .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3153,13 +3233,13 @@ tbl_merge(
   padding-right: 5px;
   vertical-align: top;
 }
-&#10;#mrzgnlkeio .gt_row_group_first td {
+&#10;#dhdiywgpzz .gt_row_group_first td {
   border-top-width: 2px;
 }
-&#10;#mrzgnlkeio .gt_row_group_first th {
+&#10;#dhdiywgpzz .gt_row_group_first th {
   border-top-width: 2px;
 }
-&#10;#mrzgnlkeio .gt_summary_row {
+&#10;#dhdiywgpzz .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3168,14 +3248,14 @@ tbl_merge(
   padding-left: 5px;
   padding-right: 5px;
 }
-&#10;#mrzgnlkeio .gt_first_summary_row {
+&#10;#dhdiywgpzz .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
-&#10;#mrzgnlkeio .gt_first_summary_row.thick {
+&#10;#dhdiywgpzz .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
-&#10;#mrzgnlkeio .gt_last_summary_row {
+&#10;#dhdiywgpzz .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3184,7 +3264,7 @@ tbl_merge(
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
-&#10;#mrzgnlkeio .gt_grand_summary_row {
+&#10;#dhdiywgpzz .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3193,7 +3273,7 @@ tbl_merge(
   padding-left: 5px;
   padding-right: 5px;
 }
-&#10;#mrzgnlkeio .gt_first_grand_summary_row {
+&#10;#dhdiywgpzz .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3202,7 +3282,7 @@ tbl_merge(
   border-top-width: 6px;
   border-top-color: #D3D3D3;
 }
-&#10;#mrzgnlkeio .gt_last_grand_summary_row_top {
+&#10;#dhdiywgpzz .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3211,10 +3291,10 @@ tbl_merge(
   border-bottom-width: 6px;
   border-bottom-color: #D3D3D3;
 }
-&#10;#mrzgnlkeio .gt_striped {
+&#10;#dhdiywgpzz .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
-&#10;#mrzgnlkeio .gt_table_body {
+&#10;#dhdiywgpzz .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3222,7 +3302,7 @@ tbl_merge(
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
-&#10;#mrzgnlkeio .gt_footnotes {
+&#10;#dhdiywgpzz .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3235,7 +3315,7 @@ tbl_merge(
   border-right-width: 2px;
   border-right-color: #D3D3D3;
 }
-&#10;#mrzgnlkeio .gt_footnote {
+&#10;#dhdiywgpzz .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -3243,7 +3323,7 @@ tbl_merge(
   padding-left: 5px;
   padding-right: 5px;
 }
-&#10;#mrzgnlkeio .gt_sourcenotes {
+&#10;#dhdiywgpzz .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3256,57 +3336,57 @@ tbl_merge(
   border-right-width: 2px;
   border-right-color: #D3D3D3;
 }
-&#10;#mrzgnlkeio .gt_sourcenote {
+&#10;#dhdiywgpzz .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
   padding-left: 5px;
   padding-right: 5px;
 }
-&#10;#mrzgnlkeio .gt_left {
+&#10;#dhdiywgpzz .gt_left {
   text-align: left;
 }
-&#10;#mrzgnlkeio .gt_center {
+&#10;#dhdiywgpzz .gt_center {
   text-align: center;
 }
-&#10;#mrzgnlkeio .gt_right {
+&#10;#dhdiywgpzz .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
-&#10;#mrzgnlkeio .gt_font_normal {
+&#10;#dhdiywgpzz .gt_font_normal {
   font-weight: normal;
 }
-&#10;#mrzgnlkeio .gt_font_bold {
+&#10;#dhdiywgpzz .gt_font_bold {
   font-weight: bold;
 }
-&#10;#mrzgnlkeio .gt_font_italic {
+&#10;#dhdiywgpzz .gt_font_italic {
   font-style: italic;
 }
-&#10;#mrzgnlkeio .gt_super {
+&#10;#dhdiywgpzz .gt_super {
   font-size: 65%;
 }
-&#10;#mrzgnlkeio .gt_footnote_marks {
+&#10;#dhdiywgpzz .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
-&#10;#mrzgnlkeio .gt_asterisk {
+&#10;#dhdiywgpzz .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
-&#10;#mrzgnlkeio .gt_indent_1 {
+&#10;#dhdiywgpzz .gt_indent_1 {
   text-indent: 5px;
 }
-&#10;#mrzgnlkeio .gt_indent_2 {
+&#10;#dhdiywgpzz .gt_indent_2 {
   text-indent: 10px;
 }
-&#10;#mrzgnlkeio .gt_indent_3 {
+&#10;#dhdiywgpzz .gt_indent_3 {
   text-indent: 15px;
 }
-&#10;#mrzgnlkeio .gt_indent_4 {
+&#10;#dhdiywgpzz .gt_indent_4 {
   text-indent: 20px;
 }
-&#10;#mrzgnlkeio .gt_indent_5 {
+&#10;#dhdiywgpzz .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -3314,11 +3394,11 @@ tbl_merge(
   <thead>
     &#10;    <tr class="gt_col_headings gt_spanner_row">
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="2" colspan="1" scope="col" id="&lt;strong&gt;Characteristic&lt;/strong&gt;"><strong>Characteristic</strong></th>
-      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="2" scope="colgroup" id="&lt;strong&gt;TWFE&lt;/strong&gt;">
-        <span class="gt_column_spanner"><strong>TWFE</strong></span>
+      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="2" scope="colgroup" id="&lt;strong&gt;log(wage)&lt;/strong&gt;">
+        <span class="gt_column_spanner"><strong>log(wage)</strong></span>
       </th>
-      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="2" scope="colgroup" id="&lt;strong&gt;Weighted TWFE&lt;/strong&gt;">
-        <span class="gt_column_spanner"><strong>Weighted TWFE</strong></span>
+      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="2" scope="colgroup" id="&lt;strong&gt;log(job)&lt;/strong&gt;">
+        <span class="gt_column_spanner"><strong>log(job)</strong></span>
       </th>
     </tr>
     <tr class="gt_col_headings">
@@ -3330,44 +3410,44 @@ tbl_merge(
   </thead>
   <tbody class="gt_table_body">
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">exposure</td>
-<td headers="estimate_1" class="gt_row gt_center">0.0895 (0.094)</td>
-<td headers="p.value_1" class="gt_row gt_center">0.3</td>
-<td headers="estimate_2" class="gt_row gt_center">0.0310 (0.031)</td>
-<td headers="p.value_2" class="gt_row gt_center">0.3</td></tr>
+<td headers="estimate_1" class="gt_row gt_center">0.0023 (0.080)</td>
+<td headers="p.value_1" class="gt_row gt_center">>0.9</td>
+<td headers="estimate_2" class="gt_row gt_center">-1.0031*** (0.207)</td>
+<td headers="p.value_2" class="gt_row gt_center"><0.001</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Exposure to computers x Skill type</td>
 <td headers="estimate_1" class="gt_row gt_center"></td>
 <td headers="p.value_1" class="gt_row gt_center"></td>
 <td headers="estimate_2" class="gt_row gt_center"></td>
 <td headers="p.value_2" class="gt_row gt_center"></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    exposure * NRM</td>
-<td headers="estimate_1" class="gt_row gt_center">-0.1760 (0.101)</td>
-<td headers="p.value_1" class="gt_row gt_center">0.082</td>
-<td headers="estimate_2" class="gt_row gt_center">-0.2492*** (0.037)</td>
-<td headers="p.value_2" class="gt_row gt_center"><0.001</td></tr>
+<td headers="estimate_1" class="gt_row gt_center">-0.0771 (0.087)</td>
+<td headers="p.value_1" class="gt_row gt_center">0.4</td>
+<td headers="estimate_2" class="gt_row gt_center">0.4390* (0.203)</td>
+<td headers="p.value_2" class="gt_row gt_center">0.031</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    exposure * RC</td>
-<td headers="estimate_1" class="gt_row gt_center">0.0540 (0.101)</td>
-<td headers="p.value_1" class="gt_row gt_center">0.6</td>
-<td headers="estimate_2" class="gt_row gt_center">0.0276 (0.028)</td>
-<td headers="p.value_2" class="gt_row gt_center">0.3</td></tr>
+<td headers="estimate_1" class="gt_row gt_center">0.0802 (0.082)</td>
+<td headers="p.value_1" class="gt_row gt_center">0.3</td>
+<td headers="estimate_2" class="gt_row gt_center">0.3948* (0.163)</td>
+<td headers="p.value_2" class="gt_row gt_center">0.015</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    exposure * RM</td>
-<td headers="estimate_1" class="gt_row gt_center">-0.1980* (0.095)</td>
-<td headers="p.value_1" class="gt_row gt_center">0.038</td>
-<td headers="estimate_2" class="gt_row gt_center">-0.1518*** (0.034)</td>
+<td headers="estimate_1" class="gt_row gt_center">-0.1092 (0.078)</td>
+<td headers="p.value_1" class="gt_row gt_center">0.2</td>
+<td headers="estimate_2" class="gt_row gt_center">0.9910*** (0.194)</td>
 <td headers="p.value_2" class="gt_row gt_center"><0.001</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;">R²</td>
-<td headers="estimate_1" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;">0.020</td>
+<td headers="estimate_1" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;">0.008</td>
 <td headers="p.value_1" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;"></td>
-<td headers="estimate_2" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;">0.015</td>
+<td headers="estimate_2" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;">0.045</td>
 <td headers="p.value_2" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;"></td></tr>
     <tr><td headers="label" class="gt_row gt_left">Adjusted R²</td>
-<td headers="estimate_1" class="gt_row gt_center">-0.066</td>
+<td headers="estimate_1" class="gt_row gt_center">-0.092</td>
 <td headers="p.value_1" class="gt_row gt_center"></td>
-<td headers="estimate_2" class="gt_row gt_center">-0.071</td>
+<td headers="estimate_2" class="gt_row gt_center">-0.050</td>
 <td headers="p.value_2" class="gt_row gt_center"></td></tr>
     <tr><td headers="label" class="gt_row gt_left">No. Obs.</td>
-<td headers="estimate_1" class="gt_row gt_center">1,260</td>
+<td headers="estimate_1" class="gt_row gt_center">1,092</td>
 <td headers="p.value_1" class="gt_row gt_center"></td>
-<td headers="estimate_2" class="gt_row gt_center">1,260</td>
+<td headers="estimate_2" class="gt_row gt_center">1,092</td>
 <td headers="p.value_2" class="gt_row gt_center"></td></tr>
   </tbody>
   &#10;  <tfoot class="gt_footnotes">
@@ -3408,7 +3488,13 @@ for omitted variable bias.
 ## 5.1 Only skill groups as explainable variables
 
 ``` r
-fe_reg1 <- plm(log_wage ~ group,
+fe_reg_w_1 <- plm(log_wage ~ group,
+             data = data2,
+             model = 'within',
+             effect = 'time',
+             index = c('id', 'ano'))
+
+fe_reg_j_1 <- plm(log_job ~ group,
              data = data2,
              model = 'within',
              effect = 'time',
@@ -3418,7 +3504,13 @@ fe_reg1 <- plm(log_wage ~ group,
 ## 5.2 Skill groups and industry sectors as explainable variables
 
 ``` r
-fe_reg2 <- plm(log_wage ~ group + secao,
+fe_reg_w_2 <- plm(log_wage ~ group + secao,
+             data = data2,
+             model = 'within',
+             effect = 'time',
+             index = c('id', 'ano'))
+
+fe_reg_j_2 <- plm(log_job ~ group + secao,
              data = data2,
              model = 'within',
              effect = 'time',
@@ -3428,16 +3520,33 @@ fe_reg2 <- plm(log_wage ~ group + secao,
 ## 5.3 Results of the skill groups specifications
 
 ``` r
-tb11 <- gtsummary_table(
-  fe_reg1,
+tb_fe_reg_w_1 <- gtsummary_table(
+  fe_reg_w_1,
   include=c('group'),
   label=list(
     'group'='Skill group'
   ),
   robust='HC1'
 )
-tb12 <- gtsummary_table(
-  fe_reg2,
+tb_fe_reg_j_1 <- gtsummary_table(
+  fe_reg_j_1,
+  include=c('group'),
+  label=list(
+    'group'='Skill group'
+  ),
+  robust='HC1'
+)
+
+tb_fe_reg_w_2 <- gtsummary_table(
+  fe_reg_w_2,
+  include=c('group'),
+  label=list(
+    'group'='Skill group'
+  ),
+  robust='HC1'
+)
+tb_fe_reg_j_2 <- gtsummary_table(
+  fe_reg_j_2,
   include=c('group'),
   label=list(
     'group'='Skill group'
@@ -3446,25 +3555,25 @@ tb12 <- gtsummary_table(
 )
 
 tbl_merge(
-  list(tb11, tb12),
-  c('**Without industry FE**', '**With industry FE**')
+  list(tb_fe_reg_w_1, tb_fe_reg_w_2, tb_fe_reg_j_1, tb_fe_reg_j_2),
+  c('**log(wage)**', '**log(wage)**', '**log(job)**', '**log(job)**')
 )
 ```
 
-<div id="rpcxhihtjl" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#rpcxhihtjl table {
+<div id="dnpyxlaytg" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#dnpyxlaytg table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-&#10;#rpcxhihtjl thead, #rpcxhihtjl tbody, #rpcxhihtjl tfoot, #rpcxhihtjl tr, #rpcxhihtjl td, #rpcxhihtjl th {
+&#10;#dnpyxlaytg thead, #dnpyxlaytg tbody, #dnpyxlaytg tfoot, #dnpyxlaytg tr, #dnpyxlaytg td, #dnpyxlaytg th {
   border-style: none;
 }
-&#10;#rpcxhihtjl p {
+&#10;#dnpyxlaytg p {
   margin: 0;
   padding: 0;
 }
-&#10;#rpcxhihtjl .gt_table {
+&#10;#dnpyxlaytg .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -3489,11 +3598,11 @@ tbl_merge(
   border-left-width: 2px;
   border-left-color: #D3D3D3;
 }
-&#10;#rpcxhihtjl .gt_caption {
+&#10;#dnpyxlaytg .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
-&#10;#rpcxhihtjl .gt_title {
+&#10;#dnpyxlaytg .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -3504,7 +3613,7 @@ tbl_merge(
   border-bottom-color: #FFFFFF;
   border-bottom-width: 0;
 }
-&#10;#rpcxhihtjl .gt_subtitle {
+&#10;#dnpyxlaytg .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -3515,7 +3624,7 @@ tbl_merge(
   border-top-color: #FFFFFF;
   border-top-width: 0;
 }
-&#10;#rpcxhihtjl .gt_heading {
+&#10;#dnpyxlaytg .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -3526,12 +3635,12 @@ tbl_merge(
   border-right-width: 1px;
   border-right-color: #D3D3D3;
 }
-&#10;#rpcxhihtjl .gt_bottom_border {
+&#10;#dnpyxlaytg .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
-&#10;#rpcxhihtjl .gt_col_headings {
+&#10;#dnpyxlaytg .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3545,7 +3654,7 @@ tbl_merge(
   border-right-width: 1px;
   border-right-color: #D3D3D3;
 }
-&#10;#rpcxhihtjl .gt_col_heading {
+&#10;#dnpyxlaytg .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3564,7 +3673,7 @@ tbl_merge(
   padding-right: 5px;
   overflow-x: hidden;
 }
-&#10;#rpcxhihtjl .gt_column_spanner_outer {
+&#10;#dnpyxlaytg .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3575,13 +3684,13 @@ tbl_merge(
   padding-left: 4px;
   padding-right: 4px;
 }
-&#10;#rpcxhihtjl .gt_column_spanner_outer:first-child {
+&#10;#dnpyxlaytg .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
-&#10;#rpcxhihtjl .gt_column_spanner_outer:last-child {
+&#10;#dnpyxlaytg .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
-&#10;#rpcxhihtjl .gt_column_spanner {
+&#10;#dnpyxlaytg .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -3592,10 +3701,10 @@ tbl_merge(
   display: inline-block;
   width: 100%;
 }
-&#10;#rpcxhihtjl .gt_spanner_row {
+&#10;#dnpyxlaytg .gt_spanner_row {
   border-bottom-style: hidden;
 }
-&#10;#rpcxhihtjl .gt_group_heading {
+&#10;#dnpyxlaytg .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3620,7 +3729,7 @@ tbl_merge(
   vertical-align: middle;
   text-align: left;
 }
-&#10;#rpcxhihtjl .gt_empty_group_heading {
+&#10;#dnpyxlaytg .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -3634,13 +3743,13 @@ tbl_merge(
   border-bottom-color: #D3D3D3;
   vertical-align: middle;
 }
-&#10;#rpcxhihtjl .gt_from_md > :first-child {
+&#10;#dnpyxlaytg .gt_from_md > :first-child {
   margin-top: 0;
 }
-&#10;#rpcxhihtjl .gt_from_md > :last-child {
+&#10;#dnpyxlaytg .gt_from_md > :last-child {
   margin-bottom: 0;
 }
-&#10;#rpcxhihtjl .gt_row {
+&#10;#dnpyxlaytg .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3658,7 +3767,7 @@ tbl_merge(
   vertical-align: middle;
   overflow-x: hidden;
 }
-&#10;#rpcxhihtjl .gt_stub {
+&#10;#dnpyxlaytg .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3670,7 +3779,7 @@ tbl_merge(
   padding-left: 5px;
   padding-right: 5px;
 }
-&#10;#rpcxhihtjl .gt_stub_row_group {
+&#10;#dnpyxlaytg .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3683,13 +3792,13 @@ tbl_merge(
   padding-right: 5px;
   vertical-align: top;
 }
-&#10;#rpcxhihtjl .gt_row_group_first td {
+&#10;#dnpyxlaytg .gt_row_group_first td {
   border-top-width: 2px;
 }
-&#10;#rpcxhihtjl .gt_row_group_first th {
+&#10;#dnpyxlaytg .gt_row_group_first th {
   border-top-width: 2px;
 }
-&#10;#rpcxhihtjl .gt_summary_row {
+&#10;#dnpyxlaytg .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3698,14 +3807,14 @@ tbl_merge(
   padding-left: 5px;
   padding-right: 5px;
 }
-&#10;#rpcxhihtjl .gt_first_summary_row {
+&#10;#dnpyxlaytg .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
-&#10;#rpcxhihtjl .gt_first_summary_row.thick {
+&#10;#dnpyxlaytg .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
-&#10;#rpcxhihtjl .gt_last_summary_row {
+&#10;#dnpyxlaytg .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3714,7 +3823,7 @@ tbl_merge(
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
-&#10;#rpcxhihtjl .gt_grand_summary_row {
+&#10;#dnpyxlaytg .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3723,7 +3832,7 @@ tbl_merge(
   padding-left: 5px;
   padding-right: 5px;
 }
-&#10;#rpcxhihtjl .gt_first_grand_summary_row {
+&#10;#dnpyxlaytg .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3732,7 +3841,7 @@ tbl_merge(
   border-top-width: 6px;
   border-top-color: #D3D3D3;
 }
-&#10;#rpcxhihtjl .gt_last_grand_summary_row_top {
+&#10;#dnpyxlaytg .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3741,10 +3850,10 @@ tbl_merge(
   border-bottom-width: 6px;
   border-bottom-color: #D3D3D3;
 }
-&#10;#rpcxhihtjl .gt_striped {
+&#10;#dnpyxlaytg .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
-&#10;#rpcxhihtjl .gt_table_body {
+&#10;#dnpyxlaytg .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3752,7 +3861,7 @@ tbl_merge(
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
-&#10;#rpcxhihtjl .gt_footnotes {
+&#10;#dnpyxlaytg .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3765,7 +3874,7 @@ tbl_merge(
   border-right-width: 2px;
   border-right-color: #D3D3D3;
 }
-&#10;#rpcxhihtjl .gt_footnote {
+&#10;#dnpyxlaytg .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -3773,7 +3882,7 @@ tbl_merge(
   padding-left: 5px;
   padding-right: 5px;
 }
-&#10;#rpcxhihtjl .gt_sourcenotes {
+&#10;#dnpyxlaytg .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3786,57 +3895,57 @@ tbl_merge(
   border-right-width: 2px;
   border-right-color: #D3D3D3;
 }
-&#10;#rpcxhihtjl .gt_sourcenote {
+&#10;#dnpyxlaytg .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
   padding-left: 5px;
   padding-right: 5px;
 }
-&#10;#rpcxhihtjl .gt_left {
+&#10;#dnpyxlaytg .gt_left {
   text-align: left;
 }
-&#10;#rpcxhihtjl .gt_center {
+&#10;#dnpyxlaytg .gt_center {
   text-align: center;
 }
-&#10;#rpcxhihtjl .gt_right {
+&#10;#dnpyxlaytg .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
-&#10;#rpcxhihtjl .gt_font_normal {
+&#10;#dnpyxlaytg .gt_font_normal {
   font-weight: normal;
 }
-&#10;#rpcxhihtjl .gt_font_bold {
+&#10;#dnpyxlaytg .gt_font_bold {
   font-weight: bold;
 }
-&#10;#rpcxhihtjl .gt_font_italic {
+&#10;#dnpyxlaytg .gt_font_italic {
   font-style: italic;
 }
-&#10;#rpcxhihtjl .gt_super {
+&#10;#dnpyxlaytg .gt_super {
   font-size: 65%;
 }
-&#10;#rpcxhihtjl .gt_footnote_marks {
+&#10;#dnpyxlaytg .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
-&#10;#rpcxhihtjl .gt_asterisk {
+&#10;#dnpyxlaytg .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
-&#10;#rpcxhihtjl .gt_indent_1 {
+&#10;#dnpyxlaytg .gt_indent_1 {
   text-indent: 5px;
 }
-&#10;#rpcxhihtjl .gt_indent_2 {
+&#10;#dnpyxlaytg .gt_indent_2 {
   text-indent: 10px;
 }
-&#10;#rpcxhihtjl .gt_indent_3 {
+&#10;#dnpyxlaytg .gt_indent_3 {
   text-indent: 15px;
 }
-&#10;#rpcxhihtjl .gt_indent_4 {
+&#10;#dnpyxlaytg .gt_indent_4 {
   text-indent: 20px;
 }
-&#10;#rpcxhihtjl .gt_indent_5 {
+&#10;#dnpyxlaytg .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -3844,14 +3953,18 @@ tbl_merge(
   <thead>
     &#10;    <tr class="gt_col_headings gt_spanner_row">
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="2" colspan="1" scope="col" id="&lt;strong&gt;Characteristic&lt;/strong&gt;"><strong>Characteristic</strong></th>
-      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="2" scope="colgroup" id="&lt;strong&gt;Without industry FE&lt;/strong&gt;">
-        <span class="gt_column_spanner"><strong>Without industry FE</strong></span>
+      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="4" scope="colgroup" id="&lt;strong&gt;log(wage)&lt;/strong&gt;">
+        <span class="gt_column_spanner"><strong>log(wage)</strong></span>
       </th>
-      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="2" scope="colgroup" id="&lt;strong&gt;With industry FE&lt;/strong&gt;">
-        <span class="gt_column_spanner"><strong>With industry FE</strong></span>
+      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="4" scope="colgroup" id="&lt;strong&gt;log(job)&lt;/strong&gt;">
+        <span class="gt_column_spanner"><strong>log(job)</strong></span>
       </th>
     </tr>
     <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;Beta (SE)&lt;/strong&gt;&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;&quot;&gt;&lt;sup&gt;1,2&lt;/sup&gt;&lt;/span&gt;"><strong>Beta (SE)</strong><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1,2</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;p-value&lt;/strong&gt;"><strong>p-value</strong></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;Beta (SE)&lt;/strong&gt;&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;&quot;&gt;&lt;sup&gt;1,2&lt;/sup&gt;&lt;/span&gt;"><strong>Beta (SE)</strong><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1,2</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;p-value&lt;/strong&gt;"><strong>p-value</strong></th>
       <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;Beta (SE)&lt;/strong&gt;&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;&quot;&gt;&lt;sup&gt;1,2&lt;/sup&gt;&lt;/span&gt;"><strong>Beta (SE)</strong><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1,2</sup></span></th>
       <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;p-value&lt;/strong&gt;"><strong>p-value</strong></th>
       <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;Beta (SE)&lt;/strong&gt;&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;&quot;&gt;&lt;sup&gt;1,2&lt;/sup&gt;&lt;/span&gt;"><strong>Beta (SE)</strong><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1,2</sup></span></th>
@@ -3863,49 +3976,81 @@ tbl_merge(
 <td headers="estimate_1" class="gt_row gt_center"></td>
 <td headers="p.value_1" class="gt_row gt_center"></td>
 <td headers="estimate_2" class="gt_row gt_center"></td>
-<td headers="p.value_2" class="gt_row gt_center"></td></tr>
+<td headers="p.value_2" class="gt_row gt_center"></td>
+<td headers="estimate_3" class="gt_row gt_center"></td>
+<td headers="p.value_3" class="gt_row gt_center"></td>
+<td headers="estimate_4" class="gt_row gt_center"></td>
+<td headers="p.value_4" class="gt_row gt_center"></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    NRM</td>
 <td headers="estimate_1" class="gt_row gt_center">—</td>
 <td headers="p.value_1" class="gt_row gt_center"></td>
 <td headers="estimate_2" class="gt_row gt_center">—</td>
-<td headers="p.value_2" class="gt_row gt_center"></td></tr>
+<td headers="p.value_2" class="gt_row gt_center"></td>
+<td headers="estimate_3" class="gt_row gt_center">—</td>
+<td headers="p.value_3" class="gt_row gt_center"></td>
+<td headers="estimate_4" class="gt_row gt_center">—</td>
+<td headers="p.value_4" class="gt_row gt_center"></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    NRC</td>
-<td headers="estimate_1" class="gt_row gt_center">1.0272*** (0.112)</td>
+<td headers="estimate_1" class="gt_row gt_center">1.0368*** (0.113)</td>
 <td headers="p.value_1" class="gt_row gt_center"><0.001</td>
-<td headers="estimate_2" class="gt_row gt_center">1.0272*** (0.048)</td>
-<td headers="p.value_2" class="gt_row gt_center"><0.001</td></tr>
+<td headers="estimate_2" class="gt_row gt_center">1.0368*** (0.048)</td>
+<td headers="p.value_2" class="gt_row gt_center"><0.001</td>
+<td headers="estimate_3" class="gt_row gt_center">0.1265 (0.657)</td>
+<td headers="p.value_3" class="gt_row gt_center">0.8</td>
+<td headers="estimate_4" class="gt_row gt_center">0.1265 (0.264)</td>
+<td headers="p.value_4" class="gt_row gt_center">0.6</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    RC</td>
-<td headers="estimate_1" class="gt_row gt_center">0.3873*** (0.101)</td>
+<td headers="estimate_1" class="gt_row gt_center">0.3985*** (0.103)</td>
 <td headers="p.value_1" class="gt_row gt_center"><0.001</td>
-<td headers="estimate_2" class="gt_row gt_center">0.3873*** (0.042)</td>
-<td headers="p.value_2" class="gt_row gt_center"><0.001</td></tr>
+<td headers="estimate_2" class="gt_row gt_center">0.3985*** (0.041)</td>
+<td headers="p.value_2" class="gt_row gt_center"><0.001</td>
+<td headers="estimate_3" class="gt_row gt_center">0.6507 (0.665)</td>
+<td headers="p.value_3" class="gt_row gt_center">0.3</td>
+<td headers="estimate_4" class="gt_row gt_center">0.6507** (0.230)</td>
+<td headers="p.value_4" class="gt_row gt_center">0.005</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    RM</td>
-<td headers="estimate_1" class="gt_row gt_center">0.1473 (0.093)</td>
-<td headers="p.value_1" class="gt_row gt_center">0.11</td>
-<td headers="estimate_2" class="gt_row gt_center">0.1473*** (0.042)</td>
-<td headers="p.value_2" class="gt_row gt_center"><0.001</td></tr>
+<td headers="estimate_1" class="gt_row gt_center">0.1472 (0.095)</td>
+<td headers="p.value_1" class="gt_row gt_center">0.12</td>
+<td headers="estimate_2" class="gt_row gt_center">0.1472*** (0.041)</td>
+<td headers="p.value_2" class="gt_row gt_center"><0.001</td>
+<td headers="estimate_3" class="gt_row gt_center">0.2705 (0.667)</td>
+<td headers="p.value_3" class="gt_row gt_center">0.7</td>
+<td headers="estimate_4" class="gt_row gt_center">0.2705 (0.319)</td>
+<td headers="p.value_4" class="gt_row gt_center">0.4</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;">R²</td>
-<td headers="estimate_1" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;">0.525</td>
+<td headers="estimate_1" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;">0.527</td>
 <td headers="p.value_1" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;"></td>
-<td headers="estimate_2" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;">0.914</td>
-<td headers="p.value_2" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;"></td></tr>
+<td headers="estimate_2" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;">0.918</td>
+<td headers="p.value_2" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;"></td>
+<td headers="estimate_3" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;">0.012</td>
+<td headers="p.value_3" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;"></td>
+<td headers="estimate_4" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;">0.827</td>
+<td headers="p.value_4" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;"></td></tr>
     <tr><td headers="label" class="gt_row gt_left">Adjusted R²</td>
-<td headers="estimate_1" class="gt_row gt_center">0.519</td>
+<td headers="estimate_1" class="gt_row gt_center">0.521</td>
 <td headers="p.value_1" class="gt_row gt_center"></td>
-<td headers="estimate_2" class="gt_row gt_center">0.912</td>
-<td headers="p.value_2" class="gt_row gt_center"></td></tr>
+<td headers="estimate_2" class="gt_row gt_center">0.916</td>
+<td headers="p.value_2" class="gt_row gt_center"></td>
+<td headers="estimate_3" class="gt_row gt_center">-0.001</td>
+<td headers="p.value_3" class="gt_row gt_center"></td>
+<td headers="estimate_4" class="gt_row gt_center">0.822</td>
+<td headers="p.value_4" class="gt_row gt_center"></td></tr>
     <tr><td headers="label" class="gt_row gt_left">No. Obs.</td>
-<td headers="estimate_1" class="gt_row gt_center">1,344</td>
+<td headers="estimate_1" class="gt_row gt_center">1,176</td>
 <td headers="p.value_1" class="gt_row gt_center"></td>
-<td headers="estimate_2" class="gt_row gt_center">1,344</td>
-<td headers="p.value_2" class="gt_row gt_center"></td></tr>
+<td headers="estimate_2" class="gt_row gt_center">1,176</td>
+<td headers="p.value_2" class="gt_row gt_center"></td>
+<td headers="estimate_3" class="gt_row gt_center">1,176</td>
+<td headers="p.value_3" class="gt_row gt_center"></td>
+<td headers="estimate_4" class="gt_row gt_center">1,176</td>
+<td headers="p.value_4" class="gt_row gt_center"></td></tr>
   </tbody>
   &#10;  <tfoot class="gt_footnotes">
     <tr>
-      <td class="gt_footnote" colspan="5"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1</sup></span> *p&lt;0.05; **p&lt;0.01; ***p&lt;0.001</td>
+      <td class="gt_footnote" colspan="9"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1</sup></span> *p&lt;0.05; **p&lt;0.01; ***p&lt;0.001</td>
     </tr>
     <tr>
-      <td class="gt_footnote" colspan="5"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>2</sup></span> SE = Standard error</td>
+      <td class="gt_footnote" colspan="9"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>2</sup></span> SE = Standard error</td>
     </tr>
   </tfoot>
 </table>
@@ -3956,7 +4101,13 @@ only and compare with the fixed effects in the previous model with
 industry sector and skill groups.
 
 ``` r
-fe_reg3 <- plm(log_wage ~ secao,
+fe_reg_w_3 <- plm(log_wage ~ secao,
+             data = data2,
+             model = 'within',
+             effect = 'time',
+             index = c('id', 'ano'))
+
+fe_reg_j_3 <- plm(log_job ~ secao,
              data = data2,
              model = 'within',
              effect = 'time',
@@ -3966,16 +4117,32 @@ fe_reg3 <- plm(log_wage ~ secao,
 ## 5.5 Results of the industry sector specifications
 
 ``` r
-tb13 <- gtsummary_table(
-  fe_reg2,
+tb2_fe_reg_w_2 <- gtsummary_table(
+  fe_reg_w_2,
   include=c('secao'),
   label=list(
     'secao'='CNAE industry sector'
   ),
   robust='HC1'
 )
-tb14 <- gtsummary_table(
-  fe_reg3,
+tb_fe_reg_w_3 <- gtsummary_table(
+  fe_reg_w_3,
+  include=c('secao'),
+  label=list(
+    'secao'='CNAE industry sector'
+  ),
+  robust='HC1'
+)
+tb2_fe_reg_j_2 <- gtsummary_table(
+  fe_reg_j_2,
+  include=c('secao'),
+  label=list(
+    'secao'='CNAE industry sector'
+  ),
+  robust='HC1'
+)
+tb_fe_reg_j_3 <- gtsummary_table(
+  fe_reg_j_3,
   include=c('secao'),
   label=list(
     'secao'='CNAE industry sector'
@@ -3983,25 +4150,25 @@ tb14 <- gtsummary_table(
   robust='HC1'
 )
 tbl_merge(
-  list(tb13, tb14),
-  c('**With skill group FE**', '**Without skill group FE**')
+  list(tb2_fe_reg_w_2, tb_fe_reg_w_3, tb2_fe_reg_j_2, tb_fe_reg_j_3),
+  c('**log(wage)**', '**log(wage)**', '**log(job)**', '**log(job)**')
 )
 ```
 
-<div id="nffcfbhluz" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#nffcfbhluz table {
+<div id="scytdbbvvu" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#scytdbbvvu table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-&#10;#nffcfbhluz thead, #nffcfbhluz tbody, #nffcfbhluz tfoot, #nffcfbhluz tr, #nffcfbhluz td, #nffcfbhluz th {
+&#10;#scytdbbvvu thead, #scytdbbvvu tbody, #scytdbbvvu tfoot, #scytdbbvvu tr, #scytdbbvvu td, #scytdbbvvu th {
   border-style: none;
 }
-&#10;#nffcfbhluz p {
+&#10;#scytdbbvvu p {
   margin: 0;
   padding: 0;
 }
-&#10;#nffcfbhluz .gt_table {
+&#10;#scytdbbvvu .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -4026,11 +4193,11 @@ tbl_merge(
   border-left-width: 2px;
   border-left-color: #D3D3D3;
 }
-&#10;#nffcfbhluz .gt_caption {
+&#10;#scytdbbvvu .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
-&#10;#nffcfbhluz .gt_title {
+&#10;#scytdbbvvu .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -4041,7 +4208,7 @@ tbl_merge(
   border-bottom-color: #FFFFFF;
   border-bottom-width: 0;
 }
-&#10;#nffcfbhluz .gt_subtitle {
+&#10;#scytdbbvvu .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -4052,7 +4219,7 @@ tbl_merge(
   border-top-color: #FFFFFF;
   border-top-width: 0;
 }
-&#10;#nffcfbhluz .gt_heading {
+&#10;#scytdbbvvu .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -4063,12 +4230,12 @@ tbl_merge(
   border-right-width: 1px;
   border-right-color: #D3D3D3;
 }
-&#10;#nffcfbhluz .gt_bottom_border {
+&#10;#scytdbbvvu .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
-&#10;#nffcfbhluz .gt_col_headings {
+&#10;#scytdbbvvu .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -4082,7 +4249,7 @@ tbl_merge(
   border-right-width: 1px;
   border-right-color: #D3D3D3;
 }
-&#10;#nffcfbhluz .gt_col_heading {
+&#10;#scytdbbvvu .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4101,7 +4268,7 @@ tbl_merge(
   padding-right: 5px;
   overflow-x: hidden;
 }
-&#10;#nffcfbhluz .gt_column_spanner_outer {
+&#10;#scytdbbvvu .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4112,13 +4279,13 @@ tbl_merge(
   padding-left: 4px;
   padding-right: 4px;
 }
-&#10;#nffcfbhluz .gt_column_spanner_outer:first-child {
+&#10;#scytdbbvvu .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
-&#10;#nffcfbhluz .gt_column_spanner_outer:last-child {
+&#10;#scytdbbvvu .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
-&#10;#nffcfbhluz .gt_column_spanner {
+&#10;#scytdbbvvu .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -4129,10 +4296,10 @@ tbl_merge(
   display: inline-block;
   width: 100%;
 }
-&#10;#nffcfbhluz .gt_spanner_row {
+&#10;#scytdbbvvu .gt_spanner_row {
   border-bottom-style: hidden;
 }
-&#10;#nffcfbhluz .gt_group_heading {
+&#10;#scytdbbvvu .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4157,7 +4324,7 @@ tbl_merge(
   vertical-align: middle;
   text-align: left;
 }
-&#10;#nffcfbhluz .gt_empty_group_heading {
+&#10;#scytdbbvvu .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -4171,13 +4338,13 @@ tbl_merge(
   border-bottom-color: #D3D3D3;
   vertical-align: middle;
 }
-&#10;#nffcfbhluz .gt_from_md > :first-child {
+&#10;#scytdbbvvu .gt_from_md > :first-child {
   margin-top: 0;
 }
-&#10;#nffcfbhluz .gt_from_md > :last-child {
+&#10;#scytdbbvvu .gt_from_md > :last-child {
   margin-bottom: 0;
 }
-&#10;#nffcfbhluz .gt_row {
+&#10;#scytdbbvvu .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4195,7 +4362,7 @@ tbl_merge(
   vertical-align: middle;
   overflow-x: hidden;
 }
-&#10;#nffcfbhluz .gt_stub {
+&#10;#scytdbbvvu .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4207,7 +4374,7 @@ tbl_merge(
   padding-left: 5px;
   padding-right: 5px;
 }
-&#10;#nffcfbhluz .gt_stub_row_group {
+&#10;#scytdbbvvu .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4220,13 +4387,13 @@ tbl_merge(
   padding-right: 5px;
   vertical-align: top;
 }
-&#10;#nffcfbhluz .gt_row_group_first td {
+&#10;#scytdbbvvu .gt_row_group_first td {
   border-top-width: 2px;
 }
-&#10;#nffcfbhluz .gt_row_group_first th {
+&#10;#scytdbbvvu .gt_row_group_first th {
   border-top-width: 2px;
 }
-&#10;#nffcfbhluz .gt_summary_row {
+&#10;#scytdbbvvu .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -4235,14 +4402,14 @@ tbl_merge(
   padding-left: 5px;
   padding-right: 5px;
 }
-&#10;#nffcfbhluz .gt_first_summary_row {
+&#10;#scytdbbvvu .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
-&#10;#nffcfbhluz .gt_first_summary_row.thick {
+&#10;#scytdbbvvu .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
-&#10;#nffcfbhluz .gt_last_summary_row {
+&#10;#scytdbbvvu .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4251,7 +4418,7 @@ tbl_merge(
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
-&#10;#nffcfbhluz .gt_grand_summary_row {
+&#10;#scytdbbvvu .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -4260,7 +4427,7 @@ tbl_merge(
   padding-left: 5px;
   padding-right: 5px;
 }
-&#10;#nffcfbhluz .gt_first_grand_summary_row {
+&#10;#scytdbbvvu .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4269,7 +4436,7 @@ tbl_merge(
   border-top-width: 6px;
   border-top-color: #D3D3D3;
 }
-&#10;#nffcfbhluz .gt_last_grand_summary_row_top {
+&#10;#scytdbbvvu .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4278,10 +4445,10 @@ tbl_merge(
   border-bottom-width: 6px;
   border-bottom-color: #D3D3D3;
 }
-&#10;#nffcfbhluz .gt_striped {
+&#10;#scytdbbvvu .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
-&#10;#nffcfbhluz .gt_table_body {
+&#10;#scytdbbvvu .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -4289,7 +4456,7 @@ tbl_merge(
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
-&#10;#nffcfbhluz .gt_footnotes {
+&#10;#scytdbbvvu .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -4302,7 +4469,7 @@ tbl_merge(
   border-right-width: 2px;
   border-right-color: #D3D3D3;
 }
-&#10;#nffcfbhluz .gt_footnote {
+&#10;#scytdbbvvu .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -4310,7 +4477,7 @@ tbl_merge(
   padding-left: 5px;
   padding-right: 5px;
 }
-&#10;#nffcfbhluz .gt_sourcenotes {
+&#10;#scytdbbvvu .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -4323,57 +4490,57 @@ tbl_merge(
   border-right-width: 2px;
   border-right-color: #D3D3D3;
 }
-&#10;#nffcfbhluz .gt_sourcenote {
+&#10;#scytdbbvvu .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
   padding-left: 5px;
   padding-right: 5px;
 }
-&#10;#nffcfbhluz .gt_left {
+&#10;#scytdbbvvu .gt_left {
   text-align: left;
 }
-&#10;#nffcfbhluz .gt_center {
+&#10;#scytdbbvvu .gt_center {
   text-align: center;
 }
-&#10;#nffcfbhluz .gt_right {
+&#10;#scytdbbvvu .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
-&#10;#nffcfbhluz .gt_font_normal {
+&#10;#scytdbbvvu .gt_font_normal {
   font-weight: normal;
 }
-&#10;#nffcfbhluz .gt_font_bold {
+&#10;#scytdbbvvu .gt_font_bold {
   font-weight: bold;
 }
-&#10;#nffcfbhluz .gt_font_italic {
+&#10;#scytdbbvvu .gt_font_italic {
   font-style: italic;
 }
-&#10;#nffcfbhluz .gt_super {
+&#10;#scytdbbvvu .gt_super {
   font-size: 65%;
 }
-&#10;#nffcfbhluz .gt_footnote_marks {
+&#10;#scytdbbvvu .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
-&#10;#nffcfbhluz .gt_asterisk {
+&#10;#scytdbbvvu .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
-&#10;#nffcfbhluz .gt_indent_1 {
+&#10;#scytdbbvvu .gt_indent_1 {
   text-indent: 5px;
 }
-&#10;#nffcfbhluz .gt_indent_2 {
+&#10;#scytdbbvvu .gt_indent_2 {
   text-indent: 10px;
 }
-&#10;#nffcfbhluz .gt_indent_3 {
+&#10;#scytdbbvvu .gt_indent_3 {
   text-indent: 15px;
 }
-&#10;#nffcfbhluz .gt_indent_4 {
+&#10;#scytdbbvvu .gt_indent_4 {
   text-indent: 20px;
 }
-&#10;#nffcfbhluz .gt_indent_5 {
+&#10;#scytdbbvvu .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -4381,14 +4548,18 @@ tbl_merge(
   <thead>
     &#10;    <tr class="gt_col_headings gt_spanner_row">
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="2" colspan="1" scope="col" id="&lt;strong&gt;Characteristic&lt;/strong&gt;"><strong>Characteristic</strong></th>
-      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="2" scope="colgroup" id="&lt;strong&gt;With skill group FE&lt;/strong&gt;">
-        <span class="gt_column_spanner"><strong>With skill group FE</strong></span>
+      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="4" scope="colgroup" id="&lt;strong&gt;log(wage)&lt;/strong&gt;">
+        <span class="gt_column_spanner"><strong>log(wage)</strong></span>
       </th>
-      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="2" scope="colgroup" id="&lt;strong&gt;Without skill group FE&lt;/strong&gt;">
-        <span class="gt_column_spanner"><strong>Without skill group FE</strong></span>
+      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="4" scope="colgroup" id="&lt;strong&gt;log(job)&lt;/strong&gt;">
+        <span class="gt_column_spanner"><strong>log(job)</strong></span>
       </th>
     </tr>
     <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;Beta (SE)&lt;/strong&gt;&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;&quot;&gt;&lt;sup&gt;1,2&lt;/sup&gt;&lt;/span&gt;"><strong>Beta (SE)</strong><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1,2</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;p-value&lt;/strong&gt;"><strong>p-value</strong></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;Beta (SE)&lt;/strong&gt;&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;&quot;&gt;&lt;sup&gt;1,2&lt;/sup&gt;&lt;/span&gt;"><strong>Beta (SE)</strong><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1,2</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;p-value&lt;/strong&gt;"><strong>p-value</strong></th>
       <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;Beta (SE)&lt;/strong&gt;&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;&quot;&gt;&lt;sup&gt;1,2&lt;/sup&gt;&lt;/span&gt;"><strong>Beta (SE)</strong><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1,2</sup></span></th>
       <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;p-value&lt;/strong&gt;"><strong>p-value</strong></th>
       <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="&lt;strong&gt;Beta (SE)&lt;/strong&gt;&lt;span class=&quot;gt_footnote_marks&quot; style=&quot;white-space:nowrap;font-style:italic;font-weight:normal;&quot;&gt;&lt;sup&gt;1,2&lt;/sup&gt;&lt;/span&gt;"><strong>Beta (SE)</strong><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1,2</sup></span></th>
@@ -4400,134 +4571,234 @@ tbl_merge(
 <td headers="estimate_1" class="gt_row gt_center"></td>
 <td headers="p.value_1" class="gt_row gt_center"></td>
 <td headers="estimate_2" class="gt_row gt_center"></td>
-<td headers="p.value_2" class="gt_row gt_center"></td></tr>
+<td headers="p.value_2" class="gt_row gt_center"></td>
+<td headers="estimate_3" class="gt_row gt_center"></td>
+<td headers="p.value_3" class="gt_row gt_center"></td>
+<td headers="estimate_4" class="gt_row gt_center"></td>
+<td headers="p.value_4" class="gt_row gt_center"></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Administração pública, defesa e seguridade social</td>
 <td headers="estimate_1" class="gt_row gt_center">—</td>
 <td headers="p.value_1" class="gt_row gt_center"></td>
 <td headers="estimate_2" class="gt_row gt_center">—</td>
-<td headers="p.value_2" class="gt_row gt_center"></td></tr>
+<td headers="p.value_2" class="gt_row gt_center"></td>
+<td headers="estimate_3" class="gt_row gt_center">—</td>
+<td headers="p.value_3" class="gt_row gt_center"></td>
+<td headers="estimate_4" class="gt_row gt_center">—</td>
+<td headers="p.value_4" class="gt_row gt_center"></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Agricultura, pecuária, produção florestal, pesca e aqüicultura</td>
-<td headers="estimate_1" class="gt_row gt_center">-0.3640*** (0.064)</td>
+<td headers="estimate_1" class="gt_row gt_center">-0.3656*** (0.064)</td>
 <td headers="p.value_1" class="gt_row gt_center"><0.001</td>
-<td headers="estimate_2" class="gt_row gt_center">-0.3640 (0.254)</td>
-<td headers="p.value_2" class="gt_row gt_center">0.2</td></tr>
+<td headers="estimate_2" class="gt_row gt_center">-0.3656 (0.256)</td>
+<td headers="p.value_2" class="gt_row gt_center">0.2</td>
+<td headers="estimate_3" class="gt_row gt_center">-2.0903** (0.798)</td>
+<td headers="p.value_3" class="gt_row gt_center">0.009</td>
+<td headers="estimate_4" class="gt_row gt_center">-2.0903** (0.798)</td>
+<td headers="p.value_4" class="gt_row gt_center">0.009</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Alojamento e alimentação</td>
-<td headers="estimate_1" class="gt_row gt_center">-0.5770*** (0.102)</td>
+<td headers="estimate_1" class="gt_row gt_center">-0.5785*** (0.102)</td>
 <td headers="p.value_1" class="gt_row gt_center"><0.001</td>
-<td headers="estimate_2" class="gt_row gt_center">-0.5770** (0.204)</td>
-<td headers="p.value_2" class="gt_row gt_center">0.005</td></tr>
+<td headers="estimate_2" class="gt_row gt_center">-0.5785** (0.207)</td>
+<td headers="p.value_2" class="gt_row gt_center">0.005</td>
+<td headers="estimate_3" class="gt_row gt_center">-1.5313* (0.671)</td>
+<td headers="p.value_3" class="gt_row gt_center">0.023</td>
+<td headers="estimate_4" class="gt_row gt_center">-1.5313* (0.639)</td>
+<td headers="p.value_4" class="gt_row gt_center">0.017</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Artes, cultura, esporte e recreação</td>
-<td headers="estimate_1" class="gt_row gt_center">-0.2542** (0.087)</td>
-<td headers="p.value_1" class="gt_row gt_center">0.004</td>
-<td headers="estimate_2" class="gt_row gt_center">-0.2542 (0.224)</td>
-<td headers="p.value_2" class="gt_row gt_center">0.3</td></tr>
+<td headers="estimate_1" class="gt_row gt_center">-0.2582** (0.086)</td>
+<td headers="p.value_1" class="gt_row gt_center">0.003</td>
+<td headers="estimate_2" class="gt_row gt_center">-0.2582 (0.227)</td>
+<td headers="p.value_2" class="gt_row gt_center">0.3</td>
+<td headers="estimate_3" class="gt_row gt_center">-3.2638*** (0.489)</td>
+<td headers="p.value_3" class="gt_row gt_center"><0.001</td>
+<td headers="estimate_4" class="gt_row gt_center">-3.2638*** (0.480)</td>
+<td headers="p.value_4" class="gt_row gt_center"><0.001</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Atividades administrativas e serviços complementares</td>
-<td headers="estimate_1" class="gt_row gt_center">-0.3811*** (0.065)</td>
+<td headers="estimate_1" class="gt_row gt_center">-0.3831*** (0.065)</td>
 <td headers="p.value_1" class="gt_row gt_center"><0.001</td>
-<td headers="estimate_2" class="gt_row gt_center">-0.3811 (0.240)</td>
-<td headers="p.value_2" class="gt_row gt_center">0.11</td></tr>
+<td headers="estimate_2" class="gt_row gt_center">-0.3831 (0.242)</td>
+<td headers="p.value_2" class="gt_row gt_center">0.11</td>
+<td headers="estimate_3" class="gt_row gt_center">-0.3698 (0.565)</td>
+<td headers="p.value_3" class="gt_row gt_center">0.5</td>
+<td headers="estimate_4" class="gt_row gt_center">-0.3698 (0.578)</td>
+<td headers="p.value_4" class="gt_row gt_center">0.5</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Atividades financeiras, de seguros e serviços relacionados</td>
-<td headers="estimate_1" class="gt_row gt_center">0.2474 (0.151)</td>
-<td headers="p.value_1" class="gt_row gt_center">0.10</td>
-<td headers="estimate_2" class="gt_row gt_center">0.2474 (0.351)</td>
-<td headers="p.value_2" class="gt_row gt_center">0.5</td></tr>
+<td headers="estimate_1" class="gt_row gt_center">0.2592 (0.150)</td>
+<td headers="p.value_1" class="gt_row gt_center">0.085</td>
+<td headers="estimate_2" class="gt_row gt_center">0.2592 (0.355)</td>
+<td headers="p.value_2" class="gt_row gt_center">0.5</td>
+<td headers="estimate_3" class="gt_row gt_center">-3.0181*** (0.882)</td>
+<td headers="p.value_3" class="gt_row gt_center"><0.001</td>
+<td headers="estimate_4" class="gt_row gt_center">-3.0181** (0.946)</td>
+<td headers="p.value_4" class="gt_row gt_center">0.001</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Atividades imobiliárias</td>
-<td headers="estimate_1" class="gt_row gt_center">-0.3368*** (0.065)</td>
+<td headers="estimate_1" class="gt_row gt_center">-0.3316*** (0.066)</td>
 <td headers="p.value_1" class="gt_row gt_center"><0.001</td>
-<td headers="estimate_2" class="gt_row gt_center">-0.3368 (0.256)</td>
-<td headers="p.value_2" class="gt_row gt_center">0.2</td></tr>
+<td headers="estimate_2" class="gt_row gt_center">-0.3316 (0.260)</td>
+<td headers="p.value_2" class="gt_row gt_center">0.2</td>
+<td headers="estimate_3" class="gt_row gt_center">-3.9409*** (0.440)</td>
+<td headers="p.value_3" class="gt_row gt_center"><0.001</td>
+<td headers="estimate_4" class="gt_row gt_center">-3.9409*** (0.491)</td>
+<td headers="p.value_4" class="gt_row gt_center"><0.001</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Atividades profissionais, científicas e técnicas</td>
-<td headers="estimate_1" class="gt_row gt_center">-0.0779 (0.076)</td>
+<td headers="estimate_1" class="gt_row gt_center">-0.0792 (0.076)</td>
 <td headers="p.value_1" class="gt_row gt_center">0.3</td>
-<td headers="estimate_2" class="gt_row gt_center">-0.0779 (0.295)</td>
-<td headers="p.value_2" class="gt_row gt_center">0.8</td></tr>
+<td headers="estimate_2" class="gt_row gt_center">-0.0792 (0.297)</td>
+<td headers="p.value_2" class="gt_row gt_center">0.8</td>
+<td headers="estimate_3" class="gt_row gt_center">-1.9080*** (0.466)</td>
+<td headers="p.value_3" class="gt_row gt_center"><0.001</td>
+<td headers="estimate_4" class="gt_row gt_center">-1.9080*** (0.531)</td>
+<td headers="p.value_4" class="gt_row gt_center"><0.001</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Comércio; reparação de veículos automotores e motocicletas</td>
-<td headers="estimate_1" class="gt_row gt_center">-0.4698*** (0.074)</td>
+<td headers="estimate_1" class="gt_row gt_center">-0.4707*** (0.074)</td>
 <td headers="p.value_1" class="gt_row gt_center"><0.001</td>
-<td headers="estimate_2" class="gt_row gt_center">-0.4698* (0.227)</td>
-<td headers="p.value_2" class="gt_row gt_center">0.039</td></tr>
+<td headers="estimate_2" class="gt_row gt_center">-0.4707* (0.229)</td>
+<td headers="p.value_2" class="gt_row gt_center">0.040</td>
+<td headers="estimate_3" class="gt_row gt_center">0.2371 (0.483)</td>
+<td headers="p.value_3" class="gt_row gt_center">0.6</td>
+<td headers="estimate_4" class="gt_row gt_center">0.2371 (0.564)</td>
+<td headers="p.value_4" class="gt_row gt_center">0.7</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Construção</td>
-<td headers="estimate_1" class="gt_row gt_center">-0.2161*** (0.057)</td>
+<td headers="estimate_1" class="gt_row gt_center">-0.2066*** (0.057)</td>
 <td headers="p.value_1" class="gt_row gt_center"><0.001</td>
-<td headers="estimate_2" class="gt_row gt_center">-0.2161 (0.264)</td>
-<td headers="p.value_2" class="gt_row gt_center">0.4</td></tr>
+<td headers="estimate_2" class="gt_row gt_center">-0.2066 (0.269)</td>
+<td headers="p.value_2" class="gt_row gt_center">0.4</td>
+<td headers="estimate_3" class="gt_row gt_center">-1.2120 (0.679)</td>
+<td headers="p.value_3" class="gt_row gt_center">0.075</td>
+<td headers="estimate_4" class="gt_row gt_center">-1.2120 (0.691)</td>
+<td headers="p.value_4" class="gt_row gt_center">0.080</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Educação</td>
-<td headers="estimate_1" class="gt_row gt_center">0.1757 (0.131)</td>
+<td headers="estimate_1" class="gt_row gt_center">0.1874 (0.134)</td>
 <td headers="p.value_1" class="gt_row gt_center">0.2</td>
-<td headers="estimate_2" class="gt_row gt_center">0.1757 (0.359)</td>
-<td headers="p.value_2" class="gt_row gt_center">0.6</td></tr>
+<td headers="estimate_2" class="gt_row gt_center">0.1874 (0.364)</td>
+<td headers="p.value_2" class="gt_row gt_center">0.6</td>
+<td headers="estimate_3" class="gt_row gt_center">-1.7442* (0.713)</td>
+<td headers="p.value_3" class="gt_row gt_center">0.015</td>
+<td headers="estimate_4" class="gt_row gt_center">-1.7442* (0.723)</td>
+<td headers="p.value_4" class="gt_row gt_center">0.016</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Eletricidade e gás</td>
-<td headers="estimate_1" class="gt_row gt_center">0.7022*** (0.103)</td>
+<td headers="estimate_1" class="gt_row gt_center">0.7208*** (0.102)</td>
 <td headers="p.value_1" class="gt_row gt_center"><0.001</td>
-<td headers="estimate_2" class="gt_row gt_center">0.7022** (0.265)</td>
-<td headers="p.value_2" class="gt_row gt_center">0.008</td></tr>
+<td headers="estimate_2" class="gt_row gt_center">0.7208** (0.262)</td>
+<td headers="p.value_2" class="gt_row gt_center">0.006</td>
+<td headers="estimate_3" class="gt_row gt_center">-4.2553*** (0.582)</td>
+<td headers="p.value_3" class="gt_row gt_center"><0.001</td>
+<td headers="estimate_4" class="gt_row gt_center">-4.2553*** (0.616)</td>
+<td headers="p.value_4" class="gt_row gt_center"><0.001</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    ��gua, esgoto, atividades de gestão de resíduos e descontaminação</td>
-<td headers="estimate_1" class="gt_row gt_center">0.0774 (0.102)</td>
-<td headers="p.value_1" class="gt_row gt_center">0.4</td>
-<td headers="estimate_2" class="gt_row gt_center">0.0774 (0.315)</td>
-<td headers="p.value_2" class="gt_row gt_center">0.8</td></tr>
+<td headers="estimate_1" class="gt_row gt_center">0.0743 (0.101)</td>
+<td headers="p.value_1" class="gt_row gt_center">0.5</td>
+<td headers="estimate_2" class="gt_row gt_center">0.0743 (0.317)</td>
+<td headers="p.value_2" class="gt_row gt_center">0.8</td>
+<td headers="estimate_3" class="gt_row gt_center">-3.0543*** (0.526)</td>
+<td headers="p.value_3" class="gt_row gt_center"><0.001</td>
+<td headers="estimate_4" class="gt_row gt_center">-3.0543*** (0.498)</td>
+<td headers="p.value_4" class="gt_row gt_center"><0.001</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Indústrias de transformação</td>
-<td headers="estimate_1" class="gt_row gt_center">-0.1744** (0.056)</td>
+<td headers="estimate_1" class="gt_row gt_center">-0.1696** (0.055)</td>
 <td headers="p.value_1" class="gt_row gt_center">0.002</td>
-<td headers="estimate_2" class="gt_row gt_center">-0.1744 (0.269)</td>
-<td headers="p.value_2" class="gt_row gt_center">0.5</td></tr>
+<td headers="estimate_2" class="gt_row gt_center">-0.1696 (0.271)</td>
+<td headers="p.value_2" class="gt_row gt_center">0.5</td>
+<td headers="estimate_3" class="gt_row gt_center">-0.2372 (0.624)</td>
+<td headers="p.value_3" class="gt_row gt_center">0.7</td>
+<td headers="estimate_4" class="gt_row gt_center">-0.2372 (0.660)</td>
+<td headers="p.value_4" class="gt_row gt_center">0.7</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Indústrias extrativas</td>
-<td headers="estimate_1" class="gt_row gt_center">0.4844*** (0.082)</td>
+<td headers="estimate_1" class="gt_row gt_center">0.4979*** (0.079)</td>
 <td headers="p.value_1" class="gt_row gt_center"><0.001</td>
-<td headers="estimate_2" class="gt_row gt_center">0.4844 (0.308)</td>
-<td headers="p.value_2" class="gt_row gt_center">0.12</td></tr>
+<td headers="estimate_2" class="gt_row gt_center">0.4979 (0.307)</td>
+<td headers="p.value_2" class="gt_row gt_center">0.11</td>
+<td headers="estimate_3" class="gt_row gt_center">-3.6409*** (0.582)</td>
+<td headers="p.value_3" class="gt_row gt_center"><0.001</td>
+<td headers="estimate_4" class="gt_row gt_center">-3.6409*** (0.598)</td>
+<td headers="p.value_4" class="gt_row gt_center"><0.001</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Informação e comunicação</td>
-<td headers="estimate_1" class="gt_row gt_center">0.0153 (0.073)</td>
-<td headers="p.value_1" class="gt_row gt_center">0.8</td>
-<td headers="estimate_2" class="gt_row gt_center">0.0153 (0.246)</td>
-<td headers="p.value_2" class="gt_row gt_center">>0.9</td></tr>
+<td headers="estimate_1" class="gt_row gt_center">0.0297 (0.074)</td>
+<td headers="p.value_1" class="gt_row gt_center">0.7</td>
+<td headers="estimate_2" class="gt_row gt_center">0.0297 (0.250)</td>
+<td headers="p.value_2" class="gt_row gt_center">>0.9</td>
+<td headers="estimate_3" class="gt_row gt_center">-2.1590*** (0.526)</td>
+<td headers="p.value_3" class="gt_row gt_center"><0.001</td>
+<td headers="estimate_4" class="gt_row gt_center">-2.1590*** (0.558)</td>
+<td headers="p.value_4" class="gt_row gt_center"><0.001</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Organismos internacionais e outras instituições extraterritoriais</td>
-<td headers="estimate_1" class="gt_row gt_center">0.3692*** (0.072)</td>
+<td headers="estimate_1" class="gt_row gt_center">0.3386*** (0.070)</td>
 <td headers="p.value_1" class="gt_row gt_center"><0.001</td>
-<td headers="estimate_2" class="gt_row gt_center">0.3692 (0.270)</td>
-<td headers="p.value_2" class="gt_row gt_center">0.2</td></tr>
+<td headers="estimate_2" class="gt_row gt_center">0.3386 (0.273)</td>
+<td headers="p.value_2" class="gt_row gt_center">0.2</td>
+<td headers="estimate_3" class="gt_row gt_center">-7.1360*** (0.397)</td>
+<td headers="p.value_3" class="gt_row gt_center"><0.001</td>
+<td headers="estimate_4" class="gt_row gt_center">-7.1360*** (0.419)</td>
+<td headers="p.value_4" class="gt_row gt_center"><0.001</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Outras atividades de serviços</td>
-<td headers="estimate_1" class="gt_row gt_center">-0.2168*** (0.065)</td>
+<td headers="estimate_1" class="gt_row gt_center">-0.2250*** (0.065)</td>
 <td headers="p.value_1" class="gt_row gt_center"><0.001</td>
-<td headers="estimate_2" class="gt_row gt_center">-0.2168 (0.279)</td>
-<td headers="p.value_2" class="gt_row gt_center">0.4</td></tr>
+<td headers="estimate_2" class="gt_row gt_center">-0.2250 (0.282)</td>
+<td headers="p.value_2" class="gt_row gt_center">0.4</td>
+<td headers="estimate_3" class="gt_row gt_center">-1.6148*** (0.431)</td>
+<td headers="p.value_3" class="gt_row gt_center"><0.001</td>
+<td headers="estimate_4" class="gt_row gt_center">-1.6148*** (0.437)</td>
+<td headers="p.value_4" class="gt_row gt_center"><0.001</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Saúde humana e serviços sociais</td>
-<td headers="estimate_1" class="gt_row gt_center">-0.2132*** (0.059)</td>
+<td headers="estimate_1" class="gt_row gt_center">-0.2189*** (0.059)</td>
 <td headers="p.value_1" class="gt_row gt_center"><0.001</td>
-<td headers="estimate_2" class="gt_row gt_center">-0.2132 (0.248)</td>
-<td headers="p.value_2" class="gt_row gt_center">0.4</td></tr>
+<td headers="estimate_2" class="gt_row gt_center">-0.2189 (0.249)</td>
+<td headers="p.value_2" class="gt_row gt_center">0.4</td>
+<td headers="estimate_3" class="gt_row gt_center">-1.5339* (0.669)</td>
+<td headers="p.value_3" class="gt_row gt_center">0.022</td>
+<td headers="estimate_4" class="gt_row gt_center">-1.5339* (0.670)</td>
+<td headers="p.value_4" class="gt_row gt_center">0.022</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Serviços domésticos</td>
-<td headers="estimate_1" class="gt_row gt_center">-0.6487*** (0.121)</td>
+<td headers="estimate_1" class="gt_row gt_center">-0.6639*** (0.117)</td>
 <td headers="p.value_1" class="gt_row gt_center"><0.001</td>
-<td headers="estimate_2" class="gt_row gt_center">-0.6487*** (0.194)</td>
-<td headers="p.value_2" class="gt_row gt_center"><0.001</td></tr>
+<td headers="estimate_2" class="gt_row gt_center">-0.6639*** (0.197)</td>
+<td headers="p.value_2" class="gt_row gt_center"><0.001</td>
+<td headers="estimate_3" class="gt_row gt_center">-7.3112*** (0.682)</td>
+<td headers="p.value_3" class="gt_row gt_center"><0.001</td>
+<td headers="estimate_4" class="gt_row gt_center">-7.3112*** (0.643)</td>
+<td headers="p.value_4" class="gt_row gt_center"><0.001</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Transporte, armazenagem e correio</td>
-<td headers="estimate_1" class="gt_row gt_center">-0.0786 (0.065)</td>
-<td headers="p.value_1" class="gt_row gt_center">0.2</td>
-<td headers="estimate_2" class="gt_row gt_center">-0.0786 (0.257)</td>
-<td headers="p.value_2" class="gt_row gt_center">0.8</td></tr>
+<td headers="estimate_1" class="gt_row gt_center">-0.0712 (0.066)</td>
+<td headers="p.value_1" class="gt_row gt_center">0.3</td>
+<td headers="estimate_2" class="gt_row gt_center">-0.0712 (0.258)</td>
+<td headers="p.value_2" class="gt_row gt_center">0.8</td>
+<td headers="estimate_3" class="gt_row gt_center">-1.1739* (0.567)</td>
+<td headers="p.value_3" class="gt_row gt_center">0.039</td>
+<td headers="estimate_4" class="gt_row gt_center">-1.1739* (0.586)</td>
+<td headers="p.value_4" class="gt_row gt_center">0.045</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;">R²</td>
-<td headers="estimate_1" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;">0.914</td>
+<td headers="estimate_1" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;">0.918</td>
 <td headers="p.value_1" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;"></td>
-<td headers="estimate_2" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;">0.389</td>
-<td headers="p.value_2" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;"></td></tr>
+<td headers="estimate_2" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;">0.391</td>
+<td headers="p.value_2" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;"></td>
+<td headers="estimate_3" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;">0.827</td>
+<td headers="p.value_3" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;"></td>
+<td headers="estimate_4" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;">0.815</td>
+<td headers="p.value_4" class="gt_row gt_center" style="border-top-width: 2px; border-top-style: solid; border-top-color: #D3D3D3;"></td></tr>
     <tr><td headers="label" class="gt_row gt_left">Adjusted R²</td>
-<td headers="estimate_1" class="gt_row gt_center">0.912</td>
+<td headers="estimate_1" class="gt_row gt_center">0.916</td>
 <td headers="p.value_1" class="gt_row gt_center"></td>
-<td headers="estimate_2" class="gt_row gt_center">0.372</td>
-<td headers="p.value_2" class="gt_row gt_center"></td></tr>
+<td headers="estimate_2" class="gt_row gt_center">0.374</td>
+<td headers="p.value_2" class="gt_row gt_center"></td>
+<td headers="estimate_3" class="gt_row gt_center">0.822</td>
+<td headers="p.value_3" class="gt_row gt_center"></td>
+<td headers="estimate_4" class="gt_row gt_center">0.809</td>
+<td headers="p.value_4" class="gt_row gt_center"></td></tr>
     <tr><td headers="label" class="gt_row gt_left">No. Obs.</td>
-<td headers="estimate_1" class="gt_row gt_center">1,344</td>
+<td headers="estimate_1" class="gt_row gt_center">1,176</td>
 <td headers="p.value_1" class="gt_row gt_center"></td>
-<td headers="estimate_2" class="gt_row gt_center">1,344</td>
-<td headers="p.value_2" class="gt_row gt_center"></td></tr>
+<td headers="estimate_2" class="gt_row gt_center">1,176</td>
+<td headers="p.value_2" class="gt_row gt_center"></td>
+<td headers="estimate_3" class="gt_row gt_center">1,176</td>
+<td headers="p.value_3" class="gt_row gt_center"></td>
+<td headers="estimate_4" class="gt_row gt_center">1,176</td>
+<td headers="p.value_4" class="gt_row gt_center"></td></tr>
   </tbody>
   &#10;  <tfoot class="gt_footnotes">
     <tr>
-      <td class="gt_footnote" colspan="5"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1</sup></span> *p&lt;0.05; **p&lt;0.01; ***p&lt;0.001</td>
+      <td class="gt_footnote" colspan="9"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1</sup></span> *p&lt;0.05; **p&lt;0.01; ***p&lt;0.001</td>
     </tr>
     <tr>
-      <td class="gt_footnote" colspan="5"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>2</sup></span> SE = Standard error</td>
+      <td class="gt_footnote" colspan="9"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>2</sup></span> SE = Standard error</td>
     </tr>
   </tfoot>
 </table>
