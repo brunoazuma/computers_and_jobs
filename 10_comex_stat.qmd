@@ -1,0 +1,81 @@
+---
+title: "Computers and jobs - Imports data"
+author: "Bruno Azuma Balzano"
+format:
+  gfm:
+    df-print: kable
+editor: visual
+---
+
+In order to have some variable about the usage of computers for professional reasons, I'll get data about imports of HS 8471 products. I do that because specific data on computer usage is not available annually, so I use import data on the
+
+# Setup
+
+As always, I'll start by setting up the libraries and configurations needed to run the entire notebook.
+
+```{r}
+setwd("D:/OneDrive/R Workspace/computers_and_jobs")
+library("dotenv")
+library("arrow")
+library("tidyverse")
+library("basedosdados")
+library("bigrquery")
+```
+
+First, I need to setup the GCP project data for using the \`basedosdados\` package to get the data.
+
+```{r}
+load_dot_env()
+
+project_id <- Sys.getenv("GCP_PROJECT_ID")
+
+set_billing_id(project_id)
+
+bq_auth(email = Sys.getenv("GCP_EMAIL"))
+```
+
+```{r}
+peek <- basedosdados::read_sql("SELECT * FROM `basedosdados.br_me_comex_stat.municipio_importacao` LIMIT 1")
+peek %>% dplyr::glimpse()
+```
+
+# Download from BigQuery
+
+Now, I download the Comex Stat data from basedosdados.
+
+```{r}
+sql <- "
+SELECT
+  imp.ano,
+  imp.sigla_uf,
+  imp.id_sh4,
+  SUM(imp.peso_liquido_kg) AS peso_liquido_kg,
+  SUM(imp.valor_fob_dolar) AS valor_fob_dolar
+FROM
+  `basedosdados.br_me_comex_stat.municipio_importacao` AS imp
+WHERE
+  imp.ano > 2005
+  AND
+  imp.ano < 2022
+  AND
+  imp.id_sh4 = '8471'
+GROUP BY
+  imp.ano,
+  imp.sigla_uf,
+  imp.id_sh4;
+"
+
+imports <- basedosdados::read_sql(sql)
+imports %>% head()
+```
+
+# Saving to parquet
+
+As nothing seems to be wrong with the dataset, I save it as a parquet file.
+
+```{r}
+data_dir <- "data/"
+file <- str_interp("${data_dir}Imports.parquet")
+
+write_parquet(imports, file)
+```
