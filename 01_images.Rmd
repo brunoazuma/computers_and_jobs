@@ -19,6 +19,8 @@ library("ggthemes")
 ```{r}
 setwd("D:/OneDrive/R Workspace/computers_and_jobs")
 load_dot_env()
+base_dir <- "D:/OneDrive/R Workspace/computers_and_jobs"
+fig_dir <- str_interp("${base_dir}/fig")
 ```
 
 # Introduction
@@ -90,18 +92,6 @@ tictoc::toc()
 data %>% head()
 ```
 
-Now, I'll add labels to the columns to improve future display.
-
-```{r}
-var_label(data) <- list(
-  ano = "Year",
-  group = "Skill classification",
-  mean_wage = "Mean hourly wages (at 2021 prices)",
-  job_number = "Number of employment relationships",
-  log_wage = "Log of mean hourly wages (at 2021 prices)"
-)
-```
-
 ```{r}
 chart1data <- data %>%
   filter(ano!=2020 & ano!=2021) %>%
@@ -119,11 +109,10 @@ chart1data
 ```
 
 ```{r}
-chart1data %>%
+fig41<- chart1data %>%
   ggplot( aes(x=ano, y=mean_wage_index, group=1)) +
     geom_line() +
-    # scale_color_viridis(discrete = TRUE) +
-    ggtitle("Mean wages") +
+    # ggtitle("Mean wages") +
 		theme_stata() +
     theme(axis.ticks.x = element_blank(), plot.background = element_rect(fill='white'),
           axis.text.x=element_text(angle=-45,size=8,hjust=0),axis.text.y=element_text(angle=0),
@@ -131,14 +120,17 @@ chart1data %>%
     guides(fill=FALSE) +
     ylab("Mean hourly wages (2006=1)") +
     xlab(NULL)
+
+ggsave(str_interp("${fig_dir}/fig-4-1.png"),width=6,height=4.5)
+
+fig41
 ```
 
-```{r}
-chart1data %>%
+```{r,fig.width = 8}
+fig42 <- chart1data %>%
   ggplot( aes(x=ano, y=job_number_index, group=1)) +
     geom_line() +
-    # scale_color_viridis(discrete = TRUE) +
-    ggtitle("Employment relationships") +
+    # ggtitle("Employment relationships") +
 		theme_stata() +
     theme(axis.ticks.x = element_blank(), plot.background = element_rect(fill='white'),
           axis.text.x=element_text(angle=-45,size=8,hjust=0),axis.text.y=element_text(angle=0),
@@ -146,6 +138,10 @@ chart1data %>%
     guides(fill=FALSE) +
     ylab("Number of employment relationships (2006=1)") +
     xlab(NULL)
+
+ggsave(str_interp("${fig_dir}/fig-4-2.png"),width=6,height=4.5)
+
+fig42
 ```
 
 ```{r}
@@ -158,18 +154,27 @@ chart2data <- data %>%
     mean_wage_index = mean_wage/first(mean_wage),
     job_number_index = job_number/first(job_number)
   ) %>%
-  ungroup()
+  ungroup() %>%
+  group_by(group) %>%
+  mutate(
+    mean_wage_2006 = sum(mean_wage*as.integer(ano==2006))
+  ) %>%
+  ungroup() %>%
+  arrange(mean_wage_2006, ano) %>%
+  mutate(
+    order=seq(1, n())
+  )
 
 chart2data
 ```
 
 ```{r}
-chart2data %>%
+fig43 <- chart2data %>%
   filter(!is.na(group)) %>%
-  ggplot( aes(x=ano, y=mean_wage_index, group=group, color=group)) +
-    geom_line() +
-    # scale_color_viridis(discrete = TRUE) +
-    ggtitle("Mean wages by skill group") +
+  ggplot( aes(x=ano, y=mean_wage_index, group=group, color=reorder(group, order))) +
+    geom_line(size=1) +
+    scale_color_manual(values=c('#d7191c','#2c7bb6','#4de678','#fdae61'))+
+    # ggtitle("Mean wages by skill group") +
 		theme_stata() +
     theme(axis.ticks.x = element_blank(), plot.background = element_rect(fill='white'),
           axis.text.x=element_text(angle=-45,size=8,hjust=0),axis.text.y=element_text(angle=0),
@@ -177,56 +182,78 @@ chart2data %>%
 												guides(fill=FALSE) +
     ylab("Mean hourly wages (2006=1)") +
     xlab(NULL)
+
+ggsave(str_interp("${fig_dir}/fig-4-3.png"),width=6,height=4.5)
+
+fig43
 ```
 
 ```{r}
-chart2data %>%
+fig44 <- chart2data %>%
   filter(!is.na(group)) %>%
-  ggplot( aes(x=ano, y=job_number_index, group=group, color=group)) +
-    geom_line() +
+  ggplot(
+    aes(x=ano, y=job_number_index, group=group, color=reorder(group, order))
+  ) +
+    geom_line(size=1) +
+    scale_color_manual(values=c('#d7191c','#2c7bb6','#4de678','#fdae61'))+
     # scale_color_viridis(discrete = TRUE) +
     ggtitle("Employment relationships") +
 		theme_stata() +
     theme(axis.ticks.x = element_blank(), plot.background = element_rect(fill='white'),
-          axis.text.x=element_text(angle=-45,size=8,hjust=0),axis.text.y=element_text(angle=0),
-          legend.title=element_blank(),legend.background = element_rect(colour='white'))+
-												guides(fill=FALSE) +
+      axis.text.x=element_text(angle=-45,size=8,hjust=0),axis.text.y=element_text(angle=0),
+      legend.title=element_blank(),legend.background = element_rect(colour='white'))+
+    guides(fill=FALSE) +
     ylab("Number of employment relationships (2006=1)") +
     xlab(NULL)
+
+
+ggsave(str_interp("${fig_dir}/fig-4-4.png"),width=6,height=4.5)
+
+fig44
 ```
 
 ```{r}
 chart3data <- data %>%
-  filter(ano %in% seq(2006, 2018, 2)) %>%
+  filter(ano %in% cbind(seq(2006, 2018, 3), 2019)) %>%
   filter(!is.na(group)) %>%
   group_by(group) %>%
   arrange(ano, .by_group = TRUE) %>%
   mutate(
-    delta_job_number = job_number/lag(job_number) - 1,
-    interval = paste(lag(ano), ano, sep = '-'),
+    delta_job_number = case_when(
+      ano == 2019 ~ job_number/first(job_number) - 1,
+      .default = job_number/lag(job_number) - 1
+    ),
+    interval = case_when(
+      ano == 2019 ~ paste(first(ano), ano, sep = '-'),
+      .default = paste(lag(ano), ano, sep = '-')
+    ),
     mean_wage_2006 = sum(mean_wage*as.integer(ano==2006))
   ) %>%
   ungroup() %>%
   filter(ano != 2006) %>%
+  arrange(mean_wage_2006, ano) %>%
   select(interval, group, delta_job_number, mean_wage_2006) %>%
-  arrange(mean_wage_2006, interval) %>%
   mutate(
-    order=seq(1, 24)
+    order=seq(1, n())
   )
 
 chart3data
 ```
 
 ```{r}
-chart3data %>% ggplot(aes(x=reorder(group, order),y=delta_job_number,fill=group,alpha=interval))+
+fig45 <- chart3data %>% ggplot(aes(x=reorder(group, order),y=delta_job_number,fill=group,alpha=interval))+
 											geom_bar(stat='identity',position='dodge')+
-											scale_alpha_discrete(range=seq(.5,1,.1),labels=paste(unique(chart3data$interval),' '))+theme_stata()+
+											scale_alpha_discrete(range=seq(.4,1,.2),labels=paste(unique(chart3data$interval),' '))+theme_stata()+
 											labs(x='',y='Change (% pts)')+
 											scale_fill_manual(values=c('#d7191c','#fdae61','#4de678','#2c7bb6'))+
 											theme(axis.ticks.x = element_blank(), plot.background = element_rect(fill='white'),
 												axis.text.x=element_text(angle=-45,size=8,hjust=0),axis.text.y=element_text(angle=0),
 												legend.title=element_blank(),legend.background = element_rect(colour='white'))+
 												guides(fill=FALSE)
+
+ggsave(str_interp("${fig_dir}/fig-4-5.png"),width=6,height=4.5)
+
+fig45
 ```
 
 # References
