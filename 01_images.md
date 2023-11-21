@@ -82,6 +82,7 @@ dbExecute(conn = con, str_interp("PRAGMA memory_limit='${temp_db_mem}'"))
 tictoc::tic()
 
 data <- tbl(con, file) %>%
+  filter(ano < 2020) %>%
   group_by(
     ano,
     group
@@ -107,8 +108,6 @@ data <- tbl(con, file) %>%
     ## This warning is displayed once every 8 hours.
 
 ``` r
-dbDisconnect(con, shutdown=TRUE)
-
 data <- data %>%
   mutate(
     group = as.factor(group) %>% relevel('NRM'),
@@ -118,7 +117,7 @@ data <- data %>%
 tictoc::toc()
 ```
 
-    ## 4 sec elapsed
+    ## 2.91 sec elapsed
 
 ``` r
 data %>% head()
@@ -127,18 +126,44 @@ data %>% head()
     ## # A tibble: 6 × 7
     ##   ano   group valor_remuneracao_me…¹ valor_remuneracao_me…² mean_wage job_number
     ##   <fct> <fct>                  <dbl>                  <dbl>     <dbl>      <dbl>
-    ## 1 2010  <NA>                   2104.                  4.12       27.9     679731
-    ## 2 2015  NRM                    1326.                  1.67       11.3   12445052
-    ## 3 2018  NRM                    1561.                  1.63       12.1   11680372
-    ## 4 2019  NRC                    4367.                  4.37       35.9   13219736
-    ## 5 2020  NRM                    1501.                  1.43       11.0   11305819
-    ## 6 2021  <NA>                    730.                  0.662      39.0     820025
+    ## 1 2007  NRC                    2012.                   5.41      32.4    8561379
+    ## 2 2010  NRM                     868.                   1.69      10.4   10636678
+    ## 3 2013  NRC                    3328.                   4.90      39.0   12500852
+    ## 4 2015  <NA>                   3968.                   5.03      38.9     818147
+    ## 5 2018  <NA>                   4949.                   5.18      45.8     778847
+    ## 6 2010  <NA>                   2104.                   4.12      27.9     679731
     ## # ℹ abbreviated names: ¹​valor_remuneracao_media, ²​valor_remuneracao_media_sm
     ## # ℹ 1 more variable: log_wage <dbl>
 
 ``` r
+data %>%
+  group_by(
+    group
+  ) %>%
+  summarise(
+    valor_remuneracao_media=mean(valor_remuneracao_media),
+    valor_remuneracao_media_sm=mean(valor_remuneracao_media_sm),
+    mean_wage=mean(mean_wage),
+    job_number=sum(job_number)
+  ) %>%
+  mutate(
+    job_share=job_number/sum(job_number)
+  ) %>%
+  ungroup() %>%
+  select(group, mean_wage, job_number, job_share) %>%
+  knitr::kable()
+```
+
+| group | mean_wage | job_number | job_share |
+|:------|----------:|-----------:|----------:|
+| NRM   |  10.91455 |  153761299 | 0.1659425 |
+| NRC   |  36.81395 |  159299358 | 0.1719193 |
+| RC    |  17.83618 |  305148754 | 0.3293231 |
+| RM    |  13.21500 |  297590697 | 0.3211663 |
+| NA    |  40.19270 |   10793748 | 0.0116488 |
+
+``` r
 chart1data <- data %>%
-  filter(ano!=2020 & ano!=2021) %>%
   filter(!is.na(group)) %>%
   select(ano, mean_wage, job_number) %>%
   group_by(ano) %>%
@@ -183,12 +208,12 @@ fig41<- chart1data %>%
     ylab("Mean hourly wages (2006=1)") +
     xlab(NULL)
 
-ggsave(str_interp("${fig_dir}/fig-4-1.png"),width=6,height=4.5)
+ggsave(str_interp("${fig_dir}/fig-4-1.png"),width=8,height=5)
 
 fig41
 ```
 
-![](01_images_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
+![](01_images_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
 
 ``` r
 fig42 <- chart1data %>%
@@ -203,16 +228,15 @@ fig42 <- chart1data %>%
     ylab("Number of employment relationships (2006=1)") +
     xlab(NULL)
 
-ggsave(str_interp("${fig_dir}/fig-4-2.png"),width=6,height=4.5)
+ggsave(str_interp("${fig_dir}/fig-4-2.png"),width=8,height=5)
 
 fig42
 ```
 
-![](01_images_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
+![](01_images_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
 
 ``` r
 chart2data <- data %>%
-  filter(ano!=2020 & ano!=2021) %>%
   select(group, ano, mean_wage, job_number) %>%
   group_by(group, ano) %>%
   summarise_all(mean) %>%
@@ -273,12 +297,12 @@ fig43 <- chart2data %>%
     ## generated.
 
 ``` r
-ggsave(str_interp("${fig_dir}/fig-4-3.png"),width=6,height=4.5)
+ggsave(str_interp("${fig_dir}/fig-4-3.png"),width=8,height=5)
 
 fig43
 ```
 
-![](01_images_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
+![](01_images_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
 
 ``` r
 fig44 <- chart2data %>%
@@ -289,7 +313,7 @@ fig44 <- chart2data %>%
     geom_line(size=1) +
     scale_color_manual(values=c('#d7191c','#2c7bb6','#4de678','#fdae61'))+
     # scale_color_viridis(discrete = TRUE) +
-    ggtitle("Employment relationships") +
+    # ggtitle("Employment relationships") +
         theme_stata() +
     theme(axis.ticks.x = element_blank(), plot.background = element_rect(fill='white'),
       axis.text.x=element_text(angle=-45,size=8,hjust=0),axis.text.y=element_text(angle=0),
@@ -299,12 +323,12 @@ fig44 <- chart2data %>%
     xlab(NULL)
 
 
-ggsave(str_interp("${fig_dir}/fig-4-4.png"),width=6,height=4.5)
+ggsave(str_interp("${fig_dir}/fig-4-4.png"),width=8,height=5)
 
 fig44
 ```
 
-![](01_images_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
+![](01_images_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
 
 ``` r
 chart3data <- data %>%
@@ -373,12 +397,94 @@ fig45 <- chart3data %>% ggplot(aes(x=reorder(group, order),y=delta_job_number,fi
     ## Warning: Using alpha for a discrete variable is not advised.
 
 ``` r
-ggsave(str_interp("${fig_dir}/fig-4-5.png"),width=6,height=4.5)
+ggsave(str_interp("${fig_dir}/fig-4-5.png"),width=8,height=5)
 
 fig45
 ```
 
-![](01_images_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
+![](01_images_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->
+
+## Export data
+
+``` r
+file <- str_interp('${datadir}/WITS/WITS_trades.parquet')
+wits <- tbl(con, file) %>%
+  filter(year < 2020) %>%
+  collect()
+
+dbDisconnect(con, shutdown=TRUE)
+
+wits %>%
+  head()
+```
+
+    ## # A tibble: 6 × 4
+    ##   reporter  year `Trade Value 1000USD`   Quantity
+    ##   <chr>    <int>                 <dbl>      <int>
+    ## 1 China     2006             93017370. 1426071823
+    ## 2 China     2007            112243867. 1365466000
+    ## 3 China     2008            122727667. 1359163400
+    ## 4 China     2009            111890627. 1250304300
+    ## 5 China     2010            148802627. 1577944300
+    ## 6 China     2011            160121815. 1748174800
+
+``` r
+fig46 <- wits %>%
+  mutate (
+    trade_value = `Trade Value 1000USD`/10^6
+  ) %>%
+  ggplot(
+    aes(x=year, y=trade_value, group=reporter, color=reporter)
+  ) +
+    geom_line(size=1) +
+    scale_color_manual(values=c('#d7191c','#2c7bb6','#4de678','#fdae61', '#0ddead'))+
+    scale_y_continuous(trans='log10') +
+    scale_x_continuous(breaks = seq(2006,2019)) +
+    # ggtitle("Employment relationships") +
+        theme_stata() +
+    theme(axis.ticks.x = element_blank(), plot.background = element_rect(fill='white'),
+      axis.text.x=element_text(angle=-45,size=8,hjust=0),axis.text.y=element_text(angle=0),
+      legend.title=element_blank(),legend.background = element_rect(colour='white'))+
+    guides(fill=FALSE) +
+    ylab("Trade Value (billions of US dollars)") +
+    xlab(NULL)
+
+
+ggsave(str_interp("${fig_dir}/fig-4-6.png"),width=8,height=5)
+
+fig46
+```
+
+![](01_images_files/figure-gfm/unnamed-chunk-17-1.png)<!-- -->
+
+``` r
+fig47 <- wits %>%
+  mutate (
+    quantity = Quantity/10^6
+  ) %>%
+  ggplot(
+    aes(x=year, y=quantity, group=reporter, color=reporter)
+  ) +
+    geom_line(size=1) +
+    scale_color_manual(values=c('#d7191c','#2c7bb6','#4de678','#fdae61', '#0ddead'))+
+    scale_y_continuous(trans='log10') +
+    scale_x_continuous(breaks = seq(2006,2019)) +
+    # ggtitle("Employment relationships") +
+        theme_stata() +
+    theme(axis.ticks.x = element_blank(), plot.background = element_rect(fill='white'),
+      axis.text.x=element_text(angle=-45,size=8,hjust=0),axis.text.y=element_text(angle=0),
+      legend.title=element_blank(),legend.background = element_rect(colour='white'))+
+    guides(fill=FALSE) +
+    ylab("Quantity (millions of items)") +
+    xlab(NULL)
+
+
+ggsave(str_interp("${fig_dir}/fig-4-7.png"),width=8,height=5)
+
+fig47
+```
+
+![](01_images_files/figure-gfm/unnamed-chunk-18-1.png)<!-- -->
 
 # References
 
