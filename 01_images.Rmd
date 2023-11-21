@@ -64,6 +64,7 @@ dbExecute(conn = con, str_interp("PRAGMA memory_limit='${temp_db_mem}'"))
 tictoc::tic()
 
 data <- tbl(con, file) %>%
+  filter(ano < 2020) %>%
   group_by(
     ano,
     group
@@ -93,8 +94,26 @@ data %>% head()
 ```
 
 ```{r}
+data %>%
+  group_by(
+    group
+  ) %>%
+  summarise(
+    valor_remuneracao_media=mean(valor_remuneracao_media),
+    valor_remuneracao_media_sm=mean(valor_remuneracao_media_sm),
+    mean_wage=mean(mean_wage),
+    job_number=sum(job_number)
+  ) %>%
+  mutate(
+    job_share=job_number/sum(job_number)
+  ) %>%
+  ungroup() %>%
+  select(group, mean_wage, job_number, job_share) %>%
+  knitr::kable()
+```
+
+```{r}
 chart1data <- data %>%
-  filter(ano!=2020 & ano!=2021) %>%
   filter(!is.na(group)) %>%
   select(ano, mean_wage, job_number) %>%
   group_by(ano) %>%
@@ -146,7 +165,6 @@ fig42
 
 ```{r}
 chart2data <- data %>%
-  filter(ano!=2020 & ano!=2021) %>%
   select(group, ano, mean_wage, job_number) %>%
   group_by(group, ano) %>%
   summarise_all(mean) %>%
@@ -197,7 +215,7 @@ fig44 <- chart2data %>%
     geom_line(size=1) +
     scale_color_manual(values=c('#d7191c','#2c7bb6','#4de678','#fdae61'))+
     # scale_color_viridis(discrete = TRUE) +
-    ggtitle("Employment relationships") +
+    # ggtitle("Employment relationships") +
 		theme_stata() +
     theme(axis.ticks.x = element_blank(), plot.background = element_rect(fill='white'),
       axis.text.x=element_text(angle=-45,size=8,hjust=0),axis.text.y=element_text(angle=0),
@@ -251,9 +269,73 @@ fig45 <- chart3data %>% ggplot(aes(x=reorder(group, order),y=delta_job_number,fi
 												legend.title=element_blank(),legend.background = element_rect(colour='white'))+
 												guides(fill=FALSE)
 
-ggsave(str_interp("${fig_dir}/fig-4-5.png"),width=6,height=4.5)
+ggsave(str_interp("${fig_dir}/fig-4-5.png"),width=7,height=4.5)
 
 fig45
+```
+
+## Export data
+
+```{r}
+
+file <- str_interp('${datadir}/WITS/WITS_trades.parquet')
+wits <- tbl(con, file) %>%
+  collect()
+
+wits %>%
+  head()
+```
+
+```{r}
+fig46 <- wits %>%
+  mutate (
+    trade_value = `Trade Value 1000USD`/10^6
+  ) %>%
+  ggplot(
+    aes(x=year, y=trade_value, group=reporter, color=reporter)
+  ) +
+    geom_line(size=1) +
+    scale_color_manual(values=c('#d7191c','#2c7bb6','#4de678','#fdae61', '#0ddead'))+
+    scale_y_continuous(trans='log10') +
+    # ggtitle("Employment relationships") +
+		theme_stata() +
+    theme(axis.ticks.x = element_blank(), plot.background = element_rect(fill='white'),
+      axis.text.x=element_text(angle=-45,size=8,hjust=0),axis.text.y=element_text(angle=0),
+      legend.title=element_blank(),legend.background = element_rect(colour='white'))+
+    guides(fill=FALSE) +
+    ylab("Trade Value (billions of US dollars)") +
+    xlab(NULL)
+
+
+ggsave(str_interp("${fig_dir}/fig-4-6.png"),width=6,height=4.5)
+
+fig46
+```
+
+```{r}
+fig47 <- wits %>%
+  mutate (
+    quantity = Quantity/10^6
+  ) %>%
+  ggplot(
+    aes(x=year, y=quantity, group=reporter, color=reporter)
+  ) +
+    geom_line(size=1) +
+    scale_color_manual(values=c('#d7191c','#2c7bb6','#4de678','#fdae61', '#0ddead'))+
+    scale_y_continuous(trans='log10') +
+    # ggtitle("Employment relationships") +
+		theme_stata() +
+    theme(axis.ticks.x = element_blank(), plot.background = element_rect(fill='white'),
+      axis.text.x=element_text(angle=-45,size=8,hjust=0),axis.text.y=element_text(angle=0),
+      legend.title=element_blank(),legend.background = element_rect(colour='white'))+
+    guides(fill=FALSE) +
+    ylab("Quantity (millions of items)") +
+    xlab(NULL)
+
+
+ggsave(str_interp("${fig_dir}/fig-4-7.png"),width=6,height=4.5)
+
+fig47
 ```
 
 # References
