@@ -1,6 +1,8 @@
 ---
 title: "Images"
-output: rmarkdown::github_document
+output:
+  rmarkdown::github_document:
+    df_print: kable
 bibliography: ref-mono.bib
 csl: associacao-brasileira-de-normas-tecnicas-ipea.csl
 ---
@@ -9,11 +11,13 @@ This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook for the developme
 
 ```{r}
 library("dotenv")
+library("scales")
 library("tidyverse")
 library("duckdb")
 library("gtsummary")
 library("labelled")
 library("ggthemes")
+library("knitr")
 ```
 
 ```{r}
@@ -93,6 +97,7 @@ data %>% head()
 
 ```{r}
 data %>%
+  filter(ano==2006) %>%
   group_by(
     group
   ) %>%
@@ -106,8 +111,114 @@ data %>%
     job_share=job_number/sum(job_number)
   ) %>%
   ungroup() %>%
+  mutate(
+    mean_wage=label_dollar(prefix = 'R$ ')(mean_wage),
+    job_number=label_number(big.mark = ',')(job_number),
+    job_share=label_percent(accuracy=.01)(job_share)
+  ) %>%
   select(group, mean_wage, job_number, job_share) %>%
-  knitr::kable()
+  kable(
+    col.names = c(
+      'Skill group',
+      'Mean hourly wage',
+      'Number of emp. relationships',
+      'Share of emp. relationships'
+    ),
+    caption = "Summary of wages and employment relationships for skill groups, 2006",
+  align = "llrr"
+  )
+```
+
+```{r}
+data %>%
+  filter(ano==2006) %>%
+  summarise(
+    valor_remuneracao_media=mean(valor_remuneracao_media),
+    valor_remuneracao_media_sm=mean(valor_remuneracao_media_sm),
+    mean_wage=mean(mean_wage),
+    job_number=sum(job_number)
+  ) %>%
+  mutate(
+    group='All groups',
+    job_share=job_number/sum(job_number),
+    mean_wage=label_dollar(prefix = 'R$ ')(mean_wage),
+    job_number=label_number(big.mark = ',')(job_number),
+    job_share=label_percent(accuracy=.01)(job_share)
+  ) %>%
+  select(group, mean_wage, job_number, job_share) %>%
+  kable(
+    col.names = c(
+      'Skill group',
+      'Mean hourly wage',
+      'Number of emp. relationships',
+      'Share of emp. relationships'
+    ),
+    caption = "Summary of wages and employment relationships, 2006",
+  align = "llrr"
+  )
+```
+
+```{r}
+data %>%
+  filter(ano==2019) %>%
+  group_by(
+    group
+  ) %>%
+  summarise(
+    valor_remuneracao_media=mean(valor_remuneracao_media),
+    valor_remuneracao_media_sm=mean(valor_remuneracao_media_sm),
+    mean_wage=mean(mean_wage),
+    job_number=sum(job_number)
+  ) %>%
+  mutate(
+    job_share=job_number/sum(job_number)
+  ) %>%
+  ungroup() %>%
+  mutate(
+    mean_wage=label_dollar(prefix = 'R$ ')(mean_wage),
+    job_number=label_number(big.mark=',')(job_number),
+    job_share=label_percent(accuracy=.01)(job_share)
+  ) %>%
+  select(group, mean_wage, job_number, job_share) %>%
+  kable(
+    col.names = c(
+      'Skill group',
+      'Mean hourly wage',
+      'Number of emp. relationships',
+      'Share of emp. relationships'
+    ),
+    caption = "Summary of wages and employment relationships for skill groups, 2019",
+  align = "llrr"
+  )
+```
+
+```{r}
+data %>%
+  filter(ano==2019) %>%
+  summarise(
+    valor_remuneracao_media=mean(valor_remuneracao_media),
+    valor_remuneracao_media_sm=mean(valor_remuneracao_media_sm),
+    mean_wage=mean(mean_wage),
+    job_number=sum(job_number)
+  ) %>%
+  mutate(
+    group='All groups',
+    job_share=job_number/sum(job_number),
+    mean_wage=label_dollar(prefix = 'R$ ')(mean_wage),
+    job_number=label_number(big.mark = ',')(job_number),
+    job_share=label_percent(accuracy=.01)(job_share)
+  ) %>%
+  select(group, mean_wage, job_number, job_share) %>%
+  kable(
+    col.names = c(
+      'Skill group',
+      'Mean hourly wage',
+      'Number of emp. relationships',
+      'Share of emp. relationships'
+    ),
+    caption = "Summary of wages and employment relationships, 2019",
+  align = "llrr"
+  )
 ```
 
 ```{r}
