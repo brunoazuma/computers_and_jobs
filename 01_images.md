@@ -126,7 +126,7 @@ data <- data %>%
 tictoc::toc()
 ```
 
-    ## 2.86 sec elapsed
+    ## 2.55 sec elapsed
 
 ``` r
 data %>% head()
@@ -136,12 +136,12 @@ data %>% head()
 
 | ano  | group | valor_remuneracao_media | valor_remuneracao_media_sm | mean_wage | job_number | log_wage |
 |:-----|:------|------------------------:|---------------------------:|----------:|-----------:|---------:|
-| 2012 | NRC   |                3055.424 |                   4.904207 |  38.30066 |   12048770 | 3.671241 |
-| 2014 | NRC   |                3551.861 |                   4.897767 |  38.67342 |   12885043 | 3.680681 |
-| 2015 | RM    |                1663.083 |                   2.102697 |  13.69034 |   22064091 | 2.687190 |
-| 2015 | RC    |                2021.336 |                   2.557159 |  18.20880 |   24062206 | 2.955369 |
-| 2016 | NRC   |                4131.794 |                   4.687130 |  38.30202 |   12508961 | 3.671276 |
-| 2017 | NRC   |                4376.438 |                   4.662584 |  39.51470 |   12622474 | 3.701665 |
+| 2015 | NRM   |                1325.630 |                   1.674539 |  11.25045 |   12445052 | 2.505563 |
+| 2018 | NRM   |                1560.638 |                   1.628136 |  12.09680 |   11680372 | 2.572368 |
+| 2019 | NRC   |                4367.174 |                   4.368252 |  35.94738 |   13219736 | 3.609495 |
+| 2010 | NA    |                2104.413 |                   4.118353 |  27.94322 |     679731 | 3.365336 |
+| 2013 | NRM   |                1150.636 |                   1.689597 |  11.54008 |   12480746 | 2.528930 |
+| 2019 | NA    |                5373.453 |                   5.377319 |  54.77778 |     573594 | 4.021376 |
 
 </div>
 
@@ -360,7 +360,7 @@ fig41
 ![](01_images_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
 
 ``` r
-fig42 <- chart1data %>%
+fig43 <- chart1data %>%
   ggplot( aes(x=ano, y=job_number_index, group=1)) +
     geom_line() +
     # ggtitle("Employment relationships") +
@@ -372,9 +372,9 @@ fig42 <- chart1data %>%
     ylab("Number of employment relationships (2006=1)") +
     xlab(NULL)
 
-ggsave(str_interp("${fig_dir}/fig-4-2.png"),width=8,height=5)
+ggsave(str_interp("${fig_dir}/fig-4-3.png"),width=8,height=5)
 
-fig42
+fig43
 ```
 
 ![](01_images_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
@@ -480,7 +480,7 @@ chart2data
 </div>
 
 ``` r
-fig43 <- chart2data %>%
+fig42 <- chart2data %>%
   filter(!is.na(group)) %>%
   ggplot( aes(x=ano, y=mean_wage_index, group=group, color=reorder(group, order))) +
     geom_line(size=1) +
@@ -502,9 +502,9 @@ fig43 <- chart2data %>%
     ## generated.
 
 ``` r
-ggsave(str_interp("${fig_dir}/fig-4-3.png"),width=8,height=5)
+ggsave(str_interp("${fig_dir}/fig-4-2.png"),width=8,height=5)
 
-fig43
+fig42
 ```
 
 ![](01_images_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->
@@ -642,21 +642,19 @@ wits %>%
 ``` r
 fig46 <- wits %>%
   mutate (
-    trade_value = `Trade Value 1000USD`/10^6
+    trade_value = `Trade Value 1000USD`/(10^6)
   ) %>%
   ggplot(
-    aes(x=year, y=trade_value, group=reporter, color=reporter)
+    aes(x=year, y=trade_value, fill=reporter)
   ) +
-    geom_line(size=1) +
-    scale_color_manual(values=c('#d7191c','#2c7bb6','#4de678','#fdae61', '#0ddead'))+
-    scale_y_continuous(trans='log10') +
+    geom_area() +
+    scale_fill_manual(values=c('#d7191c','#2c7bb6','#4de678','#fdae61', '#0ddead'))+
     scale_x_continuous(breaks = seq(2006,2019)) +
     # ggtitle("Employment relationships") +
         theme_stata() +
     theme(axis.ticks.x = element_blank(), plot.background = element_rect(fill='white'),
       axis.text.x=element_text(angle=-45,size=8,hjust=0),axis.text.y=element_text(angle=0),
       legend.title=element_blank(),legend.background = element_rect(colour='white'))+
-    guides(fill=FALSE) +
     ylab("Trade Value (billions of US dollars)") +
     xlab(NULL)
 
@@ -674,18 +672,16 @@ fig47 <- wits %>%
     quantity = Quantity/10^6
   ) %>%
   ggplot(
-    aes(x=year, y=quantity, group=reporter, color=reporter)
+    aes(x=year, y=quantity, fill=reporter)
   ) +
-    geom_line(size=1) +
-    scale_color_manual(values=c('#d7191c','#2c7bb6','#4de678','#fdae61', '#0ddead'))+
-    scale_y_continuous(trans='log10') +
+    geom_area() +
+    scale_fill_manual(values=c('#d7191c','#2c7bb6','#4de678','#fdae61', '#0ddead'))+
     scale_x_continuous(breaks = seq(2006,2019)) +
     # ggtitle("Employment relationships") +
         theme_stata() +
     theme(axis.ticks.x = element_blank(), plot.background = element_rect(fill='white'),
       axis.text.x=element_text(angle=-45,size=8,hjust=0),axis.text.y=element_text(angle=0),
       legend.title=element_blank(),legend.background = element_rect(colour='white'))+
-    guides(fill=FALSE) +
     ylab("Quantity (millions of items)") +
     xlab(NULL)
 
