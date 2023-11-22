@@ -33,11 +33,6 @@ library("duckdb")
 
 ``` r
 library("gtsummary")
-```
-
-    ## #BlackLivesMatter
-
-``` r
 library("labelled")
 library("ggthemes")
 library("knitr")
@@ -126,7 +121,7 @@ data <- data %>%
 tictoc::toc()
 ```
 
-    ## 2.55 sec elapsed
+    ## 2.56 sec elapsed
 
 ``` r
 data %>% head()
@@ -136,12 +131,12 @@ data %>% head()
 
 | ano  | group | valor_remuneracao_media | valor_remuneracao_media_sm | mean_wage | job_number | log_wage |
 |:-----|:------|------------------------:|---------------------------:|----------:|-----------:|---------:|
-| 2015 | NRM   |                1325.630 |                   1.674539 |  11.25045 |   12445052 | 2.505563 |
-| 2018 | NRM   |                1560.638 |                   1.628136 |  12.09680 |   11680372 | 2.572368 |
-| 2019 | NRC   |                4367.174 |                   4.368252 |  35.94738 |   13219736 | 3.609495 |
-| 2010 | NA    |                2104.413 |                   4.118353 |  27.94322 |     679731 | 3.365336 |
-| 2013 | NRM   |                1150.636 |                   1.689597 |  11.54008 |   12480746 | 2.528930 |
-| 2019 | NA    |                5373.453 |                   5.377319 |  54.77778 |     573594 | 4.021376 |
+| 2007 | NRM   |                682.6962 |                   1.829646 |  9.531405 |    8229576 | 2.354362 |
+| 2008 | RC    |               1218.8261 |                   2.978939 | 16.743275 |   19260879 | 2.876007 |
+| 2008 | RM    |                935.1795 |                   2.283072 | 12.079557 |   20894541 | 2.571050 |
+| 2009 | RC    |               1335.3922 |                   2.899200 | 17.633542 |   19775623 | 2.924963 |
+| 2009 | RM    |               1009.1281 |                   2.190133 | 12.754076 |   20878207 | 2.621335 |
+| 2010 | NRC   |               2554.1646 |                   5.000298 | 36.177404 |   10687757 | 3.615701 |
 
 </div>
 
@@ -669,7 +664,7 @@ fig46
 ``` r
 fig47 <- wits %>%
   mutate (
-    quantity = Quantity/10^6
+    quantity = Quantity/10^9
   ) %>%
   ggplot(
     aes(x=year, y=quantity, fill=reporter)
@@ -682,7 +677,7 @@ fig47 <- wits %>%
     theme(axis.ticks.x = element_blank(), plot.background = element_rect(fill='white'),
       axis.text.x=element_text(angle=-45,size=8,hjust=0),axis.text.y=element_text(angle=0),
       legend.title=element_blank(),legend.background = element_rect(colour='white'))+
-    ylab("Quantity (millions of items)") +
+    ylab("Quantity (billions of items)") +
     xlab(NULL)
 
 

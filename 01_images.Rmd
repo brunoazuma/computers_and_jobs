@@ -426,7 +426,7 @@ fig46
 ```{r}
 fig47 <- wits %>%
   mutate (
-    quantity = Quantity/10^6
+    quantity = Quantity/10^9
   ) %>%
   ggplot(
     aes(x=year, y=quantity, fill=reporter)
@@ -439,7 +439,7 @@ fig47 <- wits %>%
     theme(axis.ticks.x = element_blank(), plot.background = element_rect(fill='white'),
       axis.text.x=element_text(angle=-45,size=8,hjust=0),axis.text.y=element_text(angle=0),
       legend.title=element_blank(),legend.background = element_rect(colour='white'))+
-    ylab("Quantity (millions of items)") +
+    ylab("Quantity (billions of items)") +
     xlab(NULL)
 
 
