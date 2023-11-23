@@ -121,7 +121,7 @@ data <- data %>%
 tictoc::toc()
 ```
 
-    ## 2.56 sec elapsed
+    ## 3.68 sec elapsed
 
 ``` r
 data %>% head()
@@ -131,12 +131,12 @@ data %>% head()
 
 | ano  | group | valor_remuneracao_media | valor_remuneracao_media_sm | mean_wage | job_number | log_wage |
 |:-----|:------|------------------------:|---------------------------:|----------:|-----------:|---------:|
-| 2007 | NRM   |                682.6962 |                   1.829646 |  9.531405 |    8229576 | 2.354362 |
-| 2008 | RC    |               1218.8261 |                   2.978939 | 16.743275 |   19260879 | 2.876007 |
-| 2008 | RM    |                935.1795 |                   2.283072 | 12.079557 |   20894541 | 2.571050 |
-| 2009 | RC    |               1335.3922 |                   2.899200 | 17.633542 |   19775623 | 2.924963 |
-| 2009 | RM    |               1009.1281 |                   2.190133 | 12.754076 |   20878207 | 2.621335 |
-| 2010 | NRC   |               2554.1646 |                   5.000298 | 36.177404 |   10687757 | 3.615701 |
+| 2010 | NA    |                2104.413 |                   4.118353 |  27.94322 |     679731 | 3.365336 |
+| 2015 | NRM   |                1325.630 |                   1.674539 |  11.25045 |   12445052 | 2.505563 |
+| 2018 | NRM   |                1560.638 |                   1.628136 |  12.09680 |   11680372 | 2.572368 |
+| 2019 | NRC   |                4367.174 |                   4.368252 |  35.94738 |   13219736 | 3.609495 |
+| 2007 | NRC   |                2012.388 |                   5.409170 |  32.44000 |    8561379 | 3.509753 |
+| 2010 | NRM   |                 867.932 |                   1.694404 |  10.41689 |   10636678 | 2.435094 |
 
 </div>
 
@@ -586,20 +586,16 @@ chart3data
 </div>
 
 ``` r
-fig45 <- chart3data %>% ggplot(aes(x=reorder(group, order),y=delta_job_number,fill=group,alpha=interval))+
+fig45 <- chart3data %>% ggplot(aes(x=reorder(group, order),y=delta_job_number,fill=group, alpha=reorder(interval, order)))+
                                             geom_bar(stat='identity',position='dodge')+
-                                            scale_alpha_discrete(range=seq(.4,1,.2),labels=paste(unique(chart3data$interval),' '))+theme_stata()+
+                      theme_stata()+
                                             labs(x='',y='Change (% pts)')+
                                             scale_fill_manual(values=c('#d7191c','#fdae61','#4de678','#2c7bb6'))+
                                             theme(axis.ticks.x = element_blank(), plot.background = element_rect(fill='white'),
                                                 axis.text.x=element_text(angle=-45,size=8,hjust=0),axis.text.y=element_text(angle=0),
                                                 legend.title=element_blank(),legend.background = element_rect(colour='white'))+
                                                 guides(fill=FALSE)
-```
 
-    ## Warning: Using alpha for a discrete variable is not advised.
-
-``` r
 ggsave(str_interp("${fig_dir}/fig-4-5.png"),width=8,height=5)
 
 fig45
