@@ -29,6 +29,7 @@ if(!require(plm)){install.packages("plm");require(plm)}
 ```
 
 ```{r}
+load_dot_env()
 datadir <- Sys.getenv("DATA_DIR")
 file <- str_interp('${datadir}Final_db.parquet')
 ```
