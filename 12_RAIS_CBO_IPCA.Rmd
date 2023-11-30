@@ -118,12 +118,7 @@ rais_occ <- rais %>%
       group_by(
         ano,
         cbo_2002,
-        descricao,
-        sigla_uf,
-        grau_instrucao_apos_2005,
-        sexo,
-        raca_cor,
-        idade
+        descricao
       ) %>%
       summarise(
         valor_remuneracao_media=mean(valor_remuneracao_media),
@@ -150,5 +145,5 @@ rais_occ %>% head()
 ### Saving the results to disk
 
 ```{r}
-write_parquet(rais_agg, str_interp("${base_datadir}/RAIS_OCCUPATION.parquet"))
+write_parquet(rais_occ, str_interp("${base_datadir}/RAIS_OCCUPATION.parquet"))
 ```
